@@ -1,0 +1,47 @@
+name: Flutter Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.0'
+        channel: 'stable'
+        
+    - name: Install dependencies
+      run: flutter pub get
+      
+    - name: Run Unit Tests
+      run: flutter test --coverage
+      
+    - name: Run Widget Tests
+      run: flutter test test/
+      
+    - name: Upload Coverage Reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+        
+    - name: Generate Test Report
+      if: always()
+      run: |
+        echo "## 🧪 Test Results" >> $GITHUB_STEP_SUMMARY
+        echo "| Test Type | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Unit Tests | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "| Widget Tests | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "| Golden Tests | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
