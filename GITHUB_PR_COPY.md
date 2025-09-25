@@ -135,3 +135,4 @@ Al mergear este PR a `main`:
 **¿Listo para el merge y release automático?** 🚀
 
 **Nota**: Si algún test falla en CI, el pipeline incluye manejo automático de fallos con regeneración de golden baselines y re-validación.
+

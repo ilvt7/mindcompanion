@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui'; // Added for ImageFilter
+import 'dart:async'; // Added for Timer
 import '../config/opening_transition_config.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -15,6 +16,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late AnimationController _buttonsController;
   late AnimationController _backgroundController;
   late AnimationController _transitionController;
+  
+  Timer? _illustrationTimer;
+  Timer? _buttonsTimer;
   
   late Animation<double> _illustrationFade;
   late Animation<Offset> _illustrationSlide;
@@ -129,6 +133,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   void dispose() {
+    _illustrationTimer?.cancel();
+    _buttonsTimer?.cancel();
     _illustrationController.dispose();
     _buttonsController.dispose();
     _backgroundController.dispose();
@@ -138,12 +144,16 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   void _startEntranceAnimations() {
     // Secuencia de animaciones de entrada
-    Future.delayed(OpeningTransitionConfig.illustrationDelay, () {
-      _illustrationController.forward();
+    _illustrationTimer = Timer(OpeningTransitionConfig.illustrationDelay, () {
+      if (mounted) {
+        _illustrationController.forward();
+      }
     });
     
-    Future.delayed(OpeningTransitionConfig.buttonsDelay, () {
-      _buttonsController.forward();
+    _buttonsTimer = Timer(OpeningTransitionConfig.buttonsDelay, () {
+      if (mounted) {
+        _buttonsController.forward();
+      }
     });
   }
 

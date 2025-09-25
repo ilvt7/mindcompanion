@@ -38,7 +38,7 @@ void main() {
 
       // Find and tap the high contrast switch
       final highContrastSwitch = find.byType(Switch).first;
-      await tester.tap(highContrastSwitch);
+      await tester.tap(highContrastSwitch, warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 300));
 
       // Verify the switch state changed
@@ -54,7 +54,7 @@ void main() {
 
       // Find and tap the reduced motion switch
       final reducedMotionSwitch = find.byType(Switch).last;
-      await tester.tap(reducedMotionSwitch);
+      await tester.tap(reducedMotionSwitch, warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 300));
 
       // Verify the switch state changed
@@ -77,7 +77,7 @@ void main() {
       final initialValue = sliderWidget.value;
 
       // Drag the slider to a new value
-      await tester.drag(slider, const Offset(50, 0));
+      await tester.drag(slider, const Offset(50, 0), warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 300));
 
       // Verify the value changed
@@ -94,12 +94,12 @@ void main() {
 
       // Enable high contrast
       final highContrastSwitch = find.byType(Switch).first;
-      await tester.tap(highContrastSwitch);
+      await tester.tap(highContrastSwitch, warnIfMissed: false);
       await tester.pumpAndSettle();
 
       // Enable reduced motion
       final reducedMotionSwitch = find.byType(Switch).last;
-      await tester.tap(reducedMotionSwitch);
+      await tester.tap(reducedMotionSwitch, warnIfMissed: false);
       await tester.pumpAndSettle();
 
       // Navigate away and back
@@ -143,7 +143,7 @@ void main() {
       );
 
       final slider = find.byType(Slider);
-      await tester.drag(slider, const Offset(50, 0));
+      await tester.drag(slider, const Offset(50, 0), warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 300));
 
       // Navigate back to welcome screen
@@ -172,7 +172,7 @@ void main() {
       );
 
       final highContrastSwitch = find.byType(Switch).first;
-      await tester.tap(highContrastSwitch);
+      await tester.tap(highContrastSwitch, warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 300));
 
       // Navigate back to welcome screen
@@ -193,8 +193,7 @@ void main() {
       );
 
       // Verify semantic labels are present
-      final semantics = tester.element(find.byType(Semantics));
-      expect(semantics, findsWidgets);
+      expect(find.byType(Semantics), findsWidgets);
     });
 
     testWidgets('should handle multiple accessibility settings simultaneously', (WidgetTester tester) async {
@@ -205,17 +204,17 @@ void main() {
 
       // Enable high contrast
       final highContrastSwitch = find.byType(Switch).first;
-      await tester.tap(highContrastSwitch);
+      await tester.tap(highContrastSwitch, warnIfMissed: false);
       await tester.pumpAndSettle();
 
       // Enable reduced motion
       final reducedMotionSwitch = find.byType(Switch).last;
-      await tester.tap(reducedMotionSwitch);
+      await tester.tap(reducedMotionSwitch, warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 300));
 
       // Adjust text scale
       final slider = find.byType(Slider);
-      await tester.drag(slider, const Offset(30, 0));
+      await tester.drag(slider, const Offset(30, 0), warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 300));
 
       // Verify all settings are applied
@@ -236,17 +235,17 @@ void main() {
 
       // Set some non-default values
       final highContrastSwitch = find.byType(Switch).first;
-      await tester.tap(highContrastSwitch);
+      await tester.tap(highContrastSwitch, warnIfMissed: false);
       await tester.pumpAndSettle();
 
       final slider = find.byType(Slider);
-      await tester.drag(slider, const Offset(50, 0));
+      await tester.drag(slider, const Offset(50, 0), warnIfMissed: false);
       await tester.pumpAndSettle();
 
       // Find and tap reset button
       final resetButton = find.text('Restablecer');
       if (resetButton.evaluate().isNotEmpty) {
-        await tester.tap(resetButton);
+        await tester.tap(resetButton, warnIfMissed: false);
         await tester.pump(const Duration(milliseconds: 300));
 
         // Verify settings were reset
