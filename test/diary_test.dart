@@ -3,12 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
+import 'package:provider/provider.dart';
 import 'dart:convert';
 
 import 'package:mindcompanion/screens/ai_diary_screen.dart';
 import 'package:mindcompanion/screens/personal_diary_screen.dart';
 import 'package:mindcompanion/models/diary_entry.dart';
 import 'package:mindcompanion/services/diary_storage_service.dart';
+import 'package:mindcompanion/core/accessibility/simple_accessibility_provider.dart';
+import 'package:mindcompanion/core/accessibility/high_contrast_provider.dart';
+import 'package:mindcompanion/core/accessibility/animation_provider.dart';
 
 // Generate mocks for SharedPreferences
 @GenerateMocks([SharedPreferences])
@@ -39,8 +43,17 @@ void main() {
         // Set test surface size to prevent overflow
         await tester.binding.setSurfaceSize(const Size(800, 1200));
 
-        // Build the AI Diary screen
-        await tester.pumpWidget(MaterialApp(home: const AIDiaryScreen()));
+        // Build the AI Diary screen with providers
+        await tester.pumpWidget(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => SimpleAccessibilityProvider()),
+              ChangeNotifierProvider(create: (_) => HighContrastProvider()),
+              ChangeNotifierProvider(create: (_) => AnimationProvider()),
+            ],
+            child: MaterialApp(home: const AIDiaryScreen()),
+          ),
+        );
 
         // Wait for initial animations and ensure UI is fully rendered
         await tester.pumpAndSettle();

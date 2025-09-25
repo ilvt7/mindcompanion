@@ -34,7 +34,8 @@ void main() {
       await tester.tap(highContrastSwitch, warnIfMissed: false);
       await tester.pump(const Duration(milliseconds: 300));
 
-      // Verify the switch state changed
+      // Verify the switch state changed (allow for async state changes)
+      await tester.pump(const Duration(milliseconds: 500));
       final switchWidget = tester.widget<Switch>(highContrastSwitch);
       expect(switchWidget.value, isTrue);
     });
