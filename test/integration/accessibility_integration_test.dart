@@ -36,7 +36,7 @@ void main() {
 
       // Verify the switch state changed
       final switchWidget = tester.widget<Switch>(highContrastSwitch);
-      expect(switchWidget.value, true);
+      expect(switchWidget.value, isTrue);
     });
 
     testWidgets('should toggle reduced motion and apply changes', (

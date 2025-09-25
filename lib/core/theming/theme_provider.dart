@@ -111,7 +111,7 @@ class ThemeProvider extends ChangeNotifier {
           ),
         ),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 2,
         color: Colors.white,
@@ -163,7 +163,7 @@ class ThemeProvider extends ChangeNotifier {
           ),
         ),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 4,
         color: const Color(0xFF1A1A2E),
