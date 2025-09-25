@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
-import 'package:mindcompanion/core/accessibility/simple_accessibility_provider.dart';
 import 'package:mindcompanion/core/accessibility/high_contrast_provider.dart';
 import 'package:mindcompanion/core/theming/enhanced_theme_provider.dart';
 import 'package:mindcompanion/screens/settings_screen.dart';
@@ -11,10 +10,7 @@ import '../helpers/test_helpers.dart';
 void main() {
   group('High Contrast Golden Tests', () {
     testWidgets('welcome screen normal mode', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Take golden test screenshot
       await expectLater(
@@ -23,11 +19,10 @@ void main() {
       );
     });
 
-    testWidgets('welcome screen high contrast mode', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+    testWidgets('welcome screen high contrast mode', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Enable high contrast mode
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -46,10 +41,7 @@ void main() {
     });
 
     testWidgets('settings screen normal mode', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Take golden test screenshot
       await expectLater(
@@ -58,11 +50,10 @@ void main() {
       );
     });
 
-    testWidgets('settings screen high contrast mode', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('settings screen high contrast mode', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Enable high contrast mode
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -81,10 +72,7 @@ void main() {
     });
 
     testWidgets('welcome screen dark mode normal', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Set to dark mode
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -102,11 +90,10 @@ void main() {
       );
     });
 
-    testWidgets('welcome screen dark mode high contrast', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+    testWidgets('welcome screen dark mode high contrast', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Set to dark mode
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -132,11 +119,10 @@ void main() {
       );
     });
 
-    testWidgets('settings screen dark mode normal', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('settings screen dark mode normal', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Set to dark mode
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -154,11 +140,10 @@ void main() {
       );
     });
 
-    testWidgets('settings screen dark mode high contrast', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('settings screen dark mode high contrast', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Set to dark mode
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));

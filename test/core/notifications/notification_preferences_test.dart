@@ -10,10 +10,14 @@ void main() {
     });
 
     group('Daily Reminder Settings', () {
-      test('should return false by default for daily reminder enabled', () async {
-        final enabled = await NotificationPreferences.isDailyReminderEnabled();
-        expect(enabled, false);
-      });
+      test(
+        'should return false by default for daily reminder enabled',
+        () async {
+          final enabled =
+              await NotificationPreferences.isDailyReminderEnabled();
+          expect(enabled, false);
+        },
+      );
 
       test('should set and get daily reminder enabled', () async {
         await NotificationPreferences.setDailyReminderEnabled(true);
@@ -25,22 +29,28 @@ void main() {
         expect(disabled, false);
       });
 
-      test('should return default time (8 PM) for daily reminder hour', () async {
-        final hour = await NotificationPreferences.getDailyReminderHour();
-        expect(hour, 20);
-      });
+      test(
+        'should return default time (8 PM) for daily reminder hour',
+        () async {
+          final hour = await NotificationPreferences.getDailyReminderHour();
+          expect(hour, 20);
+        },
+      );
 
-      test('should return default time (0 minutes) for daily reminder minute', () async {
-        final minute = await NotificationPreferences.getDailyReminderMinute();
-        expect(minute, 0);
-      });
+      test(
+        'should return default time (0 minutes) for daily reminder minute',
+        () async {
+          final minute = await NotificationPreferences.getDailyReminderMinute();
+          expect(minute, 0);
+        },
+      );
 
       test('should set and get daily reminder time', () async {
         await NotificationPreferences.setDailyReminderTime(9, 30);
-        
+
         final hour = await NotificationPreferences.getDailyReminderHour();
         final minute = await NotificationPreferences.getDailyReminderMinute();
-        
+
         expect(hour, 9);
         expect(minute, 30);
       });
@@ -67,8 +77,9 @@ void main() {
       test('should set and get last reminder date', () async {
         final testDate = DateTime(2024, 1, 15, 20, 0);
         await NotificationPreferences.setLastReminderDate(testDate);
-        
-        final retrievedDate = await NotificationPreferences.getLastReminderDate();
+
+        final retrievedDate =
+            await NotificationPreferences.getLastReminderDate();
         expect(retrievedDate, isNotNull);
         expect(retrievedDate!.year, testDate.year);
         expect(retrievedDate.month, testDate.month);
@@ -88,7 +99,10 @@ void main() {
           await NotificationPreferences.setLastReminderDate(date);
           final retrieved = await NotificationPreferences.getLastReminderDate();
           expect(retrieved, isNotNull);
-          expect(retrieved!.millisecondsSinceEpoch, date.millisecondsSinceEpoch);
+          expect(
+            retrieved!.millisecondsSinceEpoch,
+            date.millisecondsSinceEpoch,
+          );
         }
       });
     });
@@ -96,7 +110,7 @@ void main() {
     group('All Preferences', () {
       test('should return all preferences with default values', () async {
         final prefs = await NotificationPreferences.getAllPreferences();
-        
+
         expect(prefs, isA<Map<String, dynamic>>());
         expect(prefs['dailyReminderEnabled'], false);
         expect(prefs['dailyReminderHour'], 20);
@@ -106,19 +120,21 @@ void main() {
 
       test('should return all preferences with custom values', () async {
         final testDate = DateTime(2024, 3, 15, 14, 30);
-        
+
         await NotificationPreferences.setDailyReminderEnabled(true);
         await NotificationPreferences.setDailyReminderTime(14, 30);
         await NotificationPreferences.setLastReminderDate(testDate);
-        
+
         final prefs = await NotificationPreferences.getAllPreferences();
-        
+
         expect(prefs['dailyReminderEnabled'], true);
         expect(prefs['dailyReminderHour'], 14);
         expect(prefs['dailyReminderMinute'], 30);
         expect(prefs['lastReminderDate'], isNotNull);
-        expect((prefs['lastReminderDate'] as DateTime).millisecondsSinceEpoch, 
-               testDate.millisecondsSinceEpoch);
+        expect(
+          (prefs['lastReminderDate'] as DateTime).millisecondsSinceEpoch,
+          testDate.millisecondsSinceEpoch,
+        );
       });
     });
 
@@ -128,16 +144,16 @@ void main() {
         await NotificationPreferences.setDailyReminderEnabled(true);
         await NotificationPreferences.setDailyReminderTime(15, 45);
         await NotificationPreferences.setLastReminderDate(DateTime.now());
-        
+
         // Verify they're set
         expect(await NotificationPreferences.isDailyReminderEnabled(), true);
         expect(await NotificationPreferences.getDailyReminderHour(), 15);
         expect(await NotificationPreferences.getDailyReminderMinute(), 45);
         expect(await NotificationPreferences.getLastReminderDate(), isNotNull);
-        
+
         // Reset all
         await NotificationPreferences.resetAll();
-        
+
         // Verify they're back to defaults
         expect(await NotificationPreferences.isDailyReminderEnabled(), false);
         expect(await NotificationPreferences.getDailyReminderHour(), 20);
@@ -150,7 +166,7 @@ void main() {
       test('should persist values across multiple calls', () async {
         await NotificationPreferences.setDailyReminderEnabled(true);
         await NotificationPreferences.setDailyReminderTime(10, 15);
-        
+
         // Make multiple calls to ensure persistence
         for (int i = 0; i < 3; i++) {
           expect(await NotificationPreferences.isDailyReminderEnabled(), true);

@@ -19,10 +19,7 @@ class TransitionDemo extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFF8F9FF),
-              Color(0xFFE6E6FA),
-            ],
+            colors: [Color(0xFFF8F9FF), Color(0xFFE6E6FA)],
           ),
         ),
         child: SafeArea(
@@ -48,7 +45,7 @@ class TransitionDemo extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 32),
-                
+
                 Expanded(
                   child: ListView(
                     children: [
@@ -60,7 +57,7 @@ class TransitionDemo extends StatelessWidget {
                         const Color(0xFF87CEEB),
                         () => _showTransitionInfo(context, 'main'),
                       ),
-                      
+
                       _buildTransitionCard(
                         context,
                         'Pantallas Secundarias',
@@ -69,7 +66,7 @@ class TransitionDemo extends StatelessWidget {
                         const Color(0xFF9F7AEA),
                         () => _showTransitionInfo(context, 'secondary'),
                       ),
-                      
+
                       _buildTransitionCard(
                         context,
                         'Welcome Screen',
@@ -78,7 +75,7 @@ class TransitionDemo extends StatelessWidget {
                         const Color(0xFF48BB78),
                         () => _showTransitionInfo(context, 'welcome'),
                       ),
-                      
+
                       _buildTransitionCard(
                         context,
                         'Crisis Mode',
@@ -87,7 +84,7 @@ class TransitionDemo extends StatelessWidget {
                         const Color(0xFFF56565),
                         () => _showTransitionInfo(context, 'crisis'),
                       ),
-                      
+
                       _buildTransitionCard(
                         context,
                         'Transición Personalizada',
@@ -99,9 +96,9 @@ class TransitionDemo extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 24),
-                
+
                 // Botón para probar transición personalizada
                 SizedBox(
                   width: double.infinity,
@@ -164,11 +161,7 @@ class TransitionDemo extends StatelessWidget {
             color: color.withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Icon(
-            icon,
-            color: color,
-            size: 24,
-          ),
+          child: Icon(icon, color: color, size: 24),
         ),
         title: Text(
           title,
@@ -180,15 +173,9 @@ class TransitionDemo extends StatelessWidget {
         ),
         subtitle: Text(
           description,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Color(0xFF718096),
-          ),
+          style: const TextStyle(fontSize: 14, color: Color(0xFF718096)),
         ),
-        trailing: Icon(
-          Icons.info_outline,
-          color: color.withOpacity(0.6),
-        ),
+        trailing: Icon(Icons.info_outline, color: color.withOpacity(0.6)),
         onTap: onTap,
       ),
     );
@@ -199,29 +186,34 @@ class TransitionDemo extends StatelessWidget {
     String description = '';
     String duration = '';
     String curve = '';
-    
+
     switch (type) {
       case 'main':
         title = 'Pantallas Principales';
-        description = 'Slide lateral suave para navegación entre pantallas principales como Home, Diary, Meditations, etc.';
+        description =
+            'Slide lateral suave para navegación entre pantallas principales como Home, Diary, Meditations, etc.';
         duration = '${TransitionConfig.mainScreenTransition.inMilliseconds}ms';
         curve = 'easeInOutCubic';
         break;
       case 'secondary':
         title = 'Pantallas Secundarias';
-        description = 'Fade-in desde abajo para pantallas de configuración y políticas.';
-        duration = '${TransitionConfig.secondaryScreenTransition.inMilliseconds}ms';
+        description =
+            'Fade-in desde abajo para pantallas de configuración y políticas.';
+        duration =
+            '${TransitionConfig.secondaryScreenTransition.inMilliseconds}ms';
         curve = 'easeOutCubic';
         break;
       case 'welcome':
         title = 'Welcome Screen';
-        description = 'Fade-in completo con escala para la pantalla de bienvenida.';
+        description =
+            'Fade-in completo con escala para la pantalla de bienvenida.';
         duration = '${TransitionConfig.welcomeTransition.inMilliseconds}ms';
         curve = 'easeInOutCubic';
         break;
       case 'crisis':
         title = 'Crisis Mode';
-        description = 'Transición rápida para acceso inmediato al modo de crisis.';
+        description =
+            'Transición rápida para acceso inmediato al modo de crisis.';
         duration = '${TransitionConfig.crisisTransition.inMilliseconds}ms';
         curve = 'easeIn';
         break;
@@ -232,7 +224,7 @@ class TransitionDemo extends StatelessWidget {
         curve = 'Configurable';
         break;
     }
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -270,21 +262,14 @@ class TransitionDemo extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFFFB6C1),
-              Color(0xFFDDA0DD),
-            ],
+            colors: [Color(0xFFFFB6C1), Color(0xFFDDA0DD)],
           ),
         ),
         child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.star,
-                size: 80,
-                color: Colors.white,
-              ),
+              Icon(Icons.star, size: 80, color: Colors.white),
               SizedBox(height: 24),
               Text(
                 '¡Transición Personalizada!',
@@ -298,17 +283,14 @@ class TransitionDemo extends StatelessWidget {
               Text(
                 'Esta pantalla usa una transición\ncompletamente personalizada',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white70,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.white70),
               ),
             ],
           ),
         ),
       ),
     );
-    
+
     // Navegar con transición personalizada
     CustomNavigator.pushWithCustomTransition(
       context,

@@ -1,10 +1,7 @@
 import 'emotion.dart';
 
 /// Source of diary entry (AI-generated or personal)
-enum DiarySource {
-  ai,
-  personal,
-}
+enum DiarySource { ai, personal }
 
 /// Domain model for diary entries
 class DiaryEntry {
@@ -113,10 +110,10 @@ class DiaryEntry {
   String get relativeDateString {
     if (isToday) return 'Today';
     if (isYesterday) return 'Yesterday';
-    
+
     final now = DateTime.now();
     final difference = now.difference(date).inDays;
-    
+
     if (difference < 7) {
       return '$difference days ago';
     } else if (difference < 30) {
@@ -135,7 +132,7 @@ class DiaryEntry {
   bool get isValid {
     return id.isNotEmpty &&
         text.isNotEmpty &&
-        text.trim().length > 0 &&
+        text.trim().isNotEmpty &&
         (emotion == null || emotion!.isValidValence);
   }
 }

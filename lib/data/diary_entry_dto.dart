@@ -23,7 +23,9 @@ class DiaryEntryDto {
       id: entry.id,
       date: entry.date.toIso8601String(),
       text: entry.text,
-      emotion: entry.emotion != null ? EmotionDto.fromDomain(entry.emotion!) : null,
+      emotion: entry.emotion != null
+          ? EmotionDto.fromDomain(entry.emotion!)
+          : null,
       source: entry.source.name,
     );
   }
@@ -48,7 +50,7 @@ class DiaryEntryDto {
       id: json['id'] as String,
       date: json['date'] as String,
       text: json['text'] as String,
-      emotion: json['emotion'] != null 
+      emotion: json['emotion'] != null
           ? EmotionDto.fromJson(json['emotion'] as Map<String, dynamic>)
           : null,
       source: json['source'] as String,
@@ -118,12 +120,7 @@ class EmotionDto {
 
   /// Convert to domain model
   Emotion toDomain() {
-    return Emotion(
-      id: id,
-      name: name,
-      emoji: emoji,
-      valence: valence,
-    );
+    return Emotion(id: id, name: name, emoji: emoji, valence: valence);
   }
 
   /// Convert from JSON
@@ -138,12 +135,7 @@ class EmotionDto {
 
   /// Convert to JSON
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'emoji': emoji,
-      'valence': valence,
-    };
+    return {'id': id, 'name': name, 'emoji': emoji, 'valence': valence};
   }
 
   @override
@@ -158,10 +150,7 @@ class EmotionDto {
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        emoji.hashCode ^
-        valence.hashCode;
+    return id.hashCode ^ name.hashCode ^ emoji.hashCode ^ valence.hashCode;
   }
 
   @override

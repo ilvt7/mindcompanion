@@ -44,11 +44,7 @@ class CrisisButton extends StatelessWidget {
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(25),
               ),
-              child: Icon(
-                icon,
-                size: 25,
-                color: color,
-              ),
+              child: Icon(icon, size: 25, color: color),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -74,11 +70,7 @@ class CrisisButton extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
-              color: color,
-              size: 16,
-            ),
+            Icon(Icons.arrow_forward_ios, color: color, size: 16),
           ],
         ),
       ),

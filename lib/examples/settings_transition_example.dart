@@ -9,12 +9,14 @@ class SettingsTransitionExample extends StatefulWidget {
   const SettingsTransitionExample({super.key});
 
   @override
-  State<SettingsTransitionExample> createState() => _SettingsTransitionExampleState();
+  State<SettingsTransitionExample> createState() =>
+      _SettingsTransitionExampleState();
 }
 
 class _SettingsTransitionExampleState extends State<SettingsTransitionExample> {
   bool _showSettings = false;
-  SettingsTransitionSettings _currentSettings = SettingsTransitionSettings.smooth;
+  SettingsTransitionSettings _currentSettings =
+      SettingsTransitionSettings.smooth;
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +48,10 @@ class _SettingsTransitionExampleState extends State<SettingsTransitionExample> {
               children: [
                 const Text(
                   'Configuración de Transición',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
-                
+
                 // Selector de tipo de transición
                 DropdownButtonFormField<SettingsTransitionSettings>(
                   value: _currentSettings,
@@ -82,9 +81,9 @@ class _SettingsTransitionExampleState extends State<SettingsTransitionExample> {
                     }
                   },
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Botón para activar transición
                 SizedBox(
                   width: double.infinity,
@@ -95,11 +94,15 @@ class _SettingsTransitionExampleState extends State<SettingsTransitionExample> {
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: _showSettings ? Colors.orange : const Color(0xFF87CEEB),
+                      backgroundColor: _showSettings
+                          ? Colors.orange
+                          : const Color(0xFF87CEEB),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     child: Text(
-                      _showSettings ? 'Ocultar Configuración' : 'Mostrar Configuración',
+                      _showSettings
+                          ? 'Ocultar Configuración'
+                          : 'Mostrar Configuración',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -110,7 +113,7 @@ class _SettingsTransitionExampleState extends State<SettingsTransitionExample> {
               ],
             ),
           ),
-          
+
           // Vista previa de las pantallas
           Expanded(
             child: Container(
@@ -133,14 +136,17 @@ class _SettingsTransitionExampleState extends State<SettingsTransitionExample> {
                         settings: _currentSettings,
                         child: const SettingsScreen(),
                       ),
-                    
+
                     // Overlay de información
                     if (_showSettings)
                       Positioned(
                         top: 16,
                         right: 16,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.black87,
                             borderRadius: BorderRadius.circular(20),
@@ -194,23 +200,20 @@ class SimpleSettingsTransitionExample extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 32),
-            
+
             // Subtítulo con animación
             AnimatedTextWrapper(
               delay: SettingsElementsConfig.elementDelays[1],
               child: const Text(
                 'Personaliza tu experiencia',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
             ),
-            
+
             const SizedBox(height: 48),
-            
+
             // Botones con animación
             AnimatedButtonWrapper(
               delay: SettingsElementsConfig.elementDelays[3],
@@ -218,7 +221,10 @@ class SimpleSettingsTransitionExample extends StatelessWidget {
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF87CEEB),
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 16,
+                  ),
                 ),
                 child: const Text(
                   'Configuración General',
@@ -226,48 +232,48 @@ class SimpleSettingsTransitionExample extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             AnimatedButtonWrapper(
               delay: SettingsElementsConfig.elementDelays[4],
               child: OutlinedButton(
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 16,
+                  ),
                   side: const BorderSide(color: Color(0xFF87CEEB)),
                 ),
                 child: const Text(
                   'Privacidad',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFF87CEEB),
-                  ),
+                  style: TextStyle(fontSize: 16, color: Color(0xFF87CEEB)),
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             AnimatedButtonWrapper(
               delay: SettingsElementsConfig.elementDelays[5],
               child: TextButton(
                 onPressed: () {},
                 style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 16,
+                  ),
                 ),
                 child: const Text(
                   'Acerca de',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFF87CEEB),
-                  ),
+                  style: TextStyle(fontSize: 16, color: Color(0xFF87CEEB)),
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 48),
-            
+
             // Controles con animación
             AnimatedControlWrapper(
               delay: SettingsElementsConfig.elementDelays[8],

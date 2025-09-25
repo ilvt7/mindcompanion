@@ -5,7 +5,9 @@ class SemanticsHelper {
   /// Create semantic label for diary entry with context
   static String diaryEntryLabel(String text, {bool isListening = false}) {
     final preview = text.length > 20 ? '${text.substring(0, 20)}...' : text;
-    final action = isListening ? 'Detener reproducción' : 'Escuchar entrada del diario';
+    final action = isListening
+        ? 'Detener reproducción'
+        : 'Escuchar entrada del diario';
     return '$action: $preview';
   }
 
@@ -65,7 +67,13 @@ class SemanticsHelper {
   }
 
   /// Create semantic label for slider with value and range
-  static String sliderLabel(String label, double value, double min, double max, {String? unit}) {
+  static String sliderLabel(
+    String label,
+    double value,
+    double min,
+    double max, {
+    String? unit,
+  }) {
     final unitText = unit ?? '';
     return '$label: ${value.toStringAsFixed(1)}$unitText (rango: ${min.toStringAsFixed(1)}$unitText - ${max.toStringAsFixed(1)}$unitText)';
   }
@@ -94,7 +102,9 @@ class SemanticsHelper {
   /// Create semantic label for card with content preview
   static String cardLabel(String title, {String? subtitle, String? content}) {
     if (content != null && content.isNotEmpty) {
-      final preview = content.length > 30 ? '${content.substring(0, 30)}...' : content;
+      final preview = content.length > 30
+          ? '${content.substring(0, 30)}...'
+          : content;
       return '$title: $preview';
     }
     if (subtitle != null) {
@@ -107,7 +117,7 @@ class SemanticsHelper {
   static String dateLabel(DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date).inDays;
-    
+
     if (difference == 0) {
       return 'Hoy, ${_formatTime(date)}';
     } else if (difference == 1) {
@@ -146,8 +156,18 @@ class SemanticsHelper {
   /// Helper method to format date
   static String _formatDate(DateTime date) {
     final months = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+      'enero',
+      'febrero',
+      'marzo',
+      'abril',
+      'mayo',
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre',
     ];
     return '${date.day} de ${months[date.month - 1]} de ${date.year}';
   }
@@ -157,11 +177,7 @@ class SemanticsHelper {
 extension SemanticWidgetExtension on Widget {
   /// Add semantic label to widget
   Widget withSemanticLabel(String label, {String? hint}) {
-    return Semantics(
-      label: label,
-      hint: hint,
-      child: this,
-    );
+    return Semantics(label: label, hint: hint, child: this);
   }
 
   /// Add semantic button properties

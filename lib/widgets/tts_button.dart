@@ -43,20 +43,12 @@ class _TTSButtonState extends State<TTSButton>
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
-    _glowAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+    _glowAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -77,7 +69,7 @@ class _TTSButtonState extends State<TTSButton>
 
     try {
       _animationController.forward();
-      
+
       if (accessibilityProvider.ttsService.isSpeaking) {
         // Stop if already speaking
         await accessibilityProvider.ttsService.stop();
@@ -119,7 +111,8 @@ class _TTSButtonState extends State<TTSButton>
 
     return Consumer<AccessibilityProvider>(
       builder: (context, accessibilityProvider, child) {
-        final isTTSEnabled = accessibilityProvider.isInitialized &&
+        final isTTSEnabled =
+            accessibilityProvider.isInitialized &&
             accessibilityProvider.ttsService.isEnabled;
 
         if (!isTTSEnabled) {
@@ -153,12 +146,10 @@ class _TTSButtonState extends State<TTSButton>
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            _isSpeaking 
+                            _isSpeaking
                                 ? Icons.stop_rounded
                                 : (widget.icon ?? Icons.volume_up_rounded),
-                            color: _isSpeaking
-                                ? color.withOpacity(0.6)
-                                : color,
+                            color: _isSpeaking ? color.withOpacity(0.6) : color,
                             size: size,
                           ),
                           if (widget.showLabel) ...[

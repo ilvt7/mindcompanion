@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mindcompanion/core/theming/text_scale_provider.dart';
@@ -32,7 +31,7 @@ void main() {
     test('should clamp text scale factor to valid range', () async {
       await textScaleProvider.setTextScaleFactor(2.5); // Above max
       expect(textScaleProvider.textScaleFactor, 2.0);
-      
+
       await textScaleProvider.setTextScaleFactor(0.5); // Below min
       expect(textScaleProvider.textScaleFactor, 0.8);
     });
@@ -79,7 +78,7 @@ void main() {
     test('should clamp percentage to valid range', () async {
       await textScaleProvider.setTextScalePercentage(300); // Above max
       expect(textScaleProvider.textScaleFactor, 2.0);
-      
+
       await textScaleProvider.setTextScalePercentage(50); // Below min
       expect(textScaleProvider.textScaleFactor, 0.8);
     });
@@ -87,16 +86,16 @@ void main() {
     test('should return correct display name', () {
       textScaleProvider.setTextScaleFactor(0.8);
       expect(textScaleProvider.textScaleDisplayName, 'Small');
-      
+
       textScaleProvider.setTextScaleFactor(1.0);
       expect(textScaleProvider.textScaleDisplayName, 'Normal');
-      
+
       textScaleProvider.setTextScaleFactor(1.2);
       expect(textScaleProvider.textScaleDisplayName, 'Large');
-      
+
       textScaleProvider.setTextScaleFactor(1.4);
       expect(textScaleProvider.textScaleDisplayName, 'Extra Large');
-      
+
       textScaleProvider.setTextScaleFactor(1.6);
       expect(textScaleProvider.textScaleDisplayName, 'Huge');
     });
@@ -110,7 +109,7 @@ void main() {
       textScaleProvider.setTextScaleFactor(0.8);
       expect(textScaleProvider.isAtMinimum, true);
       expect(textScaleProvider.isAtMaximum, false);
-      
+
       textScaleProvider.setTextScaleFactor(2.0);
       expect(textScaleProvider.isAtMinimum, false);
       expect(textScaleProvider.isAtMaximum, true);

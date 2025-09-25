@@ -9,24 +9,33 @@ class NavigationShortcuts {
       // Navigation shortcuts
       LogicalKeySet(LogicalKeyboardKey.keyH): const NavigateIntent('/home'),
       LogicalKeySet(LogicalKeyboardKey.keyD): const NavigateIntent('/ai-diary'),
-      LogicalKeySet(LogicalKeyboardKey.keyP): const NavigateIntent('/personal-diary'),
+      LogicalKeySet(LogicalKeyboardKey.keyP): const NavigateIntent(
+        '/personal-diary',
+      ),
       LogicalKeySet(LogicalKeyboardKey.keyS): const NavigateIntent('/settings'),
       LogicalKeySet(LogicalKeyboardKey.keyC): const NavigateIntent('/crisis'),
-      LogicalKeySet(LogicalKeyboardKey.keyM): const NavigateIntent('/meditations'),
-      LogicalKeySet(LogicalKeyboardKey.keyE): const NavigateIntent('/emotional-history'),
-      
+      LogicalKeySet(LogicalKeyboardKey.keyM): const NavigateIntent(
+        '/meditations',
+      ),
+      LogicalKeySet(LogicalKeyboardKey.keyE): const NavigateIntent(
+        '/emotional-history',
+      ),
+
       // Accessibility shortcuts
-      LogicalKeySet(LogicalKeyboardKey.alt, LogicalKeyboardKey.keyA): const ToggleAccessibilityIntent(),
-      LogicalKeySet(LogicalKeyboardKey.alt, LogicalKeyboardKey.keyT): const ToggleThemeIntent(),
-      LogicalKeySet(LogicalKeyboardKey.alt, LogicalKeyboardKey.keyR): const ToggleReduceMotionIntent(),
-      
+      LogicalKeySet(LogicalKeyboardKey.alt, LogicalKeyboardKey.keyA):
+          const ToggleAccessibilityIntent(),
+      LogicalKeySet(LogicalKeyboardKey.alt, LogicalKeyboardKey.keyT):
+          const ToggleThemeIntent(),
+      LogicalKeySet(LogicalKeyboardKey.alt, LogicalKeyboardKey.keyR):
+          const ToggleReduceMotionIntent(),
+
       // Action shortcuts
       LogicalKeySet(LogicalKeyboardKey.escape): const CloseModalIntent(),
       LogicalKeySet(LogicalKeyboardKey.enter): const ConfirmActionIntent(),
       LogicalKeySet(LogicalKeyboardKey.space): const TogglePlayPauseIntent(),
     };
   }
-  
+
   /// Define all actions
   static Map<Type, Action<Intent>> get actions {
     return {
@@ -39,7 +48,7 @@ class NavigationShortcuts {
       TogglePlayPauseIntent: TogglePlayPauseAction(),
     };
   }
-  
+
   /// Get help text for all shortcuts
   static List<String> get helpTexts {
     return [
@@ -63,7 +72,7 @@ class NavigationShortcuts {
 /// Intent for navigation actions
 class NavigateIntent extends Intent {
   final String route;
-  
+
   const NavigateIntent(this.route);
 }
 
@@ -194,8 +203,9 @@ class AccessibilityGestureDetector extends StatelessWidget {
       onPanEnd: (details) {
         final velocity = details.velocity.pixelsPerSecond;
         final speed = velocity.distance;
-        
-        if (speed > 100) { // Minimum speed threshold
+
+        if (speed > 100) {
+          // Minimum speed threshold
           if (velocity.dy > 0 && onSwipeDown != null) {
             onSwipeDown!();
           } else if (velocity.dy < 0 && onSwipeUp != null) {

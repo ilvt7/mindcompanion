@@ -32,7 +32,10 @@ abstract class DiaryRepository {
   Future<List<DiaryEntry>> getEntriesForDate(DateTime date);
 
   /// Get entries for a date range
-  Future<List<DiaryEntry>> getEntriesForDateRange(DateTime startDate, DateTime endDate);
+  Future<List<DiaryEntry>> getEntriesForDateRange(
+    DateTime startDate,
+    DateTime endDate,
+  );
 
   /// Get entries by source (AI or Personal)
   Future<List<DiaryEntry>> getEntriesBySource(DiarySource source);

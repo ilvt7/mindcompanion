@@ -156,12 +156,7 @@ void main() {
     });
 
     test('should convert from JSON', () {
-      final json = {
-        'id': 'sad',
-        'name': 'Sad',
-        'emoji': '😢',
-        'valence': -1,
-      };
+      final json = {'id': 'sad', 'name': 'Sad', 'emoji': '😢', 'valence': -1};
 
       final dto = EmotionDto.fromJson(json);
 

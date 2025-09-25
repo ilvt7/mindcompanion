@@ -12,7 +12,7 @@ class _MeditationScreenState extends State<MeditationScreen>
   late AnimationController _cardsController;
   late AnimationController _iconBounceController;
   late AnimationController _startButtonController;
-  
+
   late Animation<double> _cardsFade;
   late Animation<Offset> _cardsSlide;
   late Animation<double> _iconBounce;
@@ -72,60 +72,45 @@ class _MeditationScreenState extends State<MeditationScreen>
   @override
   void initState() {
     super.initState();
-    
+
     // Controller para las tarjetas
     _cardsController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
-    
+
     // Controller para el bounce de iconos
     _iconBounceController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
+
     // Controller para el botón de inicio
     _startButtonController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    
+
     // Animación de fade-in y slide para las tarjetas
-    _cardsFade = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _cardsController,
-      curve: Curves.easeOutCubic,
-    ));
-    
-    _cardsSlide = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _cardsController,
-      curve: Curves.easeOutCubic,
-    ));
-    
+    _cardsFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _cardsController, curve: Curves.easeOutCubic),
+    );
+
+    _cardsSlide = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _cardsController, curve: Curves.easeOutCubic),
+        );
+
     // Animación de bounce para iconos
-    _iconBounce = Tween<double>(
-      begin: 1.0,
-      end: 1.15,
-    ).animate(CurvedAnimation(
-      parent: _iconBounceController,
-      curve: Curves.elasticOut,
-    ));
-    
+    _iconBounce = Tween<double>(begin: 1.0, end: 1.15).animate(
+      CurvedAnimation(parent: _iconBounceController, curve: Curves.elasticOut),
+    );
+
     // Animación de escala para el botón de inicio
-    _startButtonScale = Tween<double>(
-      begin: 1.0,
-      end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: _startButtonController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _startButtonScale = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _startButtonController, curve: Curves.easeInOut),
+    );
+
     // Iniciar animación de las tarjetas
     _cardsController.forward();
   }
@@ -148,7 +133,7 @@ class _MeditationScreenState extends State<MeditationScreen>
     _startButtonController.forward().then((_) {
       _startButtonController.reverse();
     });
-    
+
     // TODO: Implement meditation functionality
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -232,7 +217,7 @@ class _MeditationScreenState extends State<MeditationScreen>
                   ],
                 ),
               ),
-              
+
               // Subtítulo
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -247,9 +232,9 @@ class _MeditationScreenState extends State<MeditationScreen>
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               // Lista de meditaciones con animaciones
               Expanded(
                 child: SlideTransition(
@@ -300,10 +285,13 @@ class _MeditationScreenState extends State<MeditationScreen>
                                               width: 60,
                                               height: 60,
                                               decoration: BoxDecoration(
-                                                color: meditation['color'].withOpacity(0.15),
-                                                borderRadius: BorderRadius.circular(20),
+                                                color: meditation['color']
+                                                    .withOpacity(0.15),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
                                                 border: Border.all(
-                                                  color: meditation['color'].withOpacity(0.3),
+                                                  color: meditation['color']
+                                                      .withOpacity(0.3),
                                                   width: 1.5,
                                                 ),
                                               ),
@@ -317,13 +305,14 @@ class _MeditationScreenState extends State<MeditationScreen>
                                         },
                                       ),
                                     ),
-                                    
+
                                     const SizedBox(width: 20),
-                                    
+
                                     // Información de la meditación
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             meditation['title'],
@@ -351,22 +340,24 @@ class _MeditationScreenState extends State<MeditationScreen>
                                     ),
                                   ],
                                 ),
-                                
+
                                 const SizedBox(height: 20),
-                                
+
                                 // Información adicional y botón
                                 Row(
                                   children: [
                                     // Duración y nivel
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
                                             Icon(
                                               Icons.timer_outlined,
                                               size: 16,
-                                              color: meditation['color'].withOpacity(0.7),
+                                              color: meditation['color']
+                                                  .withOpacity(0.7),
                                             ),
                                             const SizedBox(width: 6),
                                             Text(
@@ -382,12 +373,19 @@ class _MeditationScreenState extends State<MeditationScreen>
                                         ),
                                         const SizedBox(height: 4),
                                         Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 4,
+                                          ),
                                           decoration: BoxDecoration(
-                                            color: meditation['color'].withOpacity(0.1),
-                                            borderRadius: BorderRadius.circular(12),
+                                            color: meditation['color']
+                                                .withOpacity(0.1),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                             border: Border.all(
-                                              color: meditation['color'].withOpacity(0.2),
+                                              color: meditation['color']
+                                                  .withOpacity(0.2),
                                               width: 1,
                                             ),
                                           ),
@@ -403,9 +401,9 @@ class _MeditationScreenState extends State<MeditationScreen>
                                         ),
                                       ],
                                     ),
-                                    
+
                                     const Spacer(),
-                                    
+
                                     // Botón Start Meditation con zoom
                                     AnimatedBuilder(
                                       animation: _startButtonScale,
@@ -413,13 +411,20 @@ class _MeditationScreenState extends State<MeditationScreen>
                                         return Transform.scale(
                                           scale: _startButtonScale.value,
                                           child: ElevatedButton(
-                                            onPressed: () => _onStartMeditation(meditation),
+                                            onPressed: () =>
+                                                _onStartMeditation(meditation),
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: meditation['color'],
+                                              backgroundColor:
+                                                  meditation['color'],
                                               foregroundColor: Colors.white,
-                                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 24,
+                                                    vertical: 16,
+                                                  ),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(16),
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
                                               ),
                                               elevation: 0,
                                             ),
@@ -447,7 +452,7 @@ class _MeditationScreenState extends State<MeditationScreen>
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 24),
             ],
           ),

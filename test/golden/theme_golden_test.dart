@@ -8,10 +8,7 @@ import '../helpers/test_helpers.dart';
 void main() {
   group('Theme Golden Tests', () {
     testWidgets('welcome screen light theme', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Set to light theme via EnhancedThemeProvider
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -30,10 +27,7 @@ void main() {
     });
 
     testWidgets('welcome screen dark theme', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Set to dark theme via EnhancedThemeProvider
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -51,11 +45,10 @@ void main() {
       );
     });
 
-    testWidgets('welcome screen system theme (light)', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+    testWidgets('welcome screen system theme (light)', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Set to system theme via EnhancedThemeProvider
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));

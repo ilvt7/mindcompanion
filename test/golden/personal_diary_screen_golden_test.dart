@@ -4,20 +4,18 @@ import 'package:mindcompanion/screens/personal_diary_screen.dart';
 
 void main() {
   group('Personal Diary Screen Golden Tests', () {
-    testWidgets('Personal Diary screen matches golden file', (WidgetTester tester) async {
+    testWidgets('Personal Diary screen matches golden file', (
+      WidgetTester tester,
+    ) async {
       // Render PersonalDiaryScreen at a fixed size (400x800)
       await tester.binding.setSurfaceSize(const Size(400, 800));
-      
+
       // Build the PersonalDiaryScreen widget
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: PersonalDiaryScreen(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: PersonalDiaryScreen()));
 
       // Wait for initial build and skip animations for golden tests
       await tester.pump();
-      
+
       // Wait a bit more for any immediate animations
       await tester.pump(const Duration(milliseconds: 100));
 

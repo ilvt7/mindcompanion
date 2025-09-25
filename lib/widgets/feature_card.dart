@@ -40,11 +40,7 @@ class FeatureCard extends StatelessWidget {
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: Icon(
-                icon,
-                size: 30,
-                color: color,
-              ),
+              child: Icon(icon, size: 30, color: color),
             ),
             const SizedBox(height: 16),
             Text(

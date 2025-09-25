@@ -4,20 +4,18 @@ import 'package:mindcompanion/screens/privacy_policy_screen.dart';
 
 void main() {
   group('Privacy Policy Screen Golden Tests', () {
-    testWidgets('Privacy Policy screen matches golden file', (WidgetTester tester) async {
+    testWidgets('Privacy Policy screen matches golden file', (
+      WidgetTester tester,
+    ) async {
       // Render PrivacyPolicyScreen at a fixed size (400x800)
       await tester.binding.setSurfaceSize(const Size(400, 800));
-      
+
       // Build the PrivacyPolicyScreen widget
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: PrivacyPolicyScreen(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: PrivacyPolicyScreen()));
 
       // Wait for initial build and skip animations for golden tests
       await tester.pump();
-      
+
       // Wait a bit more for any immediate animations
       await tester.pump(const Duration(milliseconds: 100));
 

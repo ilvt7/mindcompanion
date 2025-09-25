@@ -42,7 +42,9 @@ class NotificationPreferences {
   static Future<DateTime?> getLastReminderDate() async {
     final prefs = await SharedPreferences.getInstance();
     final timestamp = prefs.getInt(_lastReminderDateKey);
-    return timestamp != null ? DateTime.fromMillisecondsSinceEpoch(timestamp) : null;
+    return timestamp != null
+        ? DateTime.fromMillisecondsSinceEpoch(timestamp)
+        : null;
   }
 
   /// Set last reminder date

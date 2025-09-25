@@ -18,15 +18,17 @@ class EmotionalHistoryTransitionWrapper extends StatefulWidget {
   });
 
   @override
-  State<EmotionalHistoryTransitionWrapper> createState() => _EmotionalHistoryTransitionWrapperState();
+  State<EmotionalHistoryTransitionWrapper> createState() =>
+      _EmotionalHistoryTransitionWrapperState();
 }
 
-class _EmotionalHistoryTransitionWrapperState extends State<EmotionalHistoryTransitionWrapper>
+class _EmotionalHistoryTransitionWrapperState
+    extends State<EmotionalHistoryTransitionWrapper>
     with TickerProviderStateMixin {
   late AnimationController _calendarController;
   late AnimationController _entriesController;
   late AnimationController _overallController;
-  
+
   late Animation<double> _calendarFade;
   late Animation<double> _entriesFade;
   late Animation<double> _overallAnimation;
@@ -34,49 +36,57 @@ class _EmotionalHistoryTransitionWrapperState extends State<EmotionalHistoryTran
   @override
   void initState() {
     super.initState();
-    
+
     // Controller para el calendario
     _calendarController = AnimationController(
-      duration: widget.transitionDuration ?? EmotionalHistoryTransitionConfig.calendarFadeDuration,
+      duration:
+          widget.transitionDuration ??
+          EmotionalHistoryTransitionConfig.calendarFadeDuration,
       vsync: this,
     );
-    
+
     // Controller para las entradas
     _entriesController = AnimationController(
       duration: EmotionalHistoryTransitionConfig.entriesFadeDuration,
       vsync: this,
     );
-    
+
     // Controller para la animación general
     _overallController = AnimationController(
       duration: EmotionalHistoryTransitionConfig.totalTransitionDuration,
       vsync: this,
     );
-    
+
     // Animación de fade para el calendario
-    _calendarFade = Tween<double>(
-      begin: EmotionalHistoryTransitionConfig.calendarFadeStart,
-      end: EmotionalHistoryTransitionConfig.calendarFadeEnd,
-    ).animate(CurvedAnimation(
-      parent: _calendarController,
-      curve: EmotionalHistoryTransitionConfig.calendarFadeCurve,
-    ));
-    
+    _calendarFade =
+        Tween<double>(
+          begin: EmotionalHistoryTransitionConfig.calendarFadeStart,
+          end: EmotionalHistoryTransitionConfig.calendarFadeEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _calendarController,
+            curve: EmotionalHistoryTransitionConfig.calendarFadeCurve,
+          ),
+        );
+
     // Animación de fade para las entradas
-    _entriesFade = Tween<double>(
-      begin: EmotionalHistoryTransitionConfig.entriesFadeStart,
-      end: EmotionalHistoryTransitionConfig.entriesFadeEnd,
-    ).animate(CurvedAnimation(
-      parent: _entriesController,
-      curve: EmotionalHistoryTransitionConfig.entriesFadeCurve,
-    ));
-    
+    _entriesFade =
+        Tween<double>(
+          begin: EmotionalHistoryTransitionConfig.entriesFadeStart,
+          end: EmotionalHistoryTransitionConfig.entriesFadeEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _entriesController,
+            curve: EmotionalHistoryTransitionConfig.entriesFadeCurve,
+          ),
+        );
+
     // Animación general para coordinar todo
     _overallAnimation = CurvedAnimation(
       parent: _overallController,
       curve: EmotionalHistoryTransitionConfig.overallCurve,
     );
-    
+
     if (widget.isTransitioning) {
       _startSequentialAnimations();
     }
@@ -85,7 +95,7 @@ class _EmotionalHistoryTransitionWrapperState extends State<EmotionalHistoryTran
   @override
   void didUpdateWidget(EmotionalHistoryTransitionWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isTransitioning && !oldWidget.isTransitioning) {
       _startSequentialAnimations();
     } else if (!widget.isTransitioning && oldWidget.isTransitioning) {
@@ -108,20 +118,23 @@ class _EmotionalHistoryTransitionWrapperState extends State<EmotionalHistoryTran
         _calendarController.forward();
       }
     });
-    
+
     Future.delayed(EmotionalHistoryTransitionConfig.entriesStartDelay, () {
       if (mounted) {
         _entriesController.forward();
       }
     });
-    
+
     // Iniciar animación general
     _overallController.forward();
-    
+
     // Notificar cuando la transición esté completa
-    Future.delayed(EmotionalHistoryTransitionConfig.totalTransitionDuration, () {
-      widget.onTransitionComplete?.call();
-    });
+    Future.delayed(
+      EmotionalHistoryTransitionConfig.totalTransitionDuration,
+      () {
+        widget.onTransitionComplete?.call();
+      },
+    );
   }
 
   void _reverseSequentialAnimations() {
@@ -173,28 +186,36 @@ class _CalendarFadeWrapperState extends State<CalendarFadeWrapper>
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
-      duration: widget.transitionDuration ?? EmotionalHistoryTransitionConfig.calendarFadeDuration,
+      duration:
+          widget.transitionDuration ??
+          EmotionalHistoryTransitionConfig.calendarFadeDuration,
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(
-      begin: EmotionalHistoryTransitionConfig.calendarFadeStart,
-      end: EmotionalHistoryTransitionConfig.calendarFadeEnd,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: EmotionalHistoryTransitionConfig.calendarFadeCurve,
-    ));
-    
-    _scaleAnimation = Tween<double>(
-      begin: EmotionalHistoryTransitionConfig.calendarScaleStart,
-      end: EmotionalHistoryTransitionConfig.calendarScaleEnd,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: EmotionalHistoryTransitionConfig.calendarScaleCurve,
-    ));
-    
+
+    _fadeAnimation =
+        Tween<double>(
+          begin: EmotionalHistoryTransitionConfig.calendarFadeStart,
+          end: EmotionalHistoryTransitionConfig.calendarFadeEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: EmotionalHistoryTransitionConfig.calendarFadeCurve,
+          ),
+        );
+
+    _scaleAnimation =
+        Tween<double>(
+          begin: EmotionalHistoryTransitionConfig.calendarScaleStart,
+          end: EmotionalHistoryTransitionConfig.calendarScaleEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: EmotionalHistoryTransitionConfig.calendarScaleCurve,
+          ),
+        );
+
     if (widget.isTransitioning) {
       _startAnimation();
     }
@@ -203,7 +224,7 @@ class _CalendarFadeWrapperState extends State<CalendarFadeWrapper>
   @override
   void didUpdateWidget(CalendarFadeWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isTransitioning && !oldWidget.isTransitioning) {
       _startAnimation();
     } else if (!widget.isTransitioning && oldWidget.isTransitioning) {
@@ -232,10 +253,7 @@ class _CalendarFadeWrapperState extends State<CalendarFadeWrapper>
       builder: (context, child) {
         return FadeTransition(
           opacity: _fadeAnimation,
-          child: ScaleTransition(
-            scale: _scaleAnimation,
-            child: child,
-          ),
+          child: ScaleTransition(scale: _scaleAnimation, child: child),
         );
       },
       child: widget.child,
@@ -269,7 +287,7 @@ class _EntriesFadeWrapperState extends State<EntriesFadeWrapper>
   @override
   void initState() {
     super.initState();
-    
+
     _entryControllers = List.generate(
       widget.children.length,
       (index) => AnimationController(
@@ -277,27 +295,31 @@ class _EntriesFadeWrapperState extends State<EntriesFadeWrapper>
         vsync: this,
       ),
     );
-    
+
     _entryFadeAnimations = _entryControllers.map((controller) {
       return Tween<double>(
         begin: EmotionalHistoryTransitionConfig.entryFadeStart,
         end: EmotionalHistoryTransitionConfig.entryFadeEnd,
-      ).animate(CurvedAnimation(
-        parent: controller,
-        curve: EmotionalHistoryTransitionConfig.entryFadeCurve,
-      ));
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: EmotionalHistoryTransitionConfig.entryFadeCurve,
+        ),
+      );
     }).toList();
-    
+
     _entrySlideAnimations = _entryControllers.map((controller) {
       return Tween<double>(
         begin: EmotionalHistoryTransitionConfig.entrySlideStart,
         end: EmotionalHistoryTransitionConfig.entrySlideEnd,
-      ).animate(CurvedAnimation(
-        parent: controller,
-        curve: EmotionalHistoryTransitionConfig.entrySlideCurve,
-      ));
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: EmotionalHistoryTransitionConfig.entrySlideCurve,
+        ),
+      );
     }).toList();
-    
+
     if (widget.isTransitioning) {
       _startSequentialAnimations();
     }
@@ -306,7 +328,7 @@ class _EntriesFadeWrapperState extends State<EntriesFadeWrapper>
   @override
   void didUpdateWidget(EntriesFadeWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isTransitioning && !oldWidget.isTransitioning) {
       _startSequentialAnimations();
     } else if (!widget.isTransitioning && oldWidget.isTransitioning) {
@@ -326,8 +348,14 @@ class _EntriesFadeWrapperState extends State<EntriesFadeWrapper>
     // Iniciar animaciones secuenciales con delays escalonados
     for (int i = 0; i < _entryControllers.length; i++) {
       Future.delayed(
-        EmotionalHistoryTransitionConfig.entriesStartDelay + 
-        (Duration(milliseconds: i * EmotionalHistoryTransitionConfig.entryStaggerDelay.inMilliseconds)),
+        EmotionalHistoryTransitionConfig.entriesStartDelay +
+            (Duration(
+              milliseconds:
+                  i *
+                  EmotionalHistoryTransitionConfig
+                      .entryStaggerDelay
+                      .inMilliseconds,
+            )),
         () {
           if (mounted) {
             _entryControllers[i].forward();
@@ -341,8 +369,11 @@ class _EntriesFadeWrapperState extends State<EntriesFadeWrapper>
     // Revertir animaciones en orden inverso
     for (int i = _entryControllers.length - 1; i >= 0; i--) {
       Future.delayed(
-        Duration(milliseconds: (_entryControllers.length - 1 - i) * 
-        EmotionalHistoryTransitionConfig.entryStaggerDelay.inMilliseconds),
+        Duration(
+          milliseconds:
+              (_entryControllers.length - 1 - i) *
+              EmotionalHistoryTransitionConfig.entryStaggerDelay.inMilliseconds,
+        ),
         () {
           if (mounted) {
             _entryControllers[i].reverse();
@@ -396,30 +427,34 @@ class EmotionalHistoryTransitionCoordinator extends StatefulWidget {
   });
 
   @override
-  State<EmotionalHistoryTransitionCoordinator> createState() => _EmotionalHistoryTransitionCoordinatorState();
+  State<EmotionalHistoryTransitionCoordinator> createState() =>
+      _EmotionalHistoryTransitionCoordinatorState();
 }
 
-class _EmotionalHistoryTransitionCoordinatorState extends State<EmotionalHistoryTransitionCoordinator>
+class _EmotionalHistoryTransitionCoordinatorState
+    extends State<EmotionalHistoryTransitionCoordinator>
     with TickerProviderStateMixin {
   late AnimationController _overallController;
   late Animation<double> _overallAnimation;
-  
+
   bool _isTransitioning = false;
 
   @override
   void initState() {
     super.initState();
-    
+
     _overallController = AnimationController(
-      duration: widget.transitionDuration ?? EmotionalHistoryTransitionConfig.totalTransitionDuration,
+      duration:
+          widget.transitionDuration ??
+          EmotionalHistoryTransitionConfig.totalTransitionDuration,
       vsync: this,
     );
-    
+
     _overallAnimation = CurvedAnimation(
       parent: _overallController,
       curve: EmotionalHistoryTransitionConfig.overallCurve,
     );
-    
+
     if (widget.showEmotionalHistory) {
       _startTransition();
     }
@@ -428,7 +463,7 @@ class _EmotionalHistoryTransitionCoordinatorState extends State<EmotionalHistory
   @override
   void didUpdateWidget(EmotionalHistoryTransitionCoordinator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.showEmotionalHistory && !oldWidget.showEmotionalHistory) {
       _startTransition();
     } else if (!widget.showEmotionalHistory && oldWidget.showEmotionalHistory) {
@@ -446,7 +481,7 @@ class _EmotionalHistoryTransitionCoordinatorState extends State<EmotionalHistory
     setState(() {
       _isTransitioning = true;
     });
-    
+
     _overallController.forward().then((_) {
       widget.onTransitionComplete?.call();
     });
@@ -468,54 +503,57 @@ class _EmotionalHistoryTransitionCoordinatorState extends State<EmotionalHistory
         AnimatedBuilder(
           animation: _overallAnimation,
           builder: (context, child) {
-            final homeSlideAnimation = Tween<Offset>(
-              begin: Offset.zero,
-              end: const Offset(-0.3, 0.0),
-            ).animate(CurvedAnimation(
-              parent: _overallAnimation,
-              curve: EmotionalHistoryTransitionConfig.homeSlideCurve,
-            ));
-            
-            final homeFadeAnimation = Tween<double>(
-              begin: 1.0,
-              end: 0.7,
-            ).animate(CurvedAnimation(
-              parent: _overallAnimation,
-              curve: EmotionalHistoryTransitionConfig.homeFadeCurve,
-            ));
-            
+            final homeSlideAnimation =
+                Tween<Offset>(
+                  begin: Offset.zero,
+                  end: const Offset(-0.3, 0.0),
+                ).animate(
+                  CurvedAnimation(
+                    parent: _overallAnimation,
+                    curve: EmotionalHistoryTransitionConfig.homeSlideCurve,
+                  ),
+                );
+
+            final homeFadeAnimation = Tween<double>(begin: 1.0, end: 0.7)
+                .animate(
+                  CurvedAnimation(
+                    parent: _overallAnimation,
+                    curve: EmotionalHistoryTransitionConfig.homeFadeCurve,
+                  ),
+                );
+
             return Transform.translate(
               offset: homeSlideAnimation.value,
-              child: Opacity(
-                opacity: homeFadeAnimation.value,
-                child: child,
-              ),
+              child: Opacity(opacity: homeFadeAnimation.value, child: child),
             );
           },
           child: widget.homeScreen,
         ),
-        
+
         // EmotionalHistoryScreen con slide lateral desde la derecha
         if (_isTransitioning)
           AnimatedBuilder(
             animation: _overallAnimation,
             builder: (context, child) {
-              final historySlideAnimation = Tween<Offset>(
-                begin: const Offset(1.0, 0.0),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(
-                parent: _overallAnimation,
-                curve: EmotionalHistoryTransitionConfig.historySlideCurve,
-              ));
-              
-              final historyFadeAnimation = Tween<double>(
-                begin: 0.0,
-                end: 1.0,
-              ).animate(CurvedAnimation(
-                parent: _overallAnimation,
-                curve: EmotionalHistoryTransitionConfig.historyFadeCurve,
-              ));
-              
+              final historySlideAnimation =
+                  Tween<Offset>(
+                    begin: const Offset(1.0, 0.0),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: _overallAnimation,
+                      curve: EmotionalHistoryTransitionConfig.historySlideCurve,
+                    ),
+                  );
+
+              final historyFadeAnimation = Tween<double>(begin: 0.0, end: 1.0)
+                  .animate(
+                    CurvedAnimation(
+                      parent: _overallAnimation,
+                      curve: EmotionalHistoryTransitionConfig.historyFadeCurve,
+                    ),
+                  );
+
               return Transform.translate(
                 offset: historySlideAnimation.value,
                 child: FadeTransition(
@@ -553,7 +591,7 @@ class LateralSlideEffect extends StatelessWidget {
     return AnimatedContainer(
       duration: duration ?? EmotionalHistoryTransitionConfig.homeSlideDuration,
       curve: slideCurve,
-      transform: isActive 
+      transform: isActive
           ? (Matrix4.identity()..translate(slideOffset.dx, slideOffset.dy))
           : Matrix4.identity(),
       child: child,
@@ -585,10 +623,7 @@ class ProgressiveFadeEffect extends StatelessWidget {
     return AnimatedContainer(
       duration: duration ?? EmotionalHistoryTransitionConfig.homeFadeDuration,
       curve: fadeCurve,
-      child: Opacity(
-        opacity: isActive ? fadeEnd : fadeStart,
-        child: child,
-      ),
+      child: Opacity(opacity: isActive ? fadeEnd : fadeStart, child: child),
     );
   }
 }

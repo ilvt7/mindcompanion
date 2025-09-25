@@ -73,7 +73,7 @@ class DiaryEntry {
   // Get emoji for emotion
   String get emotionEmoji {
     if (emotion == null) return '📝';
-    
+
     switch (emotion!.toLowerCase()) {
       case 'happy':
       case 'joy':

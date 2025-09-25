@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../screens/home_screen.dart';
-import '../screens/crisis_mode_screen.dart';
 import '../widgets/crisis_transition_wrapper.dart';
 import '../config/crisis_transition_config.dart';
 
@@ -10,7 +8,8 @@ class CrisisTransitionExample extends StatefulWidget {
   const CrisisTransitionExample({super.key});
 
   @override
-  State<CrisisTransitionExample> createState() => _CrisisTransitionExampleState();
+  State<CrisisTransitionExample> createState() =>
+      _CrisisTransitionExampleState();
 }
 
 class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
@@ -71,7 +70,9 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: _showCrisis ? null : _startCrisisTransition,
+                          onPressed: _showCrisis
+                              ? null
+                              : _startCrisisTransition,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFF56565),
                             foregroundColor: Colors.white,
@@ -86,7 +87,9 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
                       const SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: !_showCrisis ? null : _stopCrisisTransition,
+                          onPressed: !_showCrisis
+                              ? null
+                              : _stopCrisisTransition,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF48BB78),
                             foregroundColor: Colors.white,
@@ -105,14 +108,16 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
                     'Estado: ${_showCrisis ? "Crisis Activo" : "Normal"}',
                     style: TextStyle(
                       fontSize: 14,
-                      color: _showCrisis ? const Color(0xFFF56565) : const Color(0xFF48BB78),
+                      color: _showCrisis
+                          ? const Color(0xFFF56565)
+                          : const Color(0xFF48BB78),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
             ),
-            
+
             // Área de demostración de transición
             Expanded(
               child: Container(
@@ -135,7 +140,8 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
                     crisisScreen: _buildCrisisScreenPreview(),
                     showCrisis: _showCrisis,
                     onTransitionComplete: _onTransitionComplete,
-                    transitionDuration: CrisisTransitionConfig.totalTransitionDuration,
+                    transitionDuration:
+                        CrisisTransitionConfig.totalTransitionDuration,
                   ),
                 ),
               ),
@@ -185,7 +191,7 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
               ],
             ),
           ),
-          
+
           // Tarjetas de características
           Expanded(
             child: Padding(
@@ -229,10 +235,7 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1.5,
-        ),
+        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
         boxShadow: [
           BoxShadow(
             color: color.withOpacity(0.1),
@@ -244,11 +247,7 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 32,
-            color: color,
-          ),
+          Icon(icon, size: 32, color: color),
           const SizedBox(height: 8),
           Text(
             title,
@@ -310,14 +309,15 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
               ],
             ),
           ),
-          
+
           // Botones de crisis con animaciones secuenciales
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(24),
               child: CrisisButtonsSequentialWrapper(
                 isTransitioning: _isTransitioning,
-                transitionDuration: CrisisTransitionConfig.buttonIndividualDuration,
+                transitionDuration:
+                    CrisisTransitionConfig.buttonIndividualDuration,
                 children: [
                   _buildCrisisButton(
                     'Contactar Ayuda',
@@ -355,10 +355,7 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1.5,
-        ),
+        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
         boxShadow: [
           BoxShadow(
             color: color.withOpacity(0.1),
@@ -369,11 +366,7 @@ class _CrisisTransitionExampleState extends State<CrisisTransitionExample>
       ),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: 28,
-            color: color,
-          ),
+          Icon(icon, size: 28, color: color),
           const SizedBox(width: 16),
           Expanded(
             child: Text(
@@ -421,10 +414,12 @@ class SimpleCrisisTransitionExample extends StatefulWidget {
   const SimpleCrisisTransitionExample({super.key});
 
   @override
-  State<SimpleCrisisTransitionExample> createState() => _SimpleCrisisTransitionExampleState();
+  State<SimpleCrisisTransitionExample> createState() =>
+      _SimpleCrisisTransitionExampleState();
 }
 
-class _SimpleCrisisTransitionExampleState extends State<SimpleCrisisTransitionExample> {
+class _SimpleCrisisTransitionExampleState
+    extends State<SimpleCrisisTransitionExample> {
   bool _showCrisis = false;
 
   @override
@@ -449,8 +444,13 @@ class _SimpleCrisisTransitionExampleState extends State<SimpleCrisisTransitionEx
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _showCrisis ? const Color(0xFF48BB78) : const Color(0xFFF56565),
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                  backgroundColor: _showCrisis
+                      ? const Color(0xFF48BB78)
+                      : const Color(0xFFF56565),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 32,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -465,7 +465,7 @@ class _SimpleCrisisTransitionExampleState extends State<SimpleCrisisTransitionEx
                 ),
               ),
             ),
-            
+
             // Área de demostración
             Expanded(
               child: Container(
@@ -502,11 +502,7 @@ class _SimpleCrisisTransitionExampleState extends State<SimpleCrisisTransitionEx
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.home,
-              size: 64,
-              color: Color(0xFF87CEEB),
-            ),
+            Icon(Icons.home, size: 64, color: Color(0xFF87CEEB)),
             SizedBox(height: 16),
             Text(
               'HomeScreen Preview',
@@ -520,10 +516,7 @@ class _SimpleCrisisTransitionExampleState extends State<SimpleCrisisTransitionEx
             Text(
               'Este es el HomeScreen que se animará\ncon slide hacia arriba y blur',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF718096),
-              ),
+              style: TextStyle(fontSize: 14, color: Color(0xFF718096)),
             ),
           ],
         ),

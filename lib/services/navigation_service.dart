@@ -8,11 +8,7 @@ class NavigationService {
     String routeName, {
     Object? arguments,
   }) {
-    return Navigator.pushNamed<T>(
-      context,
-      routeName,
-      arguments: arguments,
-    );
+    return Navigator.pushNamed<T>(context, routeName, arguments: arguments);
   }
 
   // Push and replace current route with FadeThroughTransition
@@ -46,10 +42,7 @@ class NavigationService {
   }
 
   // Pop current route
-  static void pop<T extends Object?>(
-    BuildContext context, [
-    T? result,
-  ]) {
+  static void pop<T extends Object?>(BuildContext context, [T? result]) {
     Navigator.pop<T>(context, result);
   }
 

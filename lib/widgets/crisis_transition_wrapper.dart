@@ -19,7 +19,8 @@ class CrisisTransitionWrapper extends StatefulWidget {
   });
 
   @override
-  State<CrisisTransitionWrapper> createState() => _CrisisTransitionWrapperState();
+  State<CrisisTransitionWrapper> createState() =>
+      _CrisisTransitionWrapperState();
 }
 
 class _CrisisTransitionWrapperState extends State<CrisisTransitionWrapper>
@@ -27,7 +28,7 @@ class _CrisisTransitionWrapperState extends State<CrisisTransitionWrapper>
   late AnimationController _homeSlideUpController;
   late AnimationController _blurController;
   late AnimationController _depthController;
-  
+
   late Animation<Offset> _homeSlideUpAnimation;
   late Animation<double> _blurAnimation;
   late Animation<double> _depthScaleAnimation;
@@ -36,66 +37,80 @@ class _CrisisTransitionWrapperState extends State<CrisisTransitionWrapper>
   @override
   void initState() {
     super.initState();
-    
+
     // Controller para el slide hacia arriba del HomeScreen
     _homeSlideUpController = AnimationController(
-      duration: widget.transitionDuration ?? CrisisTransitionConfig.homeSlideUpDuration,
+      duration:
+          widget.transitionDuration ??
+          CrisisTransitionConfig.homeSlideUpDuration,
       vsync: this,
     );
-    
+
     // Controller para efectos de blur
     _blurController = AnimationController(
       duration: CrisisTransitionConfig.blurAnimationDuration,
       vsync: this,
     );
-    
+
     // Controller para efectos de profundidad
     _depthController = AnimationController(
       duration: CrisisTransitionConfig.depthAnimationDuration,
       vsync: this,
     );
-    
+
     // Animación de slide hacia arriba del HomeScreen
-    _homeSlideUpAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: Offset(0, CrisisTransitionConfig.homeSlideUpOffset),
-    ).animate(CurvedAnimation(
-      parent: _homeSlideUpController,
-      curve: CrisisTransitionConfig.homeSlideUpCurve,
-    ));
-    
+    _homeSlideUpAnimation =
+        Tween<Offset>(
+          begin: Offset.zero,
+          end: Offset(0, CrisisTransitionConfig.homeSlideUpOffset),
+        ).animate(
+          CurvedAnimation(
+            parent: _homeSlideUpController,
+            curve: CrisisTransitionConfig.homeSlideUpCurve,
+          ),
+        );
+
     // Animación de blur para el HomeScreen
-    _blurAnimation = Tween<double>(
-      begin: CrisisTransitionConfig.minBlurRadius,
-      end: CrisisTransitionConfig.maxBlurRadius,
-    ).animate(CurvedAnimation(
-      parent: _blurController,
-      curve: CrisisTransitionConfig.blurAnimationCurve,
-    ));
-    
+    _blurAnimation =
+        Tween<double>(
+          begin: CrisisTransitionConfig.minBlurRadius,
+          end: CrisisTransitionConfig.maxBlurRadius,
+        ).animate(
+          CurvedAnimation(
+            parent: _blurController,
+            curve: CrisisTransitionConfig.blurAnimationCurve,
+          ),
+        );
+
     // Animación de escala para profundidad
-    _depthScaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: CrisisTransitionConfig.maxDepthScale,
-    ).animate(CurvedAnimation(
-      parent: _depthController,
-      curve: CrisisTransitionConfig.depthScaleCurve,
-    ));
-    
+    _depthScaleAnimation =
+        Tween<double>(
+          begin: 1.0,
+          end: CrisisTransitionConfig.maxDepthScale,
+        ).animate(
+          CurvedAnimation(
+            parent: _depthController,
+            curve: CrisisTransitionConfig.depthScaleCurve,
+          ),
+        );
+
     // Animación de offset para profundidad
-    _depthOffsetAnimation = Tween<double>(
-      begin: 0.0,
-      end: CrisisTransitionConfig.maxDepthOffset,
-    ).animate(CurvedAnimation(
-      parent: _depthController,
-      curve: CrisisTransitionConfig.depthScaleCurve,
-    ));
+    _depthOffsetAnimation =
+        Tween<double>(
+          begin: 0.0,
+          end: CrisisTransitionConfig.maxDepthOffset,
+        ).animate(
+          CurvedAnimation(
+            parent: _depthController,
+            curve: CrisisTransitionConfig.depthScaleCurve,
+          ),
+        );
   }
 
   @override
   void didUpdateWidget(CrisisTransitionWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isTransitioning && !oldWidget.isTransitioning) {
       _startCrisisTransition();
     } else if (!widget.isTransitioning && oldWidget.isTransitioning) {
@@ -118,7 +133,7 @@ class _CrisisTransitionWrapperState extends State<CrisisTransitionWrapper>
       _blurController.forward();
       _depthController.forward();
     });
-    
+
     // Notificar cuando la transición esté completa
     Future.delayed(CrisisTransitionConfig.totalTransitionDuration, () {
       widget.onTransitionComplete?.call();
@@ -155,8 +170,8 @@ class _CrisisTransitionWrapperState extends State<CrisisTransitionWrapper>
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(
-                        CrisisTransitionConfig.transitionShadowOpacity * 
-                        _depthController.value,
+                        CrisisTransitionConfig.transitionShadowOpacity *
+                            _depthController.value,
                       ),
                       blurRadius: CrisisTransitionConfig.transitionShadowBlur,
                       offset: CrisisTransitionConfig.transitionShadowOffset,
@@ -189,10 +204,12 @@ class CrisisButtonsSequentialWrapper extends StatefulWidget {
   });
 
   @override
-  State<CrisisButtonsSequentialWrapper> createState() => _CrisisButtonsSequentialWrapperState();
+  State<CrisisButtonsSequentialWrapper> createState() =>
+      _CrisisButtonsSequentialWrapperState();
 }
 
-class _CrisisButtonsSequentialWrapperState extends State<CrisisButtonsSequentialWrapper>
+class _CrisisButtonsSequentialWrapperState
+    extends State<CrisisButtonsSequentialWrapper>
     with TickerProviderStateMixin {
   late List<AnimationController> _buttonControllers;
   late List<Animation<double>> _buttonBounceAnimations;
@@ -202,7 +219,7 @@ class _CrisisButtonsSequentialWrapperState extends State<CrisisButtonsSequential
   @override
   void initState() {
     super.initState();
-    
+
     _buttonControllers = List.generate(
       widget.children.length,
       (index) => AnimationController(
@@ -210,37 +227,43 @@ class _CrisisButtonsSequentialWrapperState extends State<CrisisButtonsSequential
         vsync: this,
       ),
     );
-    
+
     _buttonBounceAnimations = _buttonControllers.map((controller) {
       return Tween<double>(
         begin: CrisisTransitionConfig.buttonBounceStart,
         end: CrisisTransitionConfig.buttonBounceEnd,
-      ).animate(CurvedAnimation(
-        parent: controller,
-        curve: CrisisTransitionConfig.buttonIndividualCurve,
-      ));
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: CrisisTransitionConfig.buttonIndividualCurve,
+        ),
+      );
     }).toList();
-    
+
     _buttonFadeAnimations = _buttonControllers.map((controller) {
       return Tween<double>(
         begin: CrisisTransitionConfig.buttonOpacityStart,
         end: CrisisTransitionConfig.buttonOpacityEnd,
-      ).animate(CurvedAnimation(
-        parent: controller,
-        curve: CrisisTransitionConfig.buttonFadeCurve,
-      ));
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: CrisisTransitionConfig.buttonFadeCurve,
+        ),
+      );
     }).toList();
-    
+
     _buttonScaleAnimations = _buttonControllers.map((controller) {
       return Tween<double>(
         begin: CrisisTransitionConfig.buttonBounceStart,
         end: CrisisTransitionConfig.buttonBounceEnd,
-      ).animate(CurvedAnimation(
-        parent: controller,
-        curve: CrisisTransitionConfig.buttonIndividualCurve,
-      ));
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: CrisisTransitionConfig.buttonIndividualCurve,
+        ),
+      );
     }).toList();
-    
+
     if (widget.isTransitioning) {
       _startSequentialAnimations();
     }
@@ -249,7 +272,7 @@ class _CrisisButtonsSequentialWrapperState extends State<CrisisButtonsSequential
   @override
   void didUpdateWidget(CrisisButtonsSequentialWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isTransitioning && !oldWidget.isTransitioning) {
       _startSequentialAnimations();
     } else if (!widget.isTransitioning && oldWidget.isTransitioning) {
@@ -269,8 +292,11 @@ class _CrisisButtonsSequentialWrapperState extends State<CrisisButtonsSequential
     // Iniciar animaciones secuenciales con delays escalonados
     for (int i = 0; i < _buttonControllers.length; i++) {
       Future.delayed(
-        CrisisTransitionConfig.buttonsStartDelay + 
-        (Duration(milliseconds: i * CrisisTransitionConfig.buttonStaggerDelay.inMilliseconds)),
+        CrisisTransitionConfig.buttonsStartDelay +
+            (Duration(
+              milliseconds:
+                  i * CrisisTransitionConfig.buttonStaggerDelay.inMilliseconds,
+            )),
         () {
           if (mounted) {
             _buttonControllers[i].forward();
@@ -284,8 +310,11 @@ class _CrisisButtonsSequentialWrapperState extends State<CrisisButtonsSequential
     // Revertir animaciones en orden inverso
     for (int i = _buttonControllers.length - 1; i >= 0; i--) {
       Future.delayed(
-        Duration(milliseconds: (_buttonControllers.length - 1 - i) * 
-        CrisisTransitionConfig.buttonStaggerDelay.inMilliseconds),
+        Duration(
+          milliseconds:
+              (_buttonControllers.length - 1 - i) *
+              CrisisTransitionConfig.buttonStaggerDelay.inMilliseconds,
+        ),
         () {
           if (mounted) {
             _buttonControllers[i].reverse();
@@ -313,8 +342,8 @@ class _CrisisButtonsSequentialWrapperState extends State<CrisisButtonsSequential
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(
-                          CrisisTransitionConfig.buttonShadowOpacity * 
-                          _buttonControllers[index].value,
+                          CrisisTransitionConfig.buttonShadowOpacity *
+                              _buttonControllers[index].value,
                         ),
                         blurRadius: CrisisTransitionConfig.buttonShadowBlur,
                         offset: CrisisTransitionConfig.buttonShadowOffset,
@@ -352,30 +381,34 @@ class CrisisTransitionCoordinator extends StatefulWidget {
   });
 
   @override
-  State<CrisisTransitionCoordinator> createState() => _CrisisTransitionCoordinatorState();
+  State<CrisisTransitionCoordinator> createState() =>
+      _CrisisTransitionCoordinatorState();
 }
 
-class _CrisisTransitionCoordinatorState extends State<CrisisTransitionCoordinator>
+class _CrisisTransitionCoordinatorState
+    extends State<CrisisTransitionCoordinator>
     with TickerProviderStateMixin {
   late AnimationController _overallController;
   late Animation<double> _overallAnimation;
-  
+
   bool _isTransitioning = false;
 
   @override
   void initState() {
     super.initState();
-    
+
     _overallController = AnimationController(
-      duration: widget.transitionDuration ?? CrisisTransitionConfig.totalTransitionDuration,
+      duration:
+          widget.transitionDuration ??
+          CrisisTransitionConfig.totalTransitionDuration,
       vsync: this,
     );
-    
+
     _overallAnimation = CurvedAnimation(
       parent: _overallController,
       curve: CrisisTransitionConfig.crisisCurve,
     );
-    
+
     if (widget.showCrisis) {
       _startTransition();
     }
@@ -384,7 +417,7 @@ class _CrisisTransitionCoordinatorState extends State<CrisisTransitionCoordinato
   @override
   void didUpdateWidget(CrisisTransitionCoordinator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.showCrisis && !oldWidget.showCrisis) {
       _startTransition();
     } else if (!widget.showCrisis && oldWidget.showCrisis) {
@@ -402,7 +435,7 @@ class _CrisisTransitionCoordinatorState extends State<CrisisTransitionCoordinato
     setState(() {
       _isTransitioning = true;
     });
-    
+
     _overallController.forward().then((_) {
       widget.onTransitionComplete?.call();
     });
@@ -427,7 +460,7 @@ class _CrisisTransitionCoordinatorState extends State<CrisisTransitionCoordinato
           onTransitionComplete: widget.onTransitionComplete,
           child: widget.homeScreen,
         ),
-        
+
         // CrisisModeScreen que aparece durante la transición
         if (_isTransitioning)
           AnimatedBuilder(
@@ -512,23 +545,27 @@ class DepthSlideEffect extends StatelessWidget {
     return AnimatedContainer(
       duration: duration ?? CrisisTransitionConfig.homeSlideUpDuration,
       curve: CrisisTransitionConfig.homeSlideUpCurve,
-      transform: isActive 
+      transform: isActive
           ? (Matrix4.identity()
-            ..translate(0.0, slideOffset)
-            ..scale(depthScale))
+              ..translate(0.0, slideOffset)
+              ..scale(depthScale))
           : Matrix4.identity(),
       child: AnimatedContainer(
         duration: duration ?? CrisisTransitionConfig.homeSlideUpDuration,
         curve: CrisisTransitionConfig.homeSlideUpCurve,
         decoration: BoxDecoration(
-          boxShadow: isActive ? [
-            BoxShadow(
-              color: Colors.black.withOpacity(CrisisTransitionConfig.depthShadowOpacity),
-              blurRadius: CrisisTransitionConfig.depthShadowBlur,
-              offset: CrisisTransitionConfig.depthShadowOffset,
-              spreadRadius: 0,
-            ),
-          ] : null,
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(
+                      CrisisTransitionConfig.depthShadowOpacity,
+                    ),
+                    blurRadius: CrisisTransitionConfig.depthShadowBlur,
+                    offset: CrisisTransitionConfig.depthShadowOffset,
+                    spreadRadius: 0,
+                  ),
+                ]
+              : null,
         ),
         child: child,
       ),
@@ -561,20 +598,23 @@ class _EmergencyPulseEffectState extends State<EmergencyPulseEffect>
   @override
   void initState() {
     super.initState();
-    
+
     _pulseController = AnimationController(
       duration: CrisisTransitionConfig.emergencyPulseDuration,
       vsync: this,
     );
-    
-    _pulseAnimation = Tween<double>(
-      begin: CrisisTransitionConfig.emergencyPulseStart,
-      end: CrisisTransitionConfig.emergencyPulseEnd,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: CrisisTransitionConfig.emergencyPulseCurve,
-    ));
-    
+
+    _pulseAnimation =
+        Tween<double>(
+          begin: CrisisTransitionConfig.emergencyPulseStart,
+          end: CrisisTransitionConfig.emergencyPulseEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _pulseController,
+            curve: CrisisTransitionConfig.emergencyPulseCurve,
+          ),
+        );
+
     if (widget.isActive) {
       _startPulse();
     }
@@ -583,7 +623,7 @@ class _EmergencyPulseEffectState extends State<EmergencyPulseEffect>
   @override
   void didUpdateWidget(EmergencyPulseEffect oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isActive && !oldWidget.isActive) {
       _startPulse();
     } else if (!widget.isActive && oldWidget.isActive) {
@@ -611,10 +651,7 @@ class _EmergencyPulseEffectState extends State<EmergencyPulseEffect>
     return AnimatedBuilder(
       animation: _pulseAnimation,
       builder: (context, child) {
-        return Transform.scale(
-          scale: _pulseAnimation.value,
-          child: child,
-        );
+        return Transform.scale(scale: _pulseAnimation.value, child: child);
       },
       child: widget.child,
     );

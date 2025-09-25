@@ -6,8 +6,6 @@ import 'package:mindcompanion/core/accessibility/simple_accessibility_provider.d
 import 'package:mindcompanion/core/accessibility/high_contrast_provider.dart';
 import 'package:mindcompanion/core/accessibility/animation_provider.dart';
 import 'package:mindcompanion/core/theming/enhanced_theme_provider.dart';
-import 'package:mindcompanion/data/diary_repository_provider.dart';
-import 'package:mindcompanion/data/shared_prefs_diary_repository.dart';
 
 /// Helper class for testing with all providers properly initialized
 class TestHelpers {
@@ -50,6 +48,7 @@ class TestHelpers {
       '⏱️ pumpUntilGone: El widget nunca desapareció dentro de $timeout\nFinder: $finder',
     );
   }
+
   /// Pumps a widget with all necessary providers initialized
   static Future<void> pumpAppWithProviders(
     WidgetTester tester,
@@ -59,12 +58,20 @@ class TestHelpers {
   }) async {
     // Mock SharedPreferences for testing
     SharedPreferences.setMockInitialValues({});
-    
+
     final providers = <ChangeNotifierProvider<dynamic>>[
-      ChangeNotifierProvider<SimpleAccessibilityProvider>(create: (_) => SimpleAccessibilityProvider()),
-      ChangeNotifierProvider<HighContrastProvider>(create: (_) => HighContrastProvider()),
-      ChangeNotifierProvider<AnimationProvider>(create: (_) => AnimationProvider()),
-      ChangeNotifierProvider<EnhancedThemeProvider>(create: (_) => EnhancedThemeProvider()),
+      ChangeNotifierProvider<SimpleAccessibilityProvider>(
+        create: (_) => SimpleAccessibilityProvider(),
+      ),
+      ChangeNotifierProvider<HighContrastProvider>(
+        create: (_) => HighContrastProvider(),
+      ),
+      ChangeNotifierProvider<AnimationProvider>(
+        create: (_) => AnimationProvider(),
+      ),
+      ChangeNotifierProvider<EnhancedThemeProvider>(
+        create: (_) => EnhancedThemeProvider(),
+      ),
       if (additionalProviders != null) ...additionalProviders,
     ];
 
@@ -81,7 +88,9 @@ class TestHelpers {
               builder: (context, child) {
                 return MediaQuery(
                   data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: accessibilityProvider.textScale,
+                    textScaler: TextScaler.linear(
+                      accessibilityProvider.textScale,
+                    ),
                   ),
                   child: child!,
                 );
@@ -103,7 +112,9 @@ class TestHelpers {
       safetyPumps++;
     }
     if (materialAppFinder.evaluate().isEmpty) {
-      throw TestFailure('MaterialApp no apareció tras espera en pumpAppWithProviders');
+      throw TestFailure(
+        'MaterialApp no apareció tras espera en pumpAppWithProviders',
+      );
     }
     final element = tester.element(materialAppFinder.first);
 
@@ -125,7 +136,7 @@ class TestHelpers {
         element,
         listen: false,
       );
-      
+
       await accessibilityProvider.init();
       await highContrastProvider.init();
       await animationProvider.init();
@@ -142,12 +153,9 @@ class TestHelpers {
     Widget child,
   ) async {
     SharedPreferences.setMockInitialValues({});
-    
+
     await tester.pumpWidget(
-      MaterialApp(
-        title: 'MindCompanion Test',
-        home: child,
-      ),
+      MaterialApp(title: 'MindCompanion Test', home: child),
     );
   }
 
@@ -158,12 +166,12 @@ class TestHelpers {
     AppThemeMode? themeMode,
   }) async {
     SharedPreferences.setMockInitialValues({});
-    
+
     final themeProvider = EnhancedThemeProvider();
     if (themeMode != null) {
       await themeProvider.setThemeMode(themeMode);
     }
-    
+
     await tester.pumpWidget(
       ChangeNotifierProvider<EnhancedThemeProvider>(
         create: (_) => themeProvider,
@@ -189,9 +197,9 @@ class TestHelpers {
     bool initialize = true,
   }) async {
     SharedPreferences.setMockInitialValues({});
-    
+
     final accessibilityProvider = SimpleAccessibilityProvider();
-    
+
     await tester.pumpWidget(
       ChangeNotifierProvider<SimpleAccessibilityProvider>(
         create: (_) => accessibilityProvider,
@@ -205,7 +213,7 @@ class TestHelpers {
               builder: (context, child) {
                 return MediaQuery(
                   data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: accessibility.textScale,
+                    textScaler: TextScaler.linear(accessibility.textScale),
                   ),
                   child: child!,
                 );
@@ -258,7 +266,13 @@ class TestHelpers {
                         children: [
                           Icon(Icons.palette_rounded),
                           SizedBox(width: 12),
-                          Text('Theme', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                          Text(
+                            'Theme',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(height: 16),
@@ -301,32 +315,19 @@ class TestHelpers {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.psychology_rounded,
-              size: 100,
-              color: Colors.blue,
-            ),
+            Icon(Icons.psychology_rounded, size: 100, color: Colors.blue),
             SizedBox(height: 24),
             Text(
               'Welcome to MindCompanion',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
             Text(
               'Your AI-powered mental wellness companion',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
             SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Get Started'),
-            ),
+            ElevatedButton(onPressed: () {}, child: Text('Get Started')),
           ],
         ),
       ),

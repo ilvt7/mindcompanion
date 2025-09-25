@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:animations/animations.dart';
 import 'package:provider/provider.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/home_screen.dart';
@@ -27,14 +24,14 @@ import 'widgets/provider_initializer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize notification service
   try {
     await NotificationService().init();
   } catch (e) {
     print('Failed to initialize notifications: $e');
   }
-  
+
   runApp(const MindCompanionApp());
 }
 
@@ -55,56 +52,63 @@ class MindCompanionApp extends StatelessWidget {
           builder: (context, accessibilityProvider, themeProvider, child) {
             return DiaryRepositoryScope(
               child: MaterialApp(
-              title: 'MindCompanion',
-              initialRoute: '/welcome',
-              theme: themeProvider.lightTheme,
-              darkTheme: themeProvider.darkTheme,
-              themeMode: themeProvider.materialThemeMode,
-              shortcuts: NavigationShortcuts.shortcuts,
-              actions: NavigationShortcuts.actions,
-              builder: (context, child) {
-                return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(
-                    textScaleFactor: accessibilityProvider.textScale,
-                  ),
-                  child: child!,
-                );
-              },
-              // Global page transitions theme - all platforms use FadeThroughTransition
-              // pageTransitionsTheme: const PageTransitionsTheme(
-              //   builders: {
-              //     TargetPlatform.android: FadeThroughPageTransitionsBuilder(),
-              //     TargetPlatform.iOS: FadeThroughPageTransitionsBuilder(),
-              //     TargetPlatform.windows: FadeThroughPageTransitionsBuilder(),
-              //     TargetPlatform.macOS: FadeThroughPageTransitionsBuilder(),
-              //     TargetPlatform.linux: FadeThroughPageTransitionsBuilder(),
-              //   },
-              // ),
-              // Implement FadeThroughTransition for all routes using NavigationService
-              onGenerateRoute: (RouteSettings settings) {
-                return NavigationService.createFadeThroughRoute(
-                  _buildPageForRoute(settings.name!),
-                  transitionDuration: const Duration(milliseconds: 300),
-                  reverseTransitionDuration: const Duration(milliseconds: 300),
-                );
-              },
-              // Keep routes for compatibility - they will use the global FadeThroughTransition
-              routes: {
-                '/welcome': (context) => const WelcomeScreen(),
-                '/home': (context) => const HomeScreen(),
-                '/ai-diary': (context) => const AIDiaryScreen(),
-                '/personal-diary': (context) => const PersonalDiaryScreen(),
-                '/crisis': (context) => const CrisisModeScreen(),
-                '/history': (context) => const EmotionalHistoryScreen(),
-                '/emotional-history': (context) => const EmotionalHistoryScreen(),
-                '/meditations': (context) => const MeditationScreen(),
-                '/privacy-policy': (context) => const PrivacyPolicyScreen(),
-                '/settings': (context) => const SettingsScreen(),
-                '/transition-demo': (context) => const TransitionDemo(),
-                '/crisis-transition-demo': (context) => const CrisisTransitionExample(),
-                '/settings-transition-demo': (context) => const SettingsTransitionExample(),
-              },
-            ),
+                title: 'MindCompanion',
+                initialRoute: '/welcome',
+                theme: themeProvider.lightTheme,
+                darkTheme: themeProvider.darkTheme,
+                themeMode: themeProvider.materialThemeMode,
+                shortcuts: NavigationShortcuts.shortcuts,
+                actions: NavigationShortcuts.actions,
+                builder: (context, child) {
+                  return MediaQuery(
+                    data: MediaQuery.of(context).copyWith(
+                      textScaler: TextScaler.linear(
+                        accessibilityProvider.textScale,
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
+                // Global page transitions theme - all platforms use FadeThroughTransition
+                // pageTransitionsTheme: const PageTransitionsTheme(
+                //   builders: {
+                //     TargetPlatform.android: FadeThroughPageTransitionsBuilder(),
+                //     TargetPlatform.iOS: FadeThroughPageTransitionsBuilder(),
+                //     TargetPlatform.windows: FadeThroughPageTransitionsBuilder(),
+                //     TargetPlatform.macOS: FadeThroughPageTransitionsBuilder(),
+                //     TargetPlatform.linux: FadeThroughPageTransitionsBuilder(),
+                //   },
+                // ),
+                // Implement FadeThroughTransition for all routes using NavigationService
+                onGenerateRoute: (RouteSettings settings) {
+                  return NavigationService.createFadeThroughRoute(
+                    _buildPageForRoute(settings.name!),
+                    transitionDuration: const Duration(milliseconds: 300),
+                    reverseTransitionDuration: const Duration(
+                      milliseconds: 300,
+                    ),
+                  );
+                },
+                // Keep routes for compatibility - they will use the global FadeThroughTransition
+                routes: {
+                  '/welcome': (context) => const WelcomeScreen(),
+                  '/home': (context) => const HomeScreen(),
+                  '/ai-diary': (context) => const AIDiaryScreen(),
+                  '/personal-diary': (context) => const PersonalDiaryScreen(),
+                  '/crisis': (context) => const CrisisModeScreen(),
+                  '/history': (context) => const EmotionalHistoryScreen(),
+                  '/emotional-history': (context) =>
+                      const EmotionalHistoryScreen(),
+                  '/meditations': (context) => const MeditationScreen(),
+                  '/privacy-policy': (context) => const PrivacyPolicyScreen(),
+                  '/settings': (context) => const SettingsScreen(),
+                  '/transition-demo': (context) => const TransitionDemo(),
+                  '/crisis-transition-demo': (context) =>
+                      const CrisisTransitionExample(),
+                  '/settings-transition-demo': (context) =>
+                      const SettingsTransitionExample(),
+                },
+              ),
             );
           },
         ),

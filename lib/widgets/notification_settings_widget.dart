@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../core/notifications/notification_service.dart';
 import '../core/notifications/notification_preferences.dart';
 
@@ -8,10 +7,12 @@ class NotificationSettingsWidget extends StatefulWidget {
   const NotificationSettingsWidget({super.key});
 
   @override
-  State<NotificationSettingsWidget> createState() => _NotificationSettingsWidgetState();
+  State<NotificationSettingsWidget> createState() =>
+      _NotificationSettingsWidgetState();
 }
 
-class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget> {
+class _NotificationSettingsWidgetState
+    extends State<NotificationSettingsWidget> {
   bool _isLoading = true;
   bool _dailyReminderEnabled = false;
   TimeOfDay _reminderTime = const TimeOfDay(hour: 20, minute: 0);
@@ -45,15 +46,15 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
   Future<void> _toggleDailyReminder(bool enabled) async {
     try {
       await NotificationPreferences.setDailyReminderEnabled(enabled);
-      
+
       if (enabled) {
         // Schedule the reminder
-                  await _notificationService.scheduleDailyReminder(
-            1, // ID for daily reminder
-            'MindCompanion Reminder',
-            '¿Quieres registrar tus emociones hoy?',
-            _reminderTime,
-          );
+        await _notificationService.scheduleDailyReminder(
+          1, // ID for daily reminder
+          'MindCompanion Reminder',
+          '¿Quieres registrar tus emociones hoy?',
+          _reminderTime,
+        );
         _showSuccessSnackBar('Daily reminder enabled');
       } else {
         // Cancel the reminder
@@ -77,9 +78,9 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
         builder: (context, child) {
           return Theme(
             data: Theme.of(context).copyWith(
-              colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: const Color(0xFF87CEEB),
-              ),
+              colorScheme: Theme.of(
+                context,
+              ).colorScheme.copyWith(primary: const Color(0xFF87CEEB)),
             ),
             child: child!,
           );
@@ -87,8 +88,11 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
       );
 
       if (picked != null && picked != _reminderTime) {
-        await NotificationPreferences.setDailyReminderTime(picked.hour, picked.minute);
-        
+        await NotificationPreferences.setDailyReminderTime(
+          picked.hour,
+          picked.minute,
+        );
+
         if (_dailyReminderEnabled) {
           // Reschedule with new time
           await _notificationService.cancel(1);
@@ -143,9 +147,7 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return const Center(child: CircularProgressIndicator());
     }
 
     return Column(
@@ -205,12 +207,12 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
                     ),
                   ],
                 ),
-                
+
                 if (_dailyReminderEnabled) ...[
                   const SizedBox(height: 16),
                   const Divider(),
                   const SizedBox(height: 16),
-                  
+
                   // Time Selection
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -278,18 +280,12 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
               children: [
                 const Text(
                   'Test Notifications',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Send a test notification to verify everything is working',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
@@ -340,7 +336,10 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
                       const SizedBox(height: 12),
                       _buildStatusRow('Initialized', status['initialized']),
                       _buildStatusRow('Enabled', status['enabled']),
-                      _buildStatusRow('Pending Notifications', status['pendingCount']),
+                      _buildStatusRow(
+                        'Pending Notifications',
+                        status['pendingCount'],
+                      ),
                     ],
                   ),
                 ),
@@ -359,10 +358,7 @@ class _NotificationSettingsWidgetState extends State<NotificationSettingsWidget>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: const TextStyle(fontSize: 14),
-          ),
+          Text(label, style: const TextStyle(fontSize: 14)),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(

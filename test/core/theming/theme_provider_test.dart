@@ -42,7 +42,7 @@ void main() {
       // Test light mode
       themeProvider.setThemeMode(AppThemeMode.light);
       expect(themeProvider.currentTheme.brightness, Brightness.light);
-      
+
       // Test dark mode
       themeProvider.setThemeMode(AppThemeMode.dark);
       expect(themeProvider.currentTheme.brightness, Brightness.dark);
@@ -51,40 +51,57 @@ void main() {
     test('should return correct material theme mode', () {
       themeProvider.setThemeMode(AppThemeMode.light);
       expect(themeProvider.materialThemeMode, ThemeMode.light);
-      
+
       themeProvider.setThemeMode(AppThemeMode.dark);
       expect(themeProvider.materialThemeMode, ThemeMode.dark);
-      
+
       themeProvider.setThemeMode(AppThemeMode.system);
       expect(themeProvider.materialThemeMode, ThemeMode.system);
     });
 
     test('should return correct theme mode display names', () {
-      expect(themeProvider.getThemeModeDisplayName(AppThemeMode.light), 'Light');
+      expect(
+        themeProvider.getThemeModeDisplayName(AppThemeMode.light),
+        'Light',
+      );
       expect(themeProvider.getThemeModeDisplayName(AppThemeMode.dark), 'Dark');
-      expect(themeProvider.getThemeModeDisplayName(AppThemeMode.system), 'System');
+      expect(
+        themeProvider.getThemeModeDisplayName(AppThemeMode.system),
+        'System',
+      );
     });
 
     test('should return correct theme mode descriptions', () {
-      expect(themeProvider.getThemeModeDescription(AppThemeMode.light), 'Always use light theme');
-      expect(themeProvider.getThemeModeDescription(AppThemeMode.dark), 'Always use dark theme');
-      expect(themeProvider.getThemeModeDescription(AppThemeMode.system), 'Follow system theme');
+      expect(
+        themeProvider.getThemeModeDescription(AppThemeMode.light),
+        'Always use light theme',
+      );
+      expect(
+        themeProvider.getThemeModeDescription(AppThemeMode.dark),
+        'Always use dark theme',
+      );
+      expect(
+        themeProvider.getThemeModeDescription(AppThemeMode.system),
+        'Follow system theme',
+      );
     });
 
     test('should detect dark mode correctly', () {
       themeProvider.setThemeMode(AppThemeMode.light);
       expect(themeProvider.isDarkMode, false);
-      
+
       themeProvider.setThemeMode(AppThemeMode.dark);
       expect(themeProvider.isDarkMode, true);
-      
+
       themeProvider.setThemeMode(AppThemeMode.system);
       expect(themeProvider.isDarkMode, false); // Default to light for system
     });
 
     test('should load theme from preferences', () async {
-      when(mockPrefs.getInt('app_theme_mode')).thenReturn(AppThemeMode.dark.index);
-      
+      when(
+        mockPrefs.getInt('app_theme_mode'),
+      ).thenReturn(AppThemeMode.dark.index);
+
       // This would need to be tested with actual SharedPreferences
       // For now, we test the setter
       await themeProvider.setThemeMode(AppThemeMode.dark);

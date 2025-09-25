@@ -63,15 +63,18 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test('should load saved high contrast state from SharedPreferences', () async {
-      // Set a value in SharedPreferences
-      SharedPreferences.setMockInitialValues({
-        'accessibility_high_contrast': true,
-      });
+    test(
+      'should load saved high contrast state from SharedPreferences',
+      () async {
+        // Set a value in SharedPreferences
+        SharedPreferences.setMockInitialValues({
+          'accessibility_high_contrast': true,
+        });
 
-      await provider.init();
-      expect(provider.isHighContrast, true);
-    });
+        await provider.init();
+        expect(provider.isHighContrast, true);
+      },
+    );
 
     test('should use default value when no saved preference exists', () async {
       await provider.init();
@@ -98,11 +101,11 @@ void main() {
 
     test('should persist high contrast changes', () async {
       await provider.enable();
-      
+
       // Create a new provider instance to simulate app restart
       final newProvider = HighContrastProvider();
       await newProvider.init();
-      
+
       expect(newProvider.isHighContrast, true);
     });
 
@@ -117,7 +120,7 @@ void main() {
       await provider.setHighContrast(true);
       final state1 = provider.isHighContrast;
       final state2 = provider.isHighContrast;
-      
+
       expect(state1, state2);
       expect(state1, true);
     });
@@ -125,7 +128,7 @@ void main() {
     test('should return correct status information', () async {
       await provider.enable();
       final status = provider.getStatus();
-      
+
       expect(status['isHighContrast'], true);
     });
 
@@ -135,7 +138,7 @@ void main() {
       await provider.toggle(); // false
       await provider.toggle(); // true
       await provider.toggle(); // false
-      
+
       expect(provider.isHighContrast, false);
     });
 
@@ -146,7 +149,7 @@ void main() {
         provider.setHighContrast(false),
         provider.setHighContrast(true),
       ]);
-      
+
       // Should end up in a consistent state
       expect(provider.isHighContrast, true);
     });

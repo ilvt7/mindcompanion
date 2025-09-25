@@ -17,7 +17,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final buttonColor = color ?? const Color(0xFF87CEEB);
-    
+
     if (isOutlined) {
       return SizedBox(
         width: double.infinity,
@@ -33,10 +33,7 @@ class PrimaryButton extends StatelessWidget {
           ),
           child: Text(
             text,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
       );
@@ -57,10 +54,7 @@ class PrimaryButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
         ),
       ),
     );

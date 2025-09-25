@@ -4,20 +4,18 @@ import 'package:mindcompanion/screens/meditation_screen.dart';
 
 void main() {
   group('Meditation Screen Golden Tests', () {
-    testWidgets('Meditation screen matches golden file', (WidgetTester tester) async {
+    testWidgets('Meditation screen matches golden file', (
+      WidgetTester tester,
+    ) async {
       // Render MeditationScreen at a fixed size (400x800)
       await tester.binding.setSurfaceSize(const Size(400, 800));
-      
+
       // Build the MeditationScreen widget
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: MeditationScreen(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: MeditationScreen()));
 
       // Wait for initial build and skip animations for golden tests
       await tester.pump();
-      
+
       // Wait a bit more for any immediate animations
       await tester.pump(const Duration(milliseconds: 100));
 

@@ -36,16 +36,16 @@ class SimpleAccessibilitySettingsWidget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                
+
                 // Text Scale Section
                 Text(
                   'Tamaño del Texto',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 8),
-                
+
                 // Slider
                 Slider(
                   value: accessibilityProvider.textScale,
@@ -56,16 +56,19 @@ class SimpleAccessibilitySettingsWidget extends StatelessWidget {
                     accessibilityProvider.setTextScale(value);
                   },
                   activeColor: Theme.of(context).colorScheme.primary,
-                  inactiveColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                  inactiveColor: Theme.of(
+                    context,
+                  ).colorScheme.primary.withOpacity(0.3),
                 ).asSemanticSlider(
                   label: 'Tamaño del Texto',
                   value: accessibilityProvider.textScale,
                   min: 0.8,
                   max: 1.5,
                   unit: 'x',
-                  hint: 'Ajusta el tamaño del texto para mejorar la legibilidad',
+                  hint:
+                      'Ajusta el tamaño del texto para mejorar la legibilidad',
                 ),
-                
+
                 // Current value display
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,7 +76,9 @@ class SimpleAccessibilitySettingsWidget extends StatelessWidget {
                     Text(
                       '0.8x',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withOpacity(0.6),
                       ),
                     ),
                     Text(
@@ -86,23 +91,29 @@ class SimpleAccessibilitySettingsWidget extends StatelessWidget {
                     Text(
                       '1.5x',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withOpacity(0.6),
                       ),
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Sample text
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHighest.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.outline.withOpacity(0.2),
                     ),
                   ),
                   child: Column(
@@ -110,9 +121,12 @@ class SimpleAccessibilitySettingsWidget extends StatelessWidget {
                     children: [
                       Text(
                         'Texto de ejemplo',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                        ),
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withOpacity(0.7),
+                            ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -122,26 +136,28 @@ class SimpleAccessibilitySettingsWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // High Contrast Section
                 const Divider(),
                 const SizedBox(height: 16),
-                
+
                 Text(
                   'Alto Contraste',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 8),
-                
+
                 Consumer<HighContrastProvider>(
                   builder: (context, highContrastProvider, child) {
                     return SwitchListTile(
                       title: const Text('Modo Alto Contraste'),
-                      subtitle: const Text('Mejora la legibilidad con colores más marcados'),
+                      subtitle: const Text(
+                        'Mejora la legibilidad con colores más marcados',
+                      ),
                       value: highContrastProvider.isHighContrast,
                       onChanged: (value) {
                         highContrastProvider.toggle();
@@ -151,27 +167,30 @@ class SimpleAccessibilitySettingsWidget extends StatelessWidget {
                     ).asSemanticSwitch(
                       label: 'Modo Alto Contraste',
                       value: highContrastProvider.isHighContrast,
-                      hint: 'Activa o desactiva el modo de alto contraste para mejorar la legibilidad',
+                      hint:
+                          'Activa o desactiva el modo de alto contraste para mejorar la legibilidad',
                     );
                   },
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Reduced Motion Section
                 Text(
                   'Animaciones',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 8),
-                
+
                 Consumer<AnimationProvider>(
                   builder: (context, animationProvider, child) {
                     return SwitchListTile(
                       title: const Text('Reducir Animaciones'),
-                      subtitle: const Text('Reduce los efectos visuales para usuarios sensibles'),
+                      subtitle: const Text(
+                        'Reduce los efectos visuales para usuarios sensibles',
+                      ),
                       value: animationProvider.reduceMotion,
                       onChanged: (value) {
                         animationProvider.toggle();
@@ -181,13 +200,14 @@ class SimpleAccessibilitySettingsWidget extends StatelessWidget {
                     ).asSemanticSwitch(
                       label: 'Reducir Animaciones',
                       value: animationProvider.reduceMotion,
-                      hint: 'Activa o desactiva la reducción de animaciones para usuarios sensibles a movimientos',
+                      hint:
+                          'Activa o desactiva la reducción de animaciones para usuarios sensibles a movimientos',
                     );
                   },
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // Reset button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

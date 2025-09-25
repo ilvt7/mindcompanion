@@ -232,7 +232,6 @@ class TtsService {
     }
   }
 
-
   /// Load preferences from SharedPreferences
   Future<void> _loadPreferences() async {
     try {

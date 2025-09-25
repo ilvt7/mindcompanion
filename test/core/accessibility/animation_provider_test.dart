@@ -66,13 +66,17 @@ void main() {
 
     test('should return Duration.zero when reduced motion is enabled', () {
       provider.setReduceMotion(true);
-      final duration = provider.getAnimationDuration(normalDuration: const Duration(milliseconds: 300));
+      final duration = provider.getAnimationDuration(
+        normalDuration: const Duration(milliseconds: 300),
+      );
       expect(duration, Duration.zero);
     });
 
     test('should return normal duration when reduced motion is disabled', () {
       provider.setReduceMotion(false);
-      final duration = provider.getAnimationDuration(normalDuration: const Duration(milliseconds: 500));
+      final duration = provider.getAnimationDuration(
+        normalDuration: const Duration(milliseconds: 500),
+      );
       expect(duration, const Duration(milliseconds: 500));
     });
 
@@ -100,23 +104,36 @@ void main() {
       expect(curve, Curves.easeInOut);
     });
 
-    test('should return very short duration for controller when reduced motion is enabled', () {
-      provider.setReduceMotion(true);
-      final duration = provider.getControllerDuration(normalDuration: const Duration(milliseconds: 300));
-      expect(duration, const Duration(milliseconds: 1));
-    });
+    test(
+      'should return very short duration for controller when reduced motion is enabled',
+      () {
+        provider.setReduceMotion(true);
+        final duration = provider.getControllerDuration(
+          normalDuration: const Duration(milliseconds: 300),
+        );
+        expect(duration, const Duration(milliseconds: 1));
+      },
+    );
 
-    test('should return normal duration for controller when reduced motion is disabled', () {
-      provider.setReduceMotion(false);
-      final duration = provider.getControllerDuration(normalDuration: const Duration(milliseconds: 500));
-      expect(duration, const Duration(milliseconds: 500));
-    });
+    test(
+      'should return normal duration for controller when reduced motion is disabled',
+      () {
+        provider.setReduceMotion(false);
+        final duration = provider.getControllerDuration(
+          normalDuration: const Duration(milliseconds: 500),
+        );
+        expect(duration, const Duration(milliseconds: 500));
+      },
+    );
 
-    test('should return default duration for controller when no normal duration provided', () {
-      provider.setReduceMotion(false);
-      final duration = provider.getControllerDuration();
-      expect(duration, const Duration(milliseconds: 300));
-    });
+    test(
+      'should return default duration for controller when no normal duration provided',
+      () {
+        provider.setReduceMotion(false);
+        final duration = provider.getControllerDuration();
+        expect(duration, const Duration(milliseconds: 300));
+      },
+    );
 
     test('should return true for shouldReduceAnimations when enabled', () {
       provider.setReduceMotion(true);
@@ -128,33 +145,45 @@ void main() {
       expect(provider.shouldReduceAnimations(), false);
     });
 
-    test('should return 1.0 for getAnimationValue when reduced motion is enabled', () {
-      provider.setReduceMotion(true);
-      final value = provider.getAnimationValue(normalValue: 0.5);
-      expect(value, 1.0);
-    });
+    test(
+      'should return 1.0 for getAnimationValue when reduced motion is enabled',
+      () {
+        provider.setReduceMotion(true);
+        final value = provider.getAnimationValue(normalValue: 0.5);
+        expect(value, 1.0);
+      },
+    );
 
-    test('should return normal value for getAnimationValue when reduced motion is disabled', () {
-      provider.setReduceMotion(false);
-      final value = provider.getAnimationValue(normalValue: 0.7);
-      expect(value, 0.7);
-    });
+    test(
+      'should return normal value for getAnimationValue when reduced motion is disabled',
+      () {
+        provider.setReduceMotion(false);
+        final value = provider.getAnimationValue(normalValue: 0.7);
+        expect(value, 0.7);
+      },
+    );
 
-    test('should return default value for getAnimationValue when no normal value provided', () {
-      provider.setReduceMotion(false);
-      final value = provider.getAnimationValue();
-      expect(value, 1.0);
-    });
+    test(
+      'should return default value for getAnimationValue when no normal value provided',
+      () {
+        provider.setReduceMotion(false);
+        final value = provider.getAnimationValue();
+        expect(value, 1.0);
+      },
+    );
 
-    test('should load saved reduced motion state from SharedPreferences', () async {
-      // Set a value in SharedPreferences
-      SharedPreferences.setMockInitialValues({
-        'accessibility_reduce_motion': true,
-      });
+    test(
+      'should load saved reduced motion state from SharedPreferences',
+      () async {
+        // Set a value in SharedPreferences
+        SharedPreferences.setMockInitialValues({
+          'accessibility_reduce_motion': true,
+        });
 
-      await provider.init();
-      expect(provider.reduceMotion, true);
-    });
+        await provider.init();
+        expect(provider.reduceMotion, true);
+      },
+    );
 
     test('should use default value when no saved preference exists', () async {
       await provider.init();
@@ -181,11 +210,11 @@ void main() {
 
     test('should persist reduced motion changes', () async {
       await provider.enable();
-      
+
       // Create a new provider instance to simulate app restart
       final newProvider = AnimationProvider();
       await newProvider.init();
-      
+
       expect(newProvider.reduceMotion, true);
     });
 
@@ -200,7 +229,7 @@ void main() {
       await provider.setReduceMotion(true);
       final state1 = provider.reduceMotion;
       final state2 = provider.reduceMotion;
-      
+
       expect(state1, state2);
       expect(state1, true);
     });
@@ -208,7 +237,7 @@ void main() {
     test('should return correct status information', () async {
       await provider.enable();
       final status = provider.getStatus();
-      
+
       expect(status['reduceMotion'], true);
     });
 
@@ -218,7 +247,7 @@ void main() {
       await provider.toggle(); // false
       await provider.toggle(); // true
       await provider.toggle(); // false
-      
+
       expect(provider.reduceMotion, false);
     });
 
@@ -229,7 +258,7 @@ void main() {
         provider.setReduceMotion(false),
         provider.setReduceMotion(true),
       ]);
-      
+
       // Should end up in a consistent state
       expect(provider.reduceMotion, true);
     });

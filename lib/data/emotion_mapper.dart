@@ -17,11 +17,11 @@ class EmotionMapper {
   /// Map emotion string (could be ID or name) to Emotion object
   static Emotion? fromString(String? emotionString) {
     if (emotionString == null || emotionString.isEmpty) return null;
-    
+
     // Try by ID first
     final byId = Emotions.findById(emotionString);
     if (byId != null) return byId;
-    
+
     // Try by name
     return Emotions.findByName(emotionString);
   }
@@ -84,14 +84,14 @@ class EmotionMapper {
   /// Get emotion statistics
   static Map<String, int> getEmotionStats(List<Emotion?> emotions) {
     final stats = <String, int>{};
-    
+
     for (final emotion in emotions) {
       if (emotion != null) {
         final category = emotion.valenceCategory;
         stats[category] = (stats[category] ?? 0) + 1;
       }
     }
-    
+
     return stats;
   }
 
@@ -99,18 +99,19 @@ class EmotionMapper {
   static String? getMostCommonCategory(List<Emotion?> emotions) {
     final stats = getEmotionStats(emotions);
     if (stats.isEmpty) return null;
-    
-    return stats.entries
-        .reduce((a, b) => a.value > b.value ? a : b)
-        .key;
+
+    return stats.entries.reduce((a, b) => a.value > b.value ? a : b).key;
   }
 
   /// Get average valence
   static double getAverageValence(List<Emotion?> emotions) {
     final validEmotions = emotions.where((e) => e != null).cast<Emotion>();
     if (validEmotions.isEmpty) return 0.0;
-    
-    final sum = validEmotions.fold<int>(0, (sum, emotion) => sum + emotion.valence);
+
+    final sum = validEmotions.fold<int>(
+      0,
+      (sum, emotion) => sum + emotion.valence,
+    );
     return sum / validEmotions.length;
   }
 }

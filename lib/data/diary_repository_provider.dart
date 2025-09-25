@@ -15,7 +15,8 @@ class DiaryRepositoryProvider extends InheritedWidget {
 
   /// Get repository from context
   static DiaryRepository of(BuildContext context) {
-    final provider = context.dependOnInheritedWidgetOfExactType<DiaryRepositoryProvider>();
+    final provider = context
+        .dependOnInheritedWidgetOfExactType<DiaryRepositoryProvider>();
     if (provider == null) {
       throw StateError('DiaryRepositoryProvider not found in widget tree');
     }
@@ -37,7 +38,7 @@ class DiaryRepositoryFactory {
     if (_instance == null) {
       final prefs = await SharedPreferences.getInstance();
       _instance = SharedPrefsDiaryRepository(prefs);
-      
+
       // Perform migration if needed
       await _instance!.migrateIfNeeded();
     }
@@ -61,10 +62,7 @@ class DiaryRepositoryFactory {
 class DiaryRepositoryScope extends StatefulWidget {
   final Widget child;
 
-  const DiaryRepositoryScope({
-    super.key,
-    required this.child,
-  });
+  const DiaryRepositoryScope({super.key, required this.child});
 
   @override
   State<DiaryRepositoryScope> createState() => _DiaryRepositoryScopeState();
@@ -103,11 +101,7 @@ class _DiaryRepositoryScopeState extends State<DiaryRepositoryScope> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
+        home: Scaffold(body: Center(child: CircularProgressIndicator())),
       );
     }
 

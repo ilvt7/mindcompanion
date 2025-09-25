@@ -53,9 +53,7 @@ void main() {
 
     test('should load saved text scale from SharedPreferences', () async {
       // Set a value in SharedPreferences
-      SharedPreferences.setMockInitialValues({
-        'accessibility_text_scale': 1.3,
-      });
+      SharedPreferences.setMockInitialValues({'accessibility_text_scale': 1.3});
 
       await provider.init();
       expect(provider.textScale, 1.3);
@@ -111,11 +109,11 @@ void main() {
 
     test('should persist text scale changes', () async {
       await provider.setTextScale(1.2);
-      
+
       // Create a new provider instance to simulate app restart
       final newProvider = SimpleAccessibilityProvider();
       await newProvider.init();
-      
+
       expect(newProvider.textScale, 1.2);
     });
 
@@ -130,7 +128,7 @@ void main() {
       await provider.setTextScale(1.3);
       final scale1 = provider.textScale;
       final scale2 = provider.textScale;
-      
+
       expect(scale1, scale2);
       expect(scale1, 1.3);
     });

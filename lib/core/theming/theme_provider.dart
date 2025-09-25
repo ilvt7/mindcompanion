@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Theme modes available in the app
-enum AppThemeMode {
-  light,
-  dark,
-  system,
-}
+enum AppThemeMode { light, dark, system }
 
 /// Provider for managing app themes
 class ThemeProvider extends ChangeNotifier {
   static const String _themeKey = 'app_theme_mode';
-  
+
   AppThemeMode _themeMode = AppThemeMode.system;
   ThemeData? _lightTheme;
   ThemeData? _darkTheme;
@@ -28,7 +24,8 @@ class ThemeProvider extends ChangeNotifier {
       case AppThemeMode.dark:
         return _darkTheme ?? _createDarkTheme();
       case AppThemeMode.system:
-        return _lightTheme ?? _createLightTheme(); // Will be overridden by system
+        return _lightTheme ??
+            _createLightTheme(); // Will be overridden by system
     }
   }
 
@@ -115,9 +112,7 @@ class ThemeProvider extends ChangeNotifier {
         ),
       ),
       cardTheme: CardThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 2,
         color: Colors.white,
       ),
@@ -169,9 +164,7 @@ class ThemeProvider extends ChangeNotifier {
         ),
       ),
       cardTheme: CardThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 4,
         color: const Color(0xFF1A1A2E),
       ),

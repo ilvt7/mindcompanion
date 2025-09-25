@@ -11,7 +11,8 @@ class NotificationService {
   factory NotificationService() => _instance;
   NotificationService._internal();
 
-  final FlutterLocalNotificationsPlugin _notifications = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _notifications =
+      FlutterLocalNotificationsPlugin();
   bool _isInitialized = false;
 
   /// Initialize the notification service
@@ -23,14 +24,16 @@ class NotificationService {
       tz.initializeTimeZones();
 
       // Android initialization settings
-      const AndroidInitializationSettings androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+      const AndroidInitializationSettings androidSettings =
+          AndroidInitializationSettings('@mipmap/ic_launcher');
 
       // iOS initialization settings
-      const DarwinInitializationSettings iosSettings = DarwinInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: true,
-      );
+      const DarwinInitializationSettings iosSettings =
+          DarwinInitializationSettings(
+            requestAlertPermission: true,
+            requestBadgePermission: true,
+            requestSoundPermission: true,
+          );
 
       // Combined initialization settings
       const InitializationSettings initSettings = InitializationSettings(
@@ -63,35 +66,40 @@ class NotificationService {
   Future<void> _requestPermissions() async {
     if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          _notifications.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+          _notifications
+              .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin
+              >();
 
       await androidImplementation?.requestNotificationsPermission();
       await androidImplementation?.requestExactAlarmsPermission();
     } else if (Platform.isIOS) {
-      await _notifications.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-          );
+      await _notifications
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
     }
   }
 
   /// Show an immediate notification
   Future<void> showImmediate(String title, String body) async {
     if (!_isInitialized) {
-      throw StateError('NotificationService not initialized. Call init() first.');
+      throw StateError(
+        'NotificationService not initialized. Call init() first.',
+      );
     }
 
     try {
-      const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-        'mindcompanion_immediate',
-        'MindCompanion Immediate',
-        channelDescription: 'Immediate notifications from MindCompanion',
-        importance: Importance.high,
-        priority: Priority.high,
-        showWhen: true,
-      );
+      const AndroidNotificationDetails androidDetails =
+          AndroidNotificationDetails(
+            'mindcompanion_immediate',
+            'MindCompanion Immediate',
+            channelDescription: 'Immediate notifications from MindCompanion',
+            importance: Importance.high,
+            priority: Priority.high,
+            showWhen: true,
+          );
 
       const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
         presentAlert: true,
@@ -123,22 +131,30 @@ class NotificationService {
   }
 
   /// Schedule a daily reminder notification
-  Future<void> scheduleDailyReminder(int id, String title, String body, TimeOfDay time) async {
+  Future<void> scheduleDailyReminder(
+    int id,
+    String title,
+    String body,
+    TimeOfDay time,
+  ) async {
     if (!_isInitialized) {
-      throw StateError('NotificationService not initialized. Call init() first.');
+      throw StateError(
+        'NotificationService not initialized. Call init() first.',
+      );
     }
 
     try {
-      const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-        'mindcompanion_reminders',
-        'MindCompanion Reminders',
-        channelDescription: 'Daily reminders from MindCompanion',
-        importance: Importance.high,
-        priority: Priority.high,
-        showWhen: true,
-        ongoing: false,
-        autoCancel: true,
-      );
+      const AndroidNotificationDetails androidDetails =
+          AndroidNotificationDetails(
+            'mindcompanion_reminders',
+            'MindCompanion Reminders',
+            channelDescription: 'Daily reminders from MindCompanion',
+            importance: Importance.high,
+            priority: Priority.high,
+            showWhen: true,
+            ongoing: false,
+            autoCancel: true,
+          );
 
       const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
         presentAlert: true,
@@ -159,12 +175,15 @@ class NotificationService {
         _nextInstanceOfTime(time),
         notificationDetails,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
       );
 
       if (kDebugMode) {
-        print('Daily reminder scheduled for ${time.hour}:${time.minute.toString().padLeft(2, '0')}');
+        print(
+          'Daily reminder scheduled for ${time.hour}:${time.minute.toString().padLeft(2, '0')}',
+        );
       }
     } catch (e) {
       if (kDebugMode) {
@@ -177,7 +196,9 @@ class NotificationService {
   /// Cancel a specific notification by ID
   Future<void> cancel(int id) async {
     if (!_isInitialized) {
-      throw StateError('NotificationService not initialized. Call init() first.');
+      throw StateError(
+        'NotificationService not initialized. Call init() first.',
+      );
     }
 
     try {
@@ -196,7 +217,9 @@ class NotificationService {
   /// Cancel all notifications
   Future<void> cancelAll() async {
     if (!_isInitialized) {
-      throw StateError('NotificationService not initialized. Call init() first.');
+      throw StateError(
+        'NotificationService not initialized. Call init() first.',
+      );
     }
 
     try {
@@ -215,7 +238,9 @@ class NotificationService {
   /// Get pending notifications
   Future<List<PendingNotificationRequest>> getPendingNotifications() async {
     if (!_isInitialized) {
-      throw StateError('NotificationService not initialized. Call init() first.');
+      throw StateError(
+        'NotificationService not initialized. Call init() first.',
+      );
     }
 
     try {
@@ -237,7 +262,10 @@ class NotificationService {
     try {
       if (Platform.isAndroid) {
         final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-            _notifications.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+            _notifications
+                .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin
+                >();
         return await androidImplementation?.areNotificationsEnabled() ?? false;
       } else if (Platform.isIOS) {
         // iOS doesn't have a direct way to check, assume enabled if initialized
@@ -257,7 +285,7 @@ class NotificationService {
     if (kDebugMode) {
       print('Notification tapped: ${response.id} - ${response.payload}');
     }
-    
+
     // Handle notification tap based on payload
     // This could navigate to specific screens or perform actions
   }
@@ -265,12 +293,19 @@ class NotificationService {
   /// Calculate the next instance of a given time
   tz.TZDateTime _nextInstanceOfTime(TimeOfDay time) {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, now.day, time.hour, time.minute);
-    
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      time.hour,
+      time.minute,
+    );
+
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
-    
+
     return scheduledDate;
   }
 
@@ -295,16 +330,14 @@ class NotificationService {
 
     final pending = await getPendingNotifications();
     final enabled = await areNotificationsEnabled();
-    
+
     return {
       'initialized': _isInitialized,
       'enabled': enabled,
       'pendingCount': pending.length,
-      'pendingNotifications': pending.map((n) => {
-        'id': n.id,
-        'title': n.title,
-        'body': n.body,
-      }).toList(),
+      'pendingNotifications': pending
+          .map((n) => {'id': n.id, 'title': n.title, 'body': n.body})
+          .toList(),
     };
   }
 }

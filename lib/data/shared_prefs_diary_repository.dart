@@ -14,7 +14,8 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
   static const String _oldUnifiedKey = 'diary_entries';
 
   final SharedPreferences _prefs;
-  final StreamController<List<DiaryEntry>> _entriesController = StreamController<List<DiaryEntry>>.broadcast();
+  final StreamController<List<DiaryEntry>> _entriesController =
+      StreamController<List<DiaryEntry>>.broadcast();
   List<DiaryEntry> _cachedEntries = [];
   Timer? _debounceTimer;
 
@@ -59,20 +60,32 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
   }) async {
     try {
       await _ensureCacheLoaded();
-      
+
       var filteredEntries = List<DiaryEntry>.from(_cachedEntries);
 
       // Apply filters
       if (from != null) {
-        filteredEntries = filteredEntries.where((entry) => entry.date.isAfter(from) || entry.date.isAtSameMomentAs(from)).toList();
+        filteredEntries = filteredEntries
+            .where(
+              (entry) =>
+                  entry.date.isAfter(from) || entry.date.isAtSameMomentAs(from),
+            )
+            .toList();
       }
 
       if (to != null) {
-        filteredEntries = filteredEntries.where((entry) => entry.date.isBefore(to) || entry.date.isAtSameMomentAs(to)).toList();
+        filteredEntries = filteredEntries
+            .where(
+              (entry) =>
+                  entry.date.isBefore(to) || entry.date.isAtSameMomentAs(to),
+            )
+            .toList();
       }
 
       if (source != null) {
-        filteredEntries = filteredEntries.where((entry) => entry.source == source).toList();
+        filteredEntries = filteredEntries
+            .where((entry) => entry.source == source)
+            .toList();
       }
 
       return filteredEntries;
@@ -122,15 +135,27 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
       var filteredEntries = List<DiaryEntry>.from(entries);
 
       if (from != null) {
-        filteredEntries = filteredEntries.where((entry) => entry.date.isAfter(from) || entry.date.isAtSameMomentAs(from)).toList();
+        filteredEntries = filteredEntries
+            .where(
+              (entry) =>
+                  entry.date.isAfter(from) || entry.date.isAtSameMomentAs(from),
+            )
+            .toList();
       }
 
       if (to != null) {
-        filteredEntries = filteredEntries.where((entry) => entry.date.isBefore(to) || entry.date.isAtSameMomentAs(to)).toList();
+        filteredEntries = filteredEntries
+            .where(
+              (entry) =>
+                  entry.date.isBefore(to) || entry.date.isAtSameMomentAs(to),
+            )
+            .toList();
       }
 
       if (source != null) {
-        filteredEntries = filteredEntries.where((entry) => entry.source == source).toList();
+        filteredEntries = filteredEntries
+            .where((entry) => entry.source == source)
+            .toList();
       }
 
       return filteredEntries;
@@ -146,7 +171,10 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
   }
 
   @override
-  Future<List<DiaryEntry>> getEntriesForDateRange(DateTime startDate, DateTime endDate) async {
+  Future<List<DiaryEntry>> getEntriesForDateRange(
+    DateTime startDate,
+    DateTime endDate,
+  ) async {
     return getEntries(from: startDate, to: endDate);
   }
 
@@ -193,7 +221,9 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
       final oldPersonalData = _prefs.getString(_oldPersonalKey);
       final oldUnifiedData = _prefs.getString(_oldUnifiedKey);
 
-      return oldAiData != null || oldPersonalData != null || oldUnifiedData != null;
+      return oldAiData != null ||
+          oldPersonalData != null ||
+          oldUnifiedData != null;
     } catch (e) {
       print('Error checking migration status: $e');
       return false;
@@ -214,7 +244,11 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
       await _migrateOldEntries(_oldAiKey, DiarySource.ai, migratedEntries);
 
       // Migrate old personal entries
-      await _migrateOldEntries(_oldPersonalKey, DiarySource.personal, migratedEntries);
+      await _migrateOldEntries(
+        _oldPersonalKey,
+        DiarySource.personal,
+        migratedEntries,
+      );
 
       // Migrate old unified entries
       await _migrateOldUnifiedEntries(_oldUnifiedKey, migratedEntries);
@@ -224,7 +258,9 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
         _cachedEntries = migratedEntries;
         await _writeToStorage();
         _entriesController.add(List.from(_cachedEntries));
-        print('Migration completed: ${migratedEntries.length} entries migrated');
+        print(
+          'Migration completed: ${migratedEntries.length} entries migrated',
+        );
       }
 
       // Clean up old keys
@@ -244,7 +280,11 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
       if (jsonString != null && jsonString.isNotEmpty) {
         final List<dynamic> jsonList = jsonDecode(jsonString);
         _cachedEntries = jsonList
-            .map((json) => DiaryEntryDto.fromJson(json as Map<String, dynamic>).toDomain())
+            .map(
+              (json) => DiaryEntryDto.fromJson(
+                json as Map<String, dynamic>,
+              ).toDomain(),
+            )
             .toList();
       } else {
         _cachedEntries = [];
@@ -277,7 +317,11 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
   }
 
   /// Migrate old entries from a specific key
-  Future<void> _migrateOldEntries(String key, DiarySource source, List<DiaryEntry> migratedEntries) async {
+  Future<void> _migrateOldEntries(
+    String key,
+    DiarySource source,
+    List<DiaryEntry> migratedEntries,
+  ) async {
     try {
       final jsonString = _prefs.getString(key);
       if (jsonString == null || jsonString.isEmpty) return;
@@ -301,7 +345,10 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
   }
 
   /// Migrate old unified entries
-  Future<void> _migrateOldUnifiedEntries(String key, List<DiaryEntry> migratedEntries) async {
+  Future<void> _migrateOldUnifiedEntries(
+    String key,
+    List<DiaryEntry> migratedEntries,
+  ) async {
     try {
       final jsonString = _prefs.getString(key);
       if (jsonString == null || jsonString.isEmpty) return;
@@ -327,7 +374,10 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
   }
 
   /// Convert old entry format to new DiaryEntry
-  DiaryEntry? _convertOldEntry(Map<String, dynamic> oldEntry, DiarySource source) {
+  DiaryEntry? _convertOldEntry(
+    Map<String, dynamic> oldEntry,
+    DiarySource source,
+  ) {
     try {
       final id = oldEntry['id'] as String? ?? _generateId();
       final text = oldEntry['text'] as String? ?? '';
@@ -336,11 +386,11 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
 
       if (text.isEmpty) return null;
 
-      final date = dateString != null 
+      final date = dateString != null
           ? DateTime.tryParse(dateString) ?? DateTime.now()
           : DateTime.now();
 
-      final emotion = emotionString != null 
+      final emotion = emotionString != null
           ? EmotionMapper.fromString(emotionString)
           : null;
 
@@ -362,7 +412,7 @@ class SharedPrefsDiaryRepository implements DiaryRepository {
     final type = oldEntry['type'] as String?;
     if (type == 'ai') return DiarySource.ai;
     if (type == 'personal') return DiarySource.personal;
-    
+
     // Default to personal for backward compatibility
     return DiarySource.personal;
   }

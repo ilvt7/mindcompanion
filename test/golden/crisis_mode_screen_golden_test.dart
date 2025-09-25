@@ -4,20 +4,18 @@ import 'package:mindcompanion/screens/crisis_mode_screen.dart';
 
 void main() {
   group('Crisis Mode Screen Golden Tests', () {
-    testWidgets('Crisis Mode screen matches golden file', (WidgetTester tester) async {
+    testWidgets('Crisis Mode screen matches golden file', (
+      WidgetTester tester,
+    ) async {
       // Render CrisisModeScreen at a fixed size (400x800)
       await tester.binding.setSurfaceSize(const Size(400, 800));
-      
+
       // Build the CrisisModeScreen widget
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: CrisisModeScreen(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: CrisisModeScreen()));
 
       // Wait for initial build and skip animations for golden tests
       await tester.pump();
-      
+
       // Wait a bit more for any immediate animations
       await tester.pump(const Duration(milliseconds: 100));
 

@@ -25,7 +25,7 @@ class TextScaleProvider extends ChangeNotifier {
   Future<void> setTextScaleFactor(double scale) async {
     // Clamp the scale factor to valid range
     final clampedScale = scale.clamp(_minScale, _maxScale);
-    
+
     if (_textScaleFactor == clampedScale) return;
 
     _textScaleFactor = clampedScale;
@@ -97,7 +97,7 @@ class TextScaleProvider extends ChangeNotifier {
 
   /// Get text scale factor description
   String get textScaleDescription {
-    return '${textScalePercentage}% - ${textScaleDisplayName}';
+    return '$textScalePercentage% - $textScaleDisplayName';
   }
 
   /// Check if text scale is at minimum

@@ -12,66 +12,60 @@ import '../helpers/test_helpers.dart';
 
 void main() {
   group('Smoke Test E2E - Screen Loading', () {
-    testWidgets('should load Welcome Screen without errors', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+    testWidgets('should load Welcome Screen without errors', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Just verify the screen loads without crashing
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('should load Home Screen without errors', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const HomeScreen(),
-      );
+    testWidgets('should load Home Screen without errors', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const HomeScreen());
 
       // Just verify the screen loads without crashing
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('should load AI Diary Screen without errors', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const AIDiaryScreen(),
-      );
+    testWidgets('should load AI Diary Screen without errors', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const AIDiaryScreen());
 
       // Just verify the screen loads without crashing
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('should load Settings Screen without errors', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('should load Settings Screen without errors', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Just verify the screen loads without crashing
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('should load Crisis Mode Screen without errors', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const CrisisModeScreen(),
-      );
+    testWidgets('should load Crisis Mode Screen without errors', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const CrisisModeScreen());
 
       // Just verify the screen loads without crashing
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('should handle theme switching correctly', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('should handle theme switching correctly', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Test theme switching
       final themeProvider = Provider.of<EnhancedThemeProvider>(
@@ -84,7 +78,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify theme change is applied
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp).first);
+      final materialApp = tester.widget<MaterialApp>(
+        find.byType(MaterialApp).first,
+      );
       expect(materialApp.themeMode, ThemeMode.dark);
 
       // Switch back to light theme
@@ -92,15 +88,16 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify theme change is applied
-      final materialAppLight = tester.widget<MaterialApp>(find.byType(MaterialApp).first);
+      final materialAppLight = tester.widget<MaterialApp>(
+        find.byType(MaterialApp).first,
+      );
       expect(materialAppLight.themeMode, ThemeMode.light);
     });
 
-    testWidgets('should handle accessibility settings correctly', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('should handle accessibility settings correctly', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Verify Settings Screen loads
       expect(find.text('Settings'), findsOneWidget);
@@ -125,11 +122,10 @@ void main() {
       expect(accessibilityProvider.textScale, 0.8);
     });
 
-    testWidgets('should handle crisis mode without errors', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const CrisisModeScreen(),
-      );
+    testWidgets('should handle crisis mode without errors', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const CrisisModeScreen());
 
       // This test ensures the crisis mode doesn't crash
       // We just verify the screen loads successfully

@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mindcompanion/core/notifications/notification_service.dart';
@@ -29,7 +28,7 @@ void main() {
         // Note: This test would require mocking the timezone initialization
         // and the actual plugin initialization, which is complex in unit tests
         // In a real scenario, you'd use integration tests for this
-        
+
         // For now, we'll test the singleton pattern and basic structure
         expect(notificationService, isA<NotificationService>());
       });
@@ -46,7 +45,7 @@ void main() {
       test('should show immediate notification when initialized', () async {
         // This would require mocking the plugin and initialization
         // In a real test environment, you'd mock the plugin calls
-        
+
         // For now, we test the method signature and error handling
         try {
           await notificationService.showImmediate('Test', 'Body');
@@ -86,10 +85,7 @@ void main() {
 
     group('Cancellation', () {
       test('should throw error when not initialized', () async {
-        expect(
-          () => notificationService.cancel(1),
-          throwsA(isA<StateError>()),
-        );
+        expect(() => notificationService.cancel(1), throwsA(isA<StateError>()));
       });
 
       test('should cancel notification when initialized', () async {
@@ -119,10 +115,13 @@ void main() {
         }
       });
 
-      test('should return false for notifications enabled when not initialized', () async {
-        final enabled = await notificationService.areNotificationsEnabled();
-        expect(enabled, false);
-      });
+      test(
+        'should return false for notifications enabled when not initialized',
+        () async {
+          final enabled = await notificationService.areNotificationsEnabled();
+          expect(enabled, false);
+        },
+      );
 
       test('should return status info', () async {
         final status = await notificationService.getStatus();

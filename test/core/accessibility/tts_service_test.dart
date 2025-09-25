@@ -1,6 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/services.dart';
-import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,7 +14,7 @@ void main() {
       // Initialize Flutter binding for tests
       TestWidgetsFlutterBinding.ensureInitialized();
     });
-    
+
     // Skip all TTS tests due to plugin dependencies
     test('TTS tests disabled in CI/CD', () {
       // This test is intentionally empty to skip TTS functionality
@@ -58,7 +56,7 @@ void main() {
     test('should clamp speech rate to valid range', () async {
       await ttsService.setSpeechRate(1.5); // Above max
       expect(ttsService.speechRate, 1.0);
-      
+
       await ttsService.setSpeechRate(-0.1); // Below min
       expect(ttsService.speechRate, 0.0);
     });
@@ -71,7 +69,7 @@ void main() {
     test('should clamp volume to valid range', () async {
       await ttsService.setVolume(1.5); // Above max
       expect(ttsService.volume, 1.0);
-      
+
       await ttsService.setVolume(-0.1); // Below min
       expect(ttsService.volume, 0.0);
     });
@@ -89,7 +87,7 @@ void main() {
     test('should clamp pitch to valid range', () async {
       await ttsService.setPitch(2.5); // Above max
       expect(ttsService.pitch, 2.0);
-      
+
       await ttsService.setPitch(0.3); // Below min
       expect(ttsService.pitch, 0.5);
     });
@@ -100,10 +98,10 @@ void main() {
       await ttsService.setSpeechRate(0.8);
       await ttsService.setVolume(0.7);
       await ttsService.setPitch(1.5);
-      
+
       // Reset to defaults
       await ttsService.resetToDefaults();
-      
+
       expect(ttsService.isEnabled, true);
       expect(ttsService.speechRate, 0.5);
       expect(ttsService.volume, 1.0);
@@ -112,7 +110,7 @@ void main() {
 
     test('should return status map', () {
       final status = ttsService.getStatus();
-      
+
       expect(status, isA<Map<String, dynamic>>());
       expect(status['initialized'], false);
       expect(status['enabled'], true);

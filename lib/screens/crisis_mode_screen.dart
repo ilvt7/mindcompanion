@@ -18,29 +18,29 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
   late AnimationController _breathingController;
   late AnimationController _meditationController;
   late AnimationController _comfortAudioController;
-  
+
   late Animation<double> _crisisInfoFade;
   late Animation<Offset> _crisisInfoSlide;
   late Animation<double> _buttonsFade;
   late Animation<double> _breathingScale;
   late Animation<double> _breathingOpacity;
   late Animation<double> _comfortAudioScale;
-  
+
   // Breathing exercise state
   bool _isBreathingActive = false;
   bool _isInhaling = true;
   int _breathingCount = 0;
-  
+
   // Meditation state
   bool _isMeditationActive = false;
   bool _isMeditationAudioPlaying = false;
   final AudioPlayer _meditationAudioPlayer = AudioPlayer();
-  
+
   // Comfort audio state
   bool _isComfortAudioActive = false;
   bool _isComfortAudioPlaying = false;
   final AudioPlayer _comfortAudioPlayer = AudioPlayer();
-  
+
   // Emergency contact
   static const String _emergencyNumber = '911';
   static const String _crisisHotline = '988';
@@ -48,89 +48,74 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
   @override
   void initState() {
     super.initState();
-    
+
     // Controller para la información de crisis
     _crisisInfoController = AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    
+
     // Controller para los botones
     _buttonsController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     // Controller para ejercicios de respiración
     _breathingController = AnimationController(
-      duration: const Duration(milliseconds: 4000), // 4 seconds per breath cycle
+      duration: const Duration(
+        milliseconds: 4000,
+      ), // 4 seconds per breath cycle
       vsync: this,
     );
-    
+
     // Controller para meditación
     _meditationController = AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    
+
     // Controller para comfort audio
     _comfortAudioController = AnimationController(
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    
+
     // Animación de fade-in y slide para la información de crisis
-    _crisisInfoFade = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _crisisInfoController,
-      curve: Curves.easeOutCubic,
-    ));
-    
-    _crisisInfoSlide = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _crisisInfoController,
-      curve: Curves.easeOutCubic,
-    ));
-    
+    _crisisInfoFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _crisisInfoController,
+        curve: Curves.easeOutCubic,
+      ),
+    );
+
+    _crisisInfoSlide =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _crisisInfoController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
+
     // Animación de fade para los botones
-    _buttonsFade = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _buttonsController,
-      curve: Curves.easeOutCubic,
-    ));
-    
+    _buttonsFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _buttonsController, curve: Curves.easeOutCubic),
+    );
+
     // Animaciones para ejercicios de respiración
-    _breathingScale = Tween<double>(
-      begin: 0.8,
-      end: 1.2,
-    ).animate(CurvedAnimation(
-      parent: _breathingController,
-      curve: Curves.easeInOut,
-    ));
-    
-    _breathingOpacity = Tween<double>(
-      begin: 0.6,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _breathingController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _breathingScale = Tween<double>(begin: 0.8, end: 1.2).animate(
+      CurvedAnimation(parent: _breathingController, curve: Curves.easeInOut),
+    );
+
+    _breathingOpacity = Tween<double>(begin: 0.6, end: 1.0).animate(
+      CurvedAnimation(parent: _breathingController, curve: Curves.easeInOut),
+    );
+
     // Animación para comfort audio
-    _comfortAudioScale = Tween<double>(
-      begin: 0.9,
-      end: 1.1,
-    ).animate(CurvedAnimation(
-      parent: _comfortAudioController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _comfortAudioScale = Tween<double>(begin: 0.9, end: 1.1).animate(
+      CurvedAnimation(parent: _comfortAudioController, curve: Curves.easeInOut),
+    );
+
     // Configurar listener para el ciclo de respiración
     _breathingController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -142,7 +127,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
         }
       }
     });
-    
+
     // Iniciar animaciones secuenciales
     _startCrisisAnimations();
   }
@@ -164,7 +149,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
     Future.delayed(const Duration(milliseconds: 200), () {
       if (mounted) _crisisInfoController.forward();
     });
-    
+
     // Buttons animation starts after crisis info
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) _buttonsController.forward();
@@ -175,7 +160,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final isSmallScreen = screenSize.width < 400;
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -238,7 +223,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                     padding: EdgeInsets.all(isSmallScreen ? 20 : 24),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF56565).withOpacity(0.08),
-                      borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
+                      borderRadius: BorderRadius.circular(
+                        isSmallScreen ? 16 : 20,
+                      ),
                       border: Border.all(
                         color: const Color(0xFFF56565).withOpacity(0.2),
                         width: 1.5,
@@ -258,7 +245,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                           padding: EdgeInsets.all(isSmallScreen ? 10 : 12),
                           decoration: BoxDecoration(
                             color: const Color(0xFFF56565).withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(isSmallScreen ? 14 : 16),
+                            borderRadius: BorderRadius.circular(
+                              isSmallScreen ? 14 : 16,
+                            ),
                             border: Border.all(
                               color: const Color(0xFFF56565).withOpacity(0.3),
                               width: 1.5,
@@ -303,9 +292,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                   ),
                 ),
               ),
-              
+
               SizedBox(height: isSmallScreen ? 32 : 40),
-              
+
               // Crisis Intervention Buttons
               Expanded(
                 child: FadeTransition(
@@ -321,9 +310,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                           _startBreathingExercise();
                         },
                       ),
-                      
+
                       SizedBox(height: isSmallScreen ? 20 : 24),
-                      
+
                       _buildCrisisButton(
                         'Quick Meditation',
                         Icons.self_improvement_rounded,
@@ -333,9 +322,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                           _startMeditation();
                         },
                       ),
-                      
+
                       SizedBox(height: isSmallScreen ? 20 : 24),
-                      
+
                       _buildCrisisButton(
                         'Comfort Audio',
                         Icons.music_note_rounded,
@@ -345,9 +334,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                           _startComfortAudio();
                         },
                       ),
-                      
+
                       SizedBox(height: isSmallScreen ? 20 : 24),
-                      
+
                       _buildCrisisButton(
                         'Contact Help',
                         Icons.support_agent_rounded,
@@ -380,7 +369,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
         _breathingController.reset();
       }
     });
-    
+
     if (_isBreathingActive) {
       _showBreathingDialog();
     }
@@ -390,7 +379,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
     setState(() {
       _isMeditationActive = !_isMeditationActive;
     });
-    
+
     if (_isMeditationActive) {
       _playMeditationAudio();
       _showMeditationDialog();
@@ -403,7 +392,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
     setState(() {
       _isComfortAudioActive = !_isComfortAudioActive;
     });
-    
+
     if (_isComfortAudioActive) {
       _playComfortAudio();
       _showComfortAudioDialog();
@@ -414,7 +403,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
 
   Future<void> _playMeditationAudio() async {
     try {
-      await _meditationAudioPlayer.play(AssetSource('audio/meditation_audio.mp3'));
+      await _meditationAudioPlayer.play(
+        AssetSource('audio/meditation_audio.mp3'),
+      );
       setState(() {
         _isMeditationAudioPlaying = true;
       });
@@ -426,7 +417,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Audio file not found. Please add meditation_audio.mp3 to assets/audio/'),
+            content: Text(
+              'Audio file not found. Please add meditation_audio.mp3 to assets/audio/',
+            ),
             backgroundColor: Color(0xFF87CEEB),
             duration: Duration(seconds: 4),
           ),
@@ -451,7 +444,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Audio file not found. Please add comfort_audio.mp3 to assets/audio/'),
+            content: Text(
+              'Audio file not found. Please add comfort_audio.mp3 to assets/audio/',
+            ),
             backgroundColor: Color(0xFF98FB98),
             duration: Duration(seconds: 4),
           ),
@@ -493,10 +488,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
           ),
           content: const Text(
             'Choose how you would like to get help:',
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: 'Segoe UI',
-            ),
+            style: TextStyle(fontSize: 16, fontFamily: 'Segoe UI'),
           ),
           actions: [
             TextButton(
@@ -559,7 +551,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
         Clipboard.setData(ClipboardData(text: _crisisHotline));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Crisis hotline copied to clipboard: $_crisisHotline'),
+            content: Text(
+              'Crisis hotline copied to clipboard: $_crisisHotline',
+            ),
             backgroundColor: const Color(0xFF87CEEB),
             duration: const Duration(seconds: 3),
           ),
@@ -587,7 +581,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
         Clipboard.setData(ClipboardData(text: _emergencyNumber));
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Emergency number copied to clipboard: $_emergencyNumber'),
+            content: Text(
+              'Emergency number copied to clipboard: $_emergencyNumber',
+            ),
             backgroundColor: const Color(0xFFF56565),
             duration: const Duration(seconds: 3),
           ),
@@ -630,10 +626,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
               children: [
                 const Text(
                   'Follow the expanding and contracting circle to breathe slowly and deeply',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Segoe UI',
-                  ),
+                  style: TextStyle(fontSize: 16, fontFamily: 'Segoe UI'),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -690,7 +683,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  _isInhaling ? 'Slowly inhale through your nose' : 'Gently exhale through your mouth',
+                  _isInhaling
+                      ? 'Slowly inhale through your nose'
+                      : 'Gently exhale through your mouth',
                   style: const TextStyle(
                     fontSize: 12,
                     color: Color(0xFF718096),
@@ -761,10 +756,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
               children: [
                 const Text(
                   'Find a comfortable position and focus on your breath',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Segoe UI',
-                  ),
+                  style: TextStyle(fontSize: 16, fontFamily: 'Segoe UI'),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -781,13 +773,17 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                   child: Column(
                     children: [
                       Icon(
-                        _isMeditationAudioPlaying ? Icons.volume_up : Icons.volume_off,
+                        _isMeditationAudioPlaying
+                            ? Icons.volume_up
+                            : Icons.volume_off,
                         color: const Color(0xFF87CEEB),
                         size: 32,
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        _isMeditationAudioPlaying ? 'Audio Playing' : 'Audio Stopped',
+                        _isMeditationAudioPlaying
+                            ? 'Audio Playing'
+                            : 'Audio Stopped',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -800,9 +796,13 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           IconButton(
-                            onPressed: _isMeditationAudioPlaying ? _stopMeditationAudio : _playMeditationAudio,
+                            onPressed: _isMeditationAudioPlaying
+                                ? _stopMeditationAudio
+                                : _playMeditationAudio,
                             icon: Icon(
-                              _isMeditationAudioPlaying ? Icons.pause : Icons.play_arrow,
+                              _isMeditationAudioPlaying
+                                  ? Icons.pause
+                                  : Icons.play_arrow,
                               color: const Color(0xFF87CEEB),
                             ),
                           ),
@@ -891,10 +891,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
               children: [
                 const Text(
                   'Relax and let the soothing sounds wash over you',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'Segoe UI',
-                  ),
+                  style: TextStyle(fontSize: 16, fontFamily: 'Segoe UI'),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -916,13 +913,17 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                         child: Column(
                           children: [
                             Icon(
-                              _isComfortAudioPlaying ? Icons.music_note : Icons.music_off,
+                              _isComfortAudioPlaying
+                                  ? Icons.music_note
+                                  : Icons.music_off,
                               color: const Color(0xFF98FB98),
                               size: 32,
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              _isComfortAudioPlaying ? 'Audio Playing' : 'Audio Stopped',
+                              _isComfortAudioPlaying
+                                  ? 'Audio Playing'
+                                  : 'Audio Stopped',
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
@@ -935,9 +936,13 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 IconButton(
-                                  onPressed: _isComfortAudioPlaying ? _stopComfortAudio : _playComfortAudio,
+                                  onPressed: _isComfortAudioPlaying
+                                      ? _stopComfortAudio
+                                      : _playComfortAudio,
                                   icon: Icon(
-                                    _isComfortAudioPlaying ? Icons.pause : Icons.play_arrow,
+                                    _isComfortAudioPlaying
+                                        ? Icons.pause
+                                        : Icons.play_arrow,
                                     color: const Color(0xFF98FB98),
                                   ),
                                 ),
@@ -1004,7 +1009,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
   ) {
     final screenSize = MediaQuery.of(context).size;
     final isSmallScreen = screenSize.width < 400;
-    
+
     return StatefulBuilder(
       builder: (context, setInner) {
         double scale = 1.0;
@@ -1035,7 +1040,10 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(isSmallScreen ? 20 : 24),
-                border: Border.all(color: color.withOpacity(pressed ? 0.5 : 0.3), width: 2),
+                border: Border.all(
+                  color: color.withOpacity(pressed ? 0.5 : 0.3),
+                  width: 2,
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: color.withOpacity(pressed ? 0.25 : 0.15),
@@ -1061,8 +1069,13 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                     height: isSmallScreen ? 60 : 70,
                     decoration: BoxDecoration(
                       color: color.withOpacity(pressed ? 0.25 : 0.15),
-                      borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
-                      border: Border.all(color: color.withOpacity(pressed ? 0.35 : 0.2), width: 1.5),
+                      borderRadius: BorderRadius.circular(
+                        isSmallScreen ? 16 : 20,
+                      ),
+                      border: Border.all(
+                        color: color.withOpacity(pressed ? 0.35 : 0.2),
+                        width: 1.5,
+                      ),
                     ),
                     child: Icon(
                       icon,
@@ -1070,9 +1083,9 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                       color: color,
                     ),
                   ),
-                  
+
                   SizedBox(width: isSmallScreen ? 16 : 20),
-                  
+
                   // Content
                   Expanded(
                     child: Column(
@@ -1102,7 +1115,7 @@ class _CrisisModeScreenState extends State<CrisisModeScreen>
                       ],
                     ),
                   ),
-                  
+
                   // Arrow Icon
                   Icon(
                     Icons.arrow_forward_ios_rounded,

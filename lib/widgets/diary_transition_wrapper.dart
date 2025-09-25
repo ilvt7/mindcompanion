@@ -26,7 +26,7 @@ class _DiaryTransitionWrapperState extends State<DiaryTransitionWrapper>
   late AnimationController _homeSlideController;
   late AnimationController _cardsFadeController;
   late AnimationController _depthController;
-  
+
   late Animation<Offset> _homeSlideAnimation;
   late Animation<double> _cardsFadeAnimation;
   late Animation<double> _depthScaleAnimation;
@@ -35,66 +35,79 @@ class _DiaryTransitionWrapperState extends State<DiaryTransitionWrapper>
   @override
   void initState() {
     super.initState();
-    
+
     // Controller para el slide del HomeScreen
     _homeSlideController = AnimationController(
-      duration: widget.transitionDuration ?? DiaryTransitionConfig.homeSlideDuration,
+      duration:
+          widget.transitionDuration ?? DiaryTransitionConfig.homeSlideDuration,
       vsync: this,
     );
-    
+
     // Controller para el fade de las cards
     _cardsFadeController = AnimationController(
       duration: DiaryTransitionConfig.cardsFadeDuration,
       vsync: this,
     );
-    
+
     // Controller para efectos de profundidad
     _depthController = AnimationController(
       duration: DiaryTransitionConfig.depthAnimationDuration,
       vsync: this,
     );
-    
+
     // Animación de slide del HomeScreen hacia la izquierda
-    _homeSlideAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: DiaryTransitionEffectsConfig.homeSlideLeft,
-    ).animate(CurvedAnimation(
-      parent: _homeSlideController,
-      curve: DiaryTransitionConfig.homeSlideCurve,
-    ));
-    
+    _homeSlideAnimation =
+        Tween<Offset>(
+          begin: Offset.zero,
+          end: DiaryTransitionEffectsConfig.homeSlideLeft,
+        ).animate(
+          CurvedAnimation(
+            parent: _homeSlideController,
+            curve: DiaryTransitionConfig.homeSlideCurve,
+          ),
+        );
+
     // Animación de fade de las cards
-    _cardsFadeAnimation = Tween<double>(
-      begin: DiaryTransitionConfig.cardsFadeStart,
-      end: DiaryTransitionConfig.cardsFadeEnd,
-    ).animate(CurvedAnimation(
-      parent: _cardsFadeController,
-      curve: DiaryTransitionConfig.cardsFadeCurve,
-    ));
-    
+    _cardsFadeAnimation =
+        Tween<double>(
+          begin: DiaryTransitionConfig.cardsFadeStart,
+          end: DiaryTransitionConfig.cardsFadeEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _cardsFadeController,
+            curve: DiaryTransitionConfig.cardsFadeCurve,
+          ),
+        );
+
     // Animación de escala para profundidad
-    _depthScaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: DiaryTransitionConfig.depthScaleFactor,
-    ).animate(CurvedAnimation(
-      parent: _depthController,
-      curve: DiaryTransitionConfig.depthScaleCurve,
-    ));
-    
+    _depthScaleAnimation =
+        Tween<double>(
+          begin: 1.0,
+          end: DiaryTransitionConfig.depthScaleFactor,
+        ).animate(
+          CurvedAnimation(
+            parent: _depthController,
+            curve: DiaryTransitionConfig.depthScaleCurve,
+          ),
+        );
+
     // Animación de offset para profundidad
-    _depthOffsetAnimation = Tween<double>(
-      begin: 0.0,
-      end: DiaryTransitionConfig.maxDepthOffset,
-    ).animate(CurvedAnimation(
-      parent: _depthController,
-      curve: DiaryTransitionConfig.depthScaleCurve,
-    ));
+    _depthOffsetAnimation =
+        Tween<double>(
+          begin: 0.0,
+          end: DiaryTransitionConfig.maxDepthOffset,
+        ).animate(
+          CurvedAnimation(
+            parent: _depthController,
+            curve: DiaryTransitionConfig.depthScaleCurve,
+          ),
+        );
   }
 
   @override
   void didUpdateWidget(DiaryTransitionWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isTransitioning && !oldWidget.isTransitioning) {
       _startDiaryTransition();
     } else if (!widget.isTransitioning && oldWidget.isTransitioning) {
@@ -115,12 +128,12 @@ class _DiaryTransitionWrapperState extends State<DiaryTransitionWrapper>
     Future.delayed(DiaryTransitionConfig.cardsFadeDelay, () {
       _cardsFadeController.forward();
     });
-    
+
     Future.delayed(DiaryTransitionConfig.homeSlideDelay, () {
       _homeSlideController.forward();
       _depthController.forward();
     });
-    
+
     // Notificar cuando la transición esté completa
     Future.delayed(DiaryTransitionConfig.totalTransitionDuration, () {
       widget.onTransitionComplete?.call();
@@ -131,7 +144,7 @@ class _DiaryTransitionWrapperState extends State<DiaryTransitionWrapper>
     // Secuencia de animaciones para regreso desde diarios
     _depthController.reverse();
     _homeSlideController.reverse();
-    
+
     Future.delayed(DiaryTransitionConfig.homeSlideDuration, () {
       _cardsFadeController.reverse();
     });
@@ -155,8 +168,8 @@ class _DiaryTransitionWrapperState extends State<DiaryTransitionWrapper>
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(
-                      DiaryTransitionConfig.transitionShadowOpacity * 
-                      _depthController.value,
+                      DiaryTransitionConfig.transitionShadowOpacity *
+                          _depthController.value,
                     ),
                     blurRadius: DiaryTransitionConfig.transitionShadowBlur,
                     offset: DiaryTransitionConfig.transitionShadowOffset,
@@ -190,7 +203,9 @@ class EmotionCardsTransitionWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-      opacity: isTransitioning ? DiaryTransitionConfig.cardsFadeEnd : DiaryTransitionConfig.cardsFadeStart,
+      opacity: isTransitioning
+          ? DiaryTransitionConfig.cardsFadeEnd
+          : DiaryTransitionConfig.cardsFadeStart,
       duration: transitionDuration ?? DiaryTransitionConfig.cardsFadeDuration,
       curve: DiaryTransitionConfig.cardsFadeCurve,
       child: AnimatedScale(
@@ -221,30 +236,33 @@ class DiaryTransitionCoordinator extends StatefulWidget {
   });
 
   @override
-  State<DiaryTransitionCoordinator> createState() => _DiaryTransitionCoordinatorState();
+  State<DiaryTransitionCoordinator> createState() =>
+      _DiaryTransitionCoordinatorState();
 }
 
 class _DiaryTransitionCoordinatorState extends State<DiaryTransitionCoordinator>
     with TickerProviderStateMixin {
   late AnimationController _overallController;
   late Animation<double> _overallAnimation;
-  
+
   bool _isTransitioning = false;
 
   @override
   void initState() {
     super.initState();
-    
+
     _overallController = AnimationController(
-      duration: widget.transitionDuration ?? DiaryTransitionConfig.totalTransitionDuration,
+      duration:
+          widget.transitionDuration ??
+          DiaryTransitionConfig.totalTransitionDuration,
       vsync: this,
     );
-    
+
     _overallAnimation = CurvedAnimation(
       parent: _overallController,
       curve: DiaryTransitionConfig.diaryCurve,
     );
-    
+
     if (widget.showDiary) {
       _startTransition();
     }
@@ -253,7 +271,7 @@ class _DiaryTransitionCoordinatorState extends State<DiaryTransitionCoordinator>
   @override
   void didUpdateWidget(DiaryTransitionCoordinator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.showDiary && !oldWidget.showDiary) {
       _startTransition();
     } else if (!widget.showDiary && oldWidget.showDiary) {
@@ -271,7 +289,7 @@ class _DiaryTransitionCoordinatorState extends State<DiaryTransitionCoordinator>
     setState(() {
       _isTransitioning = true;
     });
-    
+
     _overallController.forward().then((_) {
       widget.onTransitionComplete?.call();
     });
@@ -296,7 +314,7 @@ class _DiaryTransitionCoordinatorState extends State<DiaryTransitionCoordinator>
           onTransitionComplete: widget.onTransitionComplete,
           child: widget.homeScreen,
         ),
-        
+
         // DiaryScreen que aparece durante la transición
         if (_isTransitioning)
           AnimatedBuilder(
@@ -343,24 +361,28 @@ class DepthTransitionEffect extends StatelessWidget {
     return AnimatedContainer(
       duration: duration ?? DiaryTransitionConfig.depthAnimationDuration,
       curve: DiaryTransitionConfig.depthScaleCurve,
-      transform: isActive 
+      transform: isActive
           ? (Matrix4.identity()
-            ..setEntry(3, 2, 0.001) // Perspectiva
-            ..translate(0.0, DiaryTransitionConfig.maxDepthOffset)
-            ..scale(DiaryTransitionConfig.maxDepthScale))
+              ..setEntry(3, 2, 0.001) // Perspectiva
+              ..translate(0.0, DiaryTransitionConfig.maxDepthOffset)
+              ..scale(DiaryTransitionConfig.maxDepthScale))
           : Matrix4.identity(),
       child: AnimatedContainer(
         duration: duration ?? DiaryTransitionConfig.depthAnimationDuration,
         curve: DiaryTransitionConfig.depthScaleCurve,
         decoration: BoxDecoration(
-          boxShadow: isActive ? [
-            BoxShadow(
-              color: Colors.black.withOpacity(DiaryTransitionConfig.depthShadowOpacity),
-              blurRadius: DiaryTransitionConfig.depthShadowBlur,
-              offset: DiaryTransitionConfig.depthShadowOffset,
-              spreadRadius: 0,
-            ),
-          ] : null,
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(
+                      DiaryTransitionConfig.depthShadowOpacity,
+                    ),
+                    blurRadius: DiaryTransitionConfig.depthShadowBlur,
+                    offset: DiaryTransitionConfig.depthShadowOffset,
+                    spreadRadius: 0,
+                  ),
+                ]
+              : null,
         ),
         child: child,
       ),

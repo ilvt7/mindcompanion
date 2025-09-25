@@ -37,26 +37,17 @@ class _AnimatedTextWrapperState extends State<AnimatedTextWrapper>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
     _scaleAnimation = Tween<double>(
       begin: widget.scaleStart,
       end: widget.scaleEnd,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     _opacityAnimation = Tween<double>(
       begin: widget.opacityStart,
       end: widget.opacityEnd,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     // Iniciar animación con delay
     Future.delayed(widget.delay, () {
@@ -79,10 +70,7 @@ class _AnimatedTextWrapperState extends State<AnimatedTextWrapper>
       builder: (context, child) {
         return Transform.scale(
           scale: _scaleAnimation.value,
-          child: Opacity(
-            opacity: _opacityAnimation.value,
-            child: widget.child,
-          ),
+          child: Opacity(opacity: _opacityAnimation.value, child: widget.child),
         );
       },
     );
@@ -125,26 +113,17 @@ class _AnimatedButtonWrapperState extends State<AnimatedButtonWrapper>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
     _scaleAnimation = Tween<double>(
       begin: widget.scaleStart,
       end: widget.scaleEnd,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     _opacityAnimation = Tween<double>(
       begin: widget.opacityStart,
       end: widget.opacityEnd,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     // Iniciar animación con delay
     Future.delayed(widget.delay, () {
@@ -167,10 +146,7 @@ class _AnimatedButtonWrapperState extends State<AnimatedButtonWrapper>
       builder: (context, child) {
         return Transform.scale(
           scale: _scaleAnimation.value,
-          child: Opacity(
-            opacity: _opacityAnimation.value,
-            child: widget.child,
-          ),
+          child: Opacity(opacity: _opacityAnimation.value, child: widget.child),
         );
       },
     );
@@ -213,26 +189,17 @@ class _AnimatedControlWrapperState extends State<AnimatedControlWrapper>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
     _scaleAnimation = Tween<double>(
       begin: widget.scaleStart,
       end: widget.scaleEnd,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     _opacityAnimation = Tween<double>(
       begin: widget.opacityStart,
       end: widget.opacityEnd,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     // Iniciar animación con delay
     Future.delayed(widget.delay, () {
@@ -255,10 +222,7 @@ class _AnimatedControlWrapperState extends State<AnimatedControlWrapper>
       builder: (context, child) {
         return Transform.scale(
           scale: _scaleAnimation.value,
-          child: Opacity(
-            opacity: _opacityAnimation.value,
-            child: widget.child,
-          ),
+          child: Opacity(opacity: _opacityAnimation.value, child: widget.child),
         );
       },
     );
@@ -299,91 +263,115 @@ class _SettingsScreenWrapperState extends State<SettingsScreenWrapper>
   @override
   void initState() {
     super.initState();
-    
+
     _titleController = AnimationController(
       duration: SettingsElementsConfig.titleAnimationDuration,
       vsync: this,
     );
-    
+
     _subtitleController = AnimationController(
       duration: SettingsElementsConfig.subtitleAnimationDuration,
       vsync: this,
     );
-    
+
     _buttonsController = AnimationController(
       duration: SettingsElementsConfig.buttonAnimationDuration,
       vsync: this,
     );
-    
+
     _controlsController = AnimationController(
       duration: SettingsElementsConfig.controlAnimationDuration,
       vsync: this,
     );
 
     // Configurar animaciones
-    _titleScale = Tween<double>(
-      begin: SettingsElementsConfig.titleScaleStart,
-      end: SettingsElementsConfig.titleScaleEnd,
-    ).animate(CurvedAnimation(
-      parent: _titleController,
-      curve: widget.settings.elementsCurve,
-    ));
+    _titleScale =
+        Tween<double>(
+          begin: SettingsElementsConfig.titleScaleStart,
+          end: SettingsElementsConfig.titleScaleEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _titleController,
+            curve: widget.settings.elementsCurve,
+          ),
+        );
 
-    _titleOpacity = Tween<double>(
-      begin: SettingsElementsConfig.titleOpacityStart,
-      end: SettingsElementsConfig.titleOpacityEnd,
-    ).animate(CurvedAnimation(
-      parent: _titleController,
-      curve: widget.settings.elementsCurve,
-    ));
+    _titleOpacity =
+        Tween<double>(
+          begin: SettingsElementsConfig.titleOpacityStart,
+          end: SettingsElementsConfig.titleOpacityEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _titleController,
+            curve: widget.settings.elementsCurve,
+          ),
+        );
 
-    _subtitleScale = Tween<double>(
-      begin: SettingsElementsConfig.subtitleScaleStart,
-      end: SettingsElementsConfig.subtitleScaleEnd,
-    ).animate(CurvedAnimation(
-      parent: _subtitleController,
-      curve: widget.settings.elementsCurve,
-    ));
+    _subtitleScale =
+        Tween<double>(
+          begin: SettingsElementsConfig.subtitleScaleStart,
+          end: SettingsElementsConfig.subtitleScaleEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _subtitleController,
+            curve: widget.settings.elementsCurve,
+          ),
+        );
 
-    _subtitleOpacity = Tween<double>(
-      begin: SettingsElementsConfig.subtitleOpacityStart,
-      end: SettingsElementsConfig.subtitleOpacityEnd,
-    ).animate(CurvedAnimation(
-      parent: _subtitleController,
-      curve: widget.settings.elementsCurve,
-    ));
+    _subtitleOpacity =
+        Tween<double>(
+          begin: SettingsElementsConfig.subtitleOpacityStart,
+          end: SettingsElementsConfig.subtitleOpacityEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _subtitleController,
+            curve: widget.settings.elementsCurve,
+          ),
+        );
 
-    _buttonsScale = Tween<double>(
-      begin: SettingsElementsConfig.buttonScaleStart,
-      end: SettingsElementsConfig.buttonScaleEnd,
-    ).animate(CurvedAnimation(
-      parent: _buttonsController,
-      curve: widget.settings.elementsCurve,
-    ));
+    _buttonsScale =
+        Tween<double>(
+          begin: SettingsElementsConfig.buttonScaleStart,
+          end: SettingsElementsConfig.buttonScaleEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _buttonsController,
+            curve: widget.settings.elementsCurve,
+          ),
+        );
 
-    _buttonsOpacity = Tween<double>(
-      begin: SettingsElementsConfig.buttonOpacityStart,
-      end: SettingsElementsConfig.buttonOpacityEnd,
-    ).animate(CurvedAnimation(
-      parent: _buttonsController,
-      curve: widget.settings.elementsCurve,
-    ));
+    _buttonsOpacity =
+        Tween<double>(
+          begin: SettingsElementsConfig.buttonOpacityStart,
+          end: SettingsElementsConfig.buttonOpacityEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _buttonsController,
+            curve: widget.settings.elementsCurve,
+          ),
+        );
 
-    _controlsScale = Tween<double>(
-      begin: SettingsElementsConfig.controlScaleStart,
-      end: SettingsElementsConfig.controlScaleEnd,
-    ).animate(CurvedAnimation(
-      parent: _controlsController,
-      curve: widget.settings.elementsCurve,
-    ));
+    _controlsScale =
+        Tween<double>(
+          begin: SettingsElementsConfig.controlScaleStart,
+          end: SettingsElementsConfig.controlScaleEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _controlsController,
+            curve: widget.settings.elementsCurve,
+          ),
+        );
 
-    _controlsOpacity = Tween<double>(
-      begin: SettingsElementsConfig.controlOpacityStart,
-      end: SettingsElementsConfig.controlOpacityEnd,
-    ).animate(CurvedAnimation(
-      parent: _controlsController,
-      curve: widget.settings.elementsCurve,
-    ));
+    _controlsOpacity =
+        Tween<double>(
+          begin: SettingsElementsConfig.controlOpacityStart,
+          end: SettingsElementsConfig.controlOpacityEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _controlsController,
+            curve: widget.settings.elementsCurve,
+          ),
+        );
 
     _startSequentialAnimations();
   }
@@ -444,7 +432,7 @@ class SettingsTransitionCoordinator extends StatelessWidget {
       children: [
         // HomeScreen con fade-out
         homeScreen,
-        
+
         // SettingsScreen con fade-in desde abajo y micro-bounce
         settingsScreen,
       ],

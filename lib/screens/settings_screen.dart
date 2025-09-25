@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/primary_button.dart';
 import '../widgets/simple_accessibility_settings_widget.dart';
 import '../core/accessibility/simple_accessibility_provider.dart';
 
@@ -17,7 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen>
   late AnimationController _toggleController;
   late AnimationController _sliderController;
   late AnimationController _saveButtonController;
-  
+
   late Animation<double> _cardsFade;
   late Animation<Offset> _cardsSlide;
   late Animation<double> _toggleBounce;
@@ -34,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen>
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize accessibility provider
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final accessibilityProvider = Provider.of<SimpleAccessibilityProvider>(
@@ -43,84 +42,61 @@ class _SettingsScreenState extends State<SettingsScreen>
       );
       accessibilityProvider.init();
     });
-    
+
     // Controller para las tarjetas
     _cardsController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     // Controller para los toggles
     _toggleController = AnimationController(
       duration: const Duration(milliseconds: 400),
       vsync: this,
     );
-    
+
     // Controller para los sliders
     _sliderController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
+
     // Controller para el botón de guardar
     _saveButtonController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
+
     // Animación de fade-in y slide para las tarjetas
-    _cardsFade = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _cardsController,
-      curve: Curves.easeOutCubic,
-    ));
-    
-    _cardsSlide = Tween<Offset>(
-      begin: const Offset(-0.3, 0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _cardsController,
-      curve: Curves.easeOutCubic,
-    ));
-    
+    _cardsFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _cardsController, curve: Curves.easeOutCubic),
+    );
+
+    _cardsSlide = Tween<Offset>(begin: const Offset(-0.3, 0), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _cardsController, curve: Curves.easeOutCubic),
+        );
+
     // Animación de bounce para toggles
-    _toggleBounce = Tween<double>(
-      begin: 1.0,
-      end: 1.1,
-    ).animate(CurvedAnimation(
-      parent: _toggleController,
-      curve: Curves.elasticOut,
-    ));
-    
+    _toggleBounce = Tween<double>(begin: 1.0, end: 1.1).animate(
+      CurvedAnimation(parent: _toggleController, curve: Curves.elasticOut),
+    );
+
     // Animación de bounce para sliders
-    _sliderBounce = Tween<double>(
-      begin: 1.0,
-      end: 1.05,
-    ).animate(CurvedAnimation(
-      parent: _sliderController,
-      curve: Curves.elasticOut,
-    ));
-    
+    _sliderBounce = Tween<double>(begin: 1.0, end: 1.05).animate(
+      CurvedAnimation(parent: _sliderController, curve: Curves.elasticOut),
+    );
+
     // Animación de escala para el botón de guardar
-    _saveButtonScale = Tween<double>(
-      begin: 1.0,
-      end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: _saveButtonController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _saveButtonScale = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _saveButtonController, curve: Curves.easeInOut),
+    );
+
     // Animación de brillo para el botón de guardar
-    _saveButtonGlow = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _saveButtonController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _saveButtonGlow = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _saveButtonController, curve: Curves.easeInOut),
+    );
+
     // Iniciar animación de las tarjetas
     _cardsController.forward();
   }
@@ -138,7 +114,7 @@ class _SettingsScreenState extends State<SettingsScreen>
     _toggleController.forward().then((_) {
       _toggleController.reverse();
     });
-    
+
     setState(() {
       switch (settingName) {
         case 'notifications':
@@ -158,7 +134,7 @@ class _SettingsScreenState extends State<SettingsScreen>
     _sliderController.forward().then((_) {
       _sliderController.reverse();
     });
-    
+
     setState(() {
       switch (settingName) {
         case 'reminderTime':
@@ -172,7 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen>
     _saveButtonController.forward().then((_) {
       _saveButtonController.reverse();
     });
-    
+
     // TODO: Implement save settings functionality
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -256,7 +232,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                   ],
                 ),
               ),
-              
+
               // Subtítulo
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -271,9 +247,9 @@ class _SettingsScreenState extends State<SettingsScreen>
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               // Lista de opciones con animaciones
               Expanded(
                 child: SlideTransition(
@@ -293,8 +269,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                             (value) => _onToggleChanged(value, 'notifications'),
                           ),
                         ),
-                        
-                        
+
                         _buildSettingsCard(
                           'Sound Effects',
                           'Enable audio feedback',
@@ -305,7 +280,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                             (value) => _onToggleChanged(value, 'sound'),
                           ),
                         ),
-                        
+
                         _buildSettingsCard(
                           'Auto Save',
                           'Automatically save your entries',
@@ -316,13 +291,13 @@ class _SettingsScreenState extends State<SettingsScreen>
                             (value) => _onToggleChanged(value, 'autoSave'),
                           ),
                         ),
-                        
+
                         // Accessibility Settings Section
                         Container(
                           margin: const EdgeInsets.only(bottom: 20),
                           child: const SimpleAccessibilitySettingsWidget(),
                         ),
-                        
+
                         _buildSettingsCard(
                           'Reminder Time',
                           'Set daily reminder time',
@@ -341,9 +316,9 @@ class _SettingsScreenState extends State<SettingsScreen>
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Botón Save Settings con zoom y efecto de luz
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -365,7 +340,9 @@ class _SettingsScreenState extends State<SettingsScreen>
                               spreadRadius: 0,
                             ),
                             BoxShadow(
-                              color: const Color(0xFF48BB78).withOpacity(_saveButtonGlow.value * 0.6),
+                              color: const Color(
+                                0xFF48BB78,
+                              ).withOpacity(_saveButtonGlow.value * 0.6),
                               blurRadius: 30,
                               offset: const Offset(0, 15),
                               spreadRadius: 0,
@@ -397,7 +374,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                   },
                 ),
               ),
-              
+
               const SizedBox(height: 24),
             ],
           ),
@@ -444,20 +421,13 @@ class _SettingsScreenState extends State<SettingsScreen>
               decoration: BoxDecoration(
                 color: color.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: color.withOpacity(0.3),
-                  width: 1.5,
-                ),
+                border: Border.all(color: color.withOpacity(0.3), width: 1.5),
               ),
-              child: Icon(
-                icon,
-                color: color,
-                size: 24,
-              ),
+              child: Icon(icon, color: color, size: 24),
             ),
-            
+
             const SizedBox(width: 20),
-            
+
             // Información
             Expanded(
               child: Column(
@@ -487,9 +457,9 @@ class _SettingsScreenState extends State<SettingsScreen>
                 ],
               ),
             ),
-            
+
             const SizedBox(width: 20),
-            
+
             // Control (toggle o slider)
             child,
           ],
@@ -538,7 +508,9 @@ class _SettingsScreenState extends State<SettingsScreen>
                   thumbColor: const Color(0xFF48BB78),
                   overlayColor: const Color(0xFF48BB78).withOpacity(0.2),
                   trackHeight: 4,
-                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+                  thumbShape: const RoundSliderThumbShape(
+                    enabledThumbRadius: 8,
+                  ),
                 ),
                 child: Slider(
                   value: value,

@@ -4,20 +4,18 @@ import 'package:mindcompanion/screens/settings_screen.dart';
 
 void main() {
   group('Settings Screen Golden Tests', () {
-    testWidgets('Settings screen matches golden file', (WidgetTester tester) async {
+    testWidgets('Settings screen matches golden file', (
+      WidgetTester tester,
+    ) async {
       // Render SettingsScreen at a fixed size (400x800)
       await tester.binding.setSurfaceSize(const Size(400, 800));
-      
+
       // Build the SettingsScreen widget
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: SettingsScreen(),
-        ),
-      );
+      await tester.pumpWidget(const MaterialApp(home: SettingsScreen()));
 
       // Wait for initial build and skip animations for golden tests
       await tester.pump();
-      
+
       // Wait a bit more for any immediate animations
       await tester.pump(const Duration(milliseconds: 100));
 

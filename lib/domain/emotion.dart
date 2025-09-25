@@ -13,12 +13,7 @@ class Emotion {
   });
 
   /// Create a copy with updated fields
-  Emotion copyWith({
-    String? id,
-    String? name,
-    String? emoji,
-    int? valence,
-  }) {
+  Emotion copyWith({String? id, String? name, String? emoji, int? valence}) {
     return Emotion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -39,10 +34,7 @@ class Emotion {
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        emoji.hashCode ^
-        valence.hashCode;
+    return id.hashCode ^ name.hashCode ^ emoji.hashCode ^ valence.hashCode;
   }
 
   @override
@@ -67,25 +59,30 @@ class Emotions {
     // Very Negative (-2)
     Emotion(id: 'angry', name: 'Angry', emoji: '😠', valence: -2),
     Emotion(id: 'devastated', name: 'Devastated', emoji: '💔', valence: -2),
-    
+
     // Negative (-1)
     Emotion(id: 'sad', name: 'Sad', emoji: '😢', valence: -1),
     Emotion(id: 'anxious', name: 'Anxious', emoji: '😰', valence: -1),
     Emotion(id: 'frustrated', name: 'Frustrated', emoji: '😤', valence: -1),
     Emotion(id: 'worried', name: 'Worried', emoji: '😟', valence: -1),
     Emotion(id: 'tired', name: 'Tired', emoji: '😴', valence: -1),
-    
+
     // Neutral (0)
     Emotion(id: 'neutral', name: 'Neutral', emoji: '😐', valence: 0),
     Emotion(id: 'confused', name: 'Confused', emoji: '😕', valence: 0),
-    Emotion(id: 'contemplative', name: 'Contemplative', emoji: '🤔', valence: 0),
-    
+    Emotion(
+      id: 'contemplative',
+      name: 'Contemplative',
+      emoji: '🤔',
+      valence: 0,
+    ),
+
     // Positive (+1)
     Emotion(id: 'calm', name: 'Calm', emoji: '😌', valence: 1),
     Emotion(id: 'content', name: 'Content', emoji: '😊', valence: 1),
     Emotion(id: 'hopeful', name: 'Hopeful', emoji: '🤗', valence: 1),
     Emotion(id: 'grateful', name: 'Grateful', emoji: '🙏', valence: 1),
-    
+
     // Very Positive (+2)
     Emotion(id: 'happy', name: 'Happy', emoji: '😄', valence: 2),
     Emotion(id: 'excited', name: 'Excited', emoji: '🤩', valence: 2),
@@ -115,13 +112,18 @@ class Emotions {
 
   /// Get emotions by valence category
   static List<Emotion> getByValenceCategory(String category) {
-    return predefined.where((emotion) => emotion.valenceCategory == category).toList();
+    return predefined
+        .where((emotion) => emotion.valenceCategory == category)
+        .toList();
   }
 
   /// Get emotions by valence range
   static List<Emotion> getByValenceRange(int minValence, int maxValence) {
-    return predefined.where(
-      (emotion) => emotion.valence >= minValence && emotion.valence <= maxValence,
-    ).toList();
+    return predefined
+        .where(
+          (emotion) =>
+              emotion.valence >= minValence && emotion.valence <= maxValence,
+        )
+        .toList();
   }
 }

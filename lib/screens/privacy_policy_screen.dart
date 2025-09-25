@@ -26,10 +26,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
         child: Center(
           child: Text(
             'Privacy Policy Screen - Coming Soon',
-            style: TextStyle(
-              fontSize: 18,
-              color: Color(0xFF718096),
-            ),
+            style: TextStyle(fontSize: 18, color: Color(0xFF718096)),
           ),
         ),
       ),

@@ -5,7 +5,10 @@ import '../config/transition_config.dart';
 
 class CustomPageTransitions {
   // Transiciones para pantallas principales (FadeThroughTransition)
-  static PageRouteBuilder<T> slideTransition<T>(Widget page, {bool fromRight = true}) {
+  static PageRouteBuilder<T> slideTransition<T>(
+    Widget page, {
+    bool fromRight = true,
+  }) {
     return PageRouteBuilder<T>(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionDuration: TransitionConfig.mainScreenTransition,
@@ -59,28 +62,27 @@ class CustomPageTransitions {
       transitionDuration: TransitionConfig.crisisTransition,
       reverseTransitionDuration: TransitionConfig.crisisTransition,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final fadeAnimation = Tween<double>(
-          begin: 0.0,
-          end: 1.0,
-        ).animate(CurvedAnimation(
-          parent: animation,
-          curve: TransitionConfig.crisisCurve,
-        ));
-        
-        final slideAnimation = Tween<Offset>(
-          begin: TransitionConfig.crisisSlideOffset,
-          end: Offset.zero,
-        ).animate(CurvedAnimation(
-          parent: animation,
-          curve: TransitionConfig.crisisCurve,
-        ));
-        
+        final fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: animation,
+            curve: TransitionConfig.crisisCurve,
+          ),
+        );
+
+        final slideAnimation =
+            Tween<Offset>(
+              begin: TransitionConfig.crisisSlideOffset,
+              end: Offset.zero,
+            ).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: TransitionConfig.crisisCurve,
+              ),
+            );
+
         return FadeTransition(
           opacity: fadeAnimation,
-          child: SlideTransition(
-            position: slideAnimation,
-            child: child,
-          ),
+          child: SlideTransition(position: slideAnimation, child: child),
         );
       },
     );
@@ -226,7 +228,7 @@ class CustomPageTransitions {
     bool useScale = false,
   }) {
     final transitionDuration = duration ?? TransitionConfig.normalTransition;
-    
+
     return PageRouteBuilder<T>(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionDuration: transitionDuration,
@@ -235,55 +237,54 @@ class CustomPageTransitions {
         // Por defecto usar FadeThroughTransition, pero permitir transiciones personalizadas
         if (useSlide || useScale) {
           Widget transitionChild = child;
-          
+
           // Aplicar escala si está habilitada
           if (useScale && scaleStart != null) {
-            final scaleAnimation = Tween<double>(
-              begin: scaleStart,
-              end: 1.0,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: curve ?? TransitionConfig.mainCurve,
-            ));
-            
+            final scaleAnimation = Tween<double>(begin: scaleStart, end: 1.0)
+                .animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: curve ?? TransitionConfig.mainCurve,
+                  ),
+                );
+
             transitionChild = ScaleTransition(
               scale: scaleAnimation,
               child: transitionChild,
             );
           }
-          
+
           // Aplicar slide si está habilitado
           if (useSlide && slideOffset != null) {
-            final slideAnimation = Tween<Offset>(
-              begin: slideOffset,
-              end: Offset.zero,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: curve ?? TransitionConfig.mainCurve,
-            ));
-            
+            final slideAnimation =
+                Tween<Offset>(begin: slideOffset, end: Offset.zero).animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: curve ?? TransitionConfig.mainCurve,
+                  ),
+                );
+
             transitionChild = SlideTransition(
               position: slideAnimation,
               child: transitionChild,
             );
           }
-          
+
           // Aplicar fade si está habilitado
           if (useFade) {
-            final fadeAnimation = Tween<double>(
-              begin: 0.0,
-              end: 1.0,
-            ).animate(CurvedAnimation(
-              parent: animation,
-              curve: curve ?? TransitionConfig.mainCurve,
-            ));
-            
+            final fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: curve ?? TransitionConfig.mainCurve,
+              ),
+            );
+
             transitionChild = FadeTransition(
               opacity: fadeAnimation,
               child: transitionChild,
             );
           }
-          
+
           return transitionChild;
         } else {
           // Usar FadeThroughTransition por defecto
@@ -311,30 +312,33 @@ class CustomPageTransitions {
             AnimatedBuilder(
               animation: animation,
               builder: (context, homeChild) {
-                final homeSlideAnimation = Tween<Offset>(
-                  begin: Offset.zero,
-                  end: const Offset(0, -0.15),
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeOutCubic,
-                ));
-                
-                final homeBlurAnimation = Tween<double>(
-                  begin: 0.0,
-                  end: 8.0,
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeInOut,
-                ));
-                
-                final homeScaleAnimation = Tween<double>(
-                  begin: 1.0,
-                  end: 0.95,
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeOutCubic,
-                ));
-                
+                final homeSlideAnimation =
+                    Tween<Offset>(
+                      begin: Offset.zero,
+                      end: const Offset(0, -0.15),
+                    ).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOutCubic,
+                      ),
+                    );
+
+                final homeBlurAnimation = Tween<double>(begin: 0.0, end: 8.0)
+                    .animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeInOut,
+                      ),
+                    );
+
+                final homeScaleAnimation = Tween<double>(begin: 1.0, end: 0.95)
+                    .animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOutCubic,
+                      ),
+                    );
+
                 return Transform.translate(
                   offset: homeSlideAnimation.value,
                   child: Transform.scale(
@@ -364,26 +368,28 @@ class CustomPageTransitions {
               },
               child: const SizedBox.shrink(), // Placeholder para HomeScreen
             ),
-            
+
             // CrisisModeScreen con fade-in y slide desde abajo
             SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0.0, 0.3),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeInOutCubic,
-              )),
+              position:
+                  Tween<Offset>(
+                    begin: const Offset(0.0, 0.3),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeInOutCubic,
+                    ),
+                  ),
               child: FadeTransition(
                 opacity: animation,
                 child: ScaleTransition(
-                  scale: Tween<double>(
-                    begin: 0.8,
-                    end: 1.0,
-                  ).animate(CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.easeOutCubic,
-                  )),
+                  scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOutCubic,
+                    ),
+                  ),
                   child: child,
                 ),
               ),
@@ -408,21 +414,24 @@ class CustomPageTransitions {
             AnimatedBuilder(
               animation: animation,
               builder: (context, homeChild) {
-                final homeSlideAnimation = Tween<Offset>(
-                  begin: Offset.zero,
-                  end: const Offset(-0.3, 0.0),
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeOutCubic,
-                ));
+                final homeSlideAnimation =
+                    Tween<Offset>(
+                      begin: Offset.zero,
+                      end: const Offset(-0.3, 0.0),
+                    ).animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeOutCubic,
+                      ),
+                    );
 
-                final homeFadeAnimation = Tween<double>(
-                  begin: 1.0,
-                  end: 0.7,
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeInOut,
-                ));
+                final homeFadeAnimation = Tween<double>(begin: 1.0, end: 0.7)
+                    .animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeInOut,
+                      ),
+                    );
 
                 return Transform.translate(
                   offset: homeSlideAnimation.value,
@@ -450,23 +459,25 @@ class CustomPageTransitions {
 
             // EmotionalHistoryScreen con slide lateral desde la derecha y fade-in
             SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(1.0, 0.0),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeOutCubic,
-              )),
+              position:
+                  Tween<Offset>(
+                    begin: const Offset(1.0, 0.0),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOutCubic,
+                    ),
+                  ),
               child: FadeTransition(
                 opacity: animation,
                 child: ScaleTransition(
-                  scale: Tween<double>(
-                    begin: 0.98,
-                    end: 1.0,
-                  ).animate(CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.easeOutCubic,
-                  )),
+                  scale: Tween<double>(begin: 0.98, end: 1.0).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOutCubic,
+                    ),
+                  ),
                   child: child,
                 ),
               ),
@@ -491,13 +502,13 @@ class CustomPageTransitions {
             AnimatedBuilder(
               animation: animation,
               builder: (context, homeChild) {
-                final homeFadeAnimation = Tween<double>(
-                  begin: 1.0,
-                  end: 0.0,
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeInOut,
-                ));
+                final homeFadeAnimation = Tween<double>(begin: 1.0, end: 0.0)
+                    .animate(
+                      CurvedAnimation(
+                        parent: animation,
+                        curve: Curves.easeInOut,
+                      ),
+                    );
 
                 return Opacity(
                   opacity: homeFadeAnimation.value,
@@ -522,23 +533,25 @@ class CustomPageTransitions {
 
             // Settings/PrivacyPolicyScreen con fade-in desde abajo y micro-bounce
             SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0.0, 0.2),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeOutCubic,
-              )),
+              position:
+                  Tween<Offset>(
+                    begin: const Offset(0.0, 0.2),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOutCubic,
+                    ),
+                  ),
               child: FadeTransition(
                 opacity: animation,
                 child: ScaleTransition(
-                  scale: Tween<double>(
-                    begin: 0.95,
-                    end: 1.0,
-                  ).animate(CurvedAnimation(
-                    parent: animation,
-                    curve: Curves.elasticOut,
-                  )),
+                  scale: Tween<double>(begin: 0.95, end: 1.0).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.elasticOut,
+                    ),
+                  ),
                   child: child,
                 ),
               ),
@@ -558,11 +571,7 @@ class CustomNavigator {
     String routeName, {
     Object? arguments,
   }) {
-    return Navigator.pushNamed(
-      context,
-      routeName,
-      arguments: arguments,
-    );
+    return Navigator.pushNamed(context, routeName, arguments: arguments);
   }
 
   // Navegar a pantallas secundarias con fade-slide
@@ -571,11 +580,7 @@ class CustomNavigator {
     String routeName, {
     Object? arguments,
   }) {
-    return Navigator.pushNamed(
-      context,
-      routeName,
-      arguments: arguments,
-    );
+    return Navigator.pushNamed(context, routeName, arguments: arguments);
   }
 
   // Navegar a crisis mode con transición rápida
@@ -584,11 +589,7 @@ class CustomNavigator {
     String routeName, {
     Object? arguments,
   }) {
-    return Navigator.pushNamed(
-      context,
-      routeName,
-      arguments: arguments,
-    );
+    return Navigator.pushNamed(context, routeName, arguments: arguments);
   }
 
   // Navegar a welcome con transición especial
@@ -597,11 +598,7 @@ class CustomNavigator {
     String routeName, {
     Object? arguments,
   }) {
-    return Navigator.pushNamed(
-      context,
-      routeName,
-      arguments: arguments,
-    );
+    return Navigator.pushNamed(context, routeName, arguments: arguments);
   }
 
   // Navegar con transición de apertura de la app
@@ -689,7 +686,7 @@ class CustomNavigator {
       useSlide: useSlide,
       useScale: useScale,
     );
-    
+
     return Navigator.push(context, route as Route<T>);
   }
 }

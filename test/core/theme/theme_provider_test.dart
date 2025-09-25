@@ -26,11 +26,11 @@ void main() {
       // Test light mode
       themeProvider.setThemeMode(AppThemeMode.light);
       expect(themeProvider.materialThemeMode, ThemeMode.light);
-      
+
       // Test dark mode
       themeProvider.setThemeMode(AppThemeMode.dark);
       expect(themeProvider.materialThemeMode, ThemeMode.dark);
-      
+
       // Test system mode
       themeProvider.setThemeMode(AppThemeMode.system);
       expect(themeProvider.materialThemeMode, ThemeMode.system);
@@ -38,10 +38,10 @@ void main() {
 
     test('should return current mode', () {
       expect(themeProvider.themeMode, AppThemeMode.system);
-      
+
       themeProvider.setThemeMode(AppThemeMode.light);
       expect(themeProvider.themeMode, AppThemeMode.light);
-      
+
       themeProvider.setThemeMode(AppThemeMode.dark);
       expect(themeProvider.themeMode, AppThemeMode.dark);
     });
@@ -62,19 +62,21 @@ void main() {
 
     test('should return current theme based on mode', () async {
       await themeProvider.init();
-      
+
       // Test light mode
       themeProvider.setThemeMode(AppThemeMode.light);
       expect(themeProvider.currentTheme.brightness, Brightness.light);
-      
+
       // Test dark mode
       themeProvider.setThemeMode(AppThemeMode.dark);
       expect(themeProvider.currentTheme.brightness, Brightness.dark);
     });
 
     test('should load theme from preferences', () async {
-      when(mockPrefs.getInt('app_theme_mode')).thenReturn(AppThemeMode.light.index);
-      
+      when(
+        mockPrefs.getInt('app_theme_mode'),
+      ).thenReturn(AppThemeMode.light.index);
+
       // This would need to be tested with actual SharedPreferences
       // For now, we test the setter
       await themeProvider.setThemeMode(AppThemeMode.light);
@@ -88,12 +90,12 @@ void main() {
 
     test('should notify listeners when theme changes', () async {
       await themeProvider.init();
-      
+
       bool listenerCalled = false;
       themeProvider.addListener(() {
         listenerCalled = true;
       });
-      
+
       await themeProvider.setThemeMode(AppThemeMode.light);
       expect(listenerCalled, true);
     });
@@ -101,12 +103,12 @@ void main() {
     test('should not notify listeners when theme is the same', () async {
       await themeProvider.init();
       await themeProvider.setThemeMode(AppThemeMode.light);
-      
+
       bool listenerCalled = false;
       themeProvider.addListener(() {
         listenerCalled = true;
       });
-      
+
       await themeProvider.setThemeMode(AppThemeMode.light);
       expect(listenerCalled, false);
     });
@@ -114,24 +116,24 @@ void main() {
     test('should handle invalid theme index gracefully', () async {
       // Test with invalid index
       when(mockPrefs.getInt('app_theme_mode')).thenReturn(999);
-      
+
       // Should default to system mode
       expect(themeProvider.themeMode, AppThemeMode.system);
     });
 
     test('should create themes with correct color schemes', () async {
       await themeProvider.init();
-      
+
       final lightTheme = themeProvider.lightTheme;
       final darkTheme = themeProvider.darkTheme;
-      
+
       expect(lightTheme, isNotNull);
       expect(darkTheme, isNotNull);
-      
+
       // Test that themes have different brightness
       expect(lightTheme?.brightness, Brightness.light);
       expect(darkTheme?.brightness, Brightness.dark);
-      
+
       // Test that themes have color schemes
       expect(lightTheme?.colorScheme, isNotNull);
       expect(darkTheme?.colorScheme, isNotNull);
@@ -139,20 +141,20 @@ void main() {
 
     test('should maintain theme consistency', () async {
       await themeProvider.init();
-      
+
       // Set to light theme
       themeProvider.setThemeMode(AppThemeMode.light);
       final lightTheme1 = themeProvider.currentTheme;
       final lightTheme2 = themeProvider.currentTheme;
-      
+
       // Should return the same theme instance
       expect(identical(lightTheme1, lightTheme2), true);
-      
+
       // Set to dark theme
       themeProvider.setThemeMode(AppThemeMode.dark);
       final darkTheme1 = themeProvider.currentTheme;
       final darkTheme2 = themeProvider.currentTheme;
-      
+
       // Should return the same theme instance
       expect(identical(darkTheme1, darkTheme2), true);
     });

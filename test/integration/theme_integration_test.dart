@@ -8,11 +8,10 @@ import '../helpers/test_helpers.dart';
 
 void main() {
   group('Theme Integration Tests', () {
-    testWidgets('should display light theme by default', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('should display light theme by default', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Check provider has initialized themes
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -23,11 +22,10 @@ void main() {
       expect(themeProvider.lightTheme, isNotNull);
     });
 
-    testWidgets('should switch to dark theme when selected', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('should switch to dark theme when selected', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Get the theme provider
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -42,15 +40,16 @@ void main() {
 
       // Verify dark theme is applied
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp).first);
+      final materialApp = tester.widget<MaterialApp>(
+        find.byType(MaterialApp).first,
+      );
       expect(materialApp.themeMode, ThemeMode.dark);
     });
 
-    testWidgets('should switch to light theme when selected', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('should switch to light theme when selected', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Get the theme provider
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -65,15 +64,16 @@ void main() {
 
       // Verify light theme is applied
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp).first);
+      final materialApp = tester.widget<MaterialApp>(
+        find.byType(MaterialApp).first,
+      );
       expect(materialApp.themeMode, ThemeMode.light);
     });
 
-    testWidgets('should use system theme when selected', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('should use system theme when selected', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Get the theme provider
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -88,15 +88,14 @@ void main() {
 
       // Verify system theme is applied
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp).first);
+      final materialApp = tester.widget<MaterialApp>(
+        find.byType(MaterialApp).first,
+      );
       expect(materialApp.themeMode, ThemeMode.system);
     });
 
     testWidgets('should persist theme selection', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Get the theme provider
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -118,11 +117,10 @@ void main() {
       expect(themeProviderPersist.themeMode, AppThemeMode.dark);
     });
 
-    testWidgets('should apply theme to welcome screen', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+    testWidgets('should apply theme to welcome screen', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Get the theme provider
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -137,15 +135,16 @@ void main() {
 
       // Verify theme is applied to welcome screen
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp).first);
+      final materialApp = tester.widget<MaterialApp>(
+        find.byType(MaterialApp).first,
+      );
       expect(materialApp.themeMode, ThemeMode.dark);
     });
 
-    testWidgets('should apply theme to settings screen', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+    testWidgets('should apply theme to settings screen', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
 
       // Get the theme provider and switch to light
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -160,15 +159,16 @@ void main() {
 
       // Verify theme is applied to settings screen
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp).first);
+      final materialApp = tester.widget<MaterialApp>(
+        find.byType(MaterialApp).first,
+      );
       expect(materialApp.themeMode, ThemeMode.light);
     });
 
-    testWidgets('should maintain theme consistency across navigation', (WidgetTester tester) async {
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const WelcomeScreen(),
-      );
+    testWidgets('should maintain theme consistency across navigation', (
+      WidgetTester tester,
+    ) async {
+      await TestHelpers.pumpAppWithProviders(tester, const WelcomeScreen());
 
       // Get the theme provider
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
@@ -182,15 +182,14 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
 
       // Navigate to settings with providers
-      await TestHelpers.pumpAppWithProviders(
-        tester,
-        const SettingsScreen(),
-      );
+      await TestHelpers.pumpAppWithProviders(tester, const SettingsScreen());
       await tester.pump(const Duration(milliseconds: 300));
 
       // Verify theme is consistent
       await TestHelpers.pumpUntilFound(tester, find.byType(MaterialApp));
-      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp).first);
+      final materialApp = tester.widget<MaterialApp>(
+        find.byType(MaterialApp).first,
+      );
       expect(materialApp.themeMode, ThemeMode.dark);
     });
   });

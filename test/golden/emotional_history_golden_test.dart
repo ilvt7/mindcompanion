@@ -4,20 +4,20 @@ import 'package:mindcompanion/screens/emotional_history_screen.dart';
 
 void main() {
   group('Emotional History Screen Golden Tests', () {
-    testWidgets('Emotional History screen matches golden file', (WidgetTester tester) async {
+    testWidgets('Emotional History screen matches golden file', (
+      WidgetTester tester,
+    ) async {
       // Render EmotionalHistoryScreen at a fixed size (400x800)
       await tester.binding.setSurfaceSize(const Size(400, 800));
-      
+
       // Build the EmotionalHistoryScreen widget
       await tester.pumpWidget(
-        const MaterialApp(
-          home: EmotionalHistoryScreen(),
-        ),
+        const MaterialApp(home: EmotionalHistoryScreen()),
       );
 
       // Wait for initial build and skip animations for golden tests
       await tester.pump();
-      
+
       // Wait a bit more for any immediate animations
       await tester.pump(const Duration(milliseconds: 100));
 

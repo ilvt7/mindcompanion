@@ -18,14 +18,16 @@ class MeditationTransitionWrapper extends StatefulWidget {
   });
 
   @override
-  State<MeditationTransitionWrapper> createState() => _MeditationTransitionWrapperState();
+  State<MeditationTransitionWrapper> createState() =>
+      _MeditationTransitionWrapperState();
 }
 
-class _MeditationTransitionWrapperState extends State<MeditationTransitionWrapper>
+class _MeditationTransitionWrapperState
+    extends State<MeditationTransitionWrapper>
     with TickerProviderStateMixin {
   late AnimationController _homeZoomController;
   late AnimationController _depthController;
-  
+
   late Animation<double> _homeZoomAnimation;
   late Animation<double> _depthScaleAnimation;
   late Animation<double> _depthOffsetAnimation;
@@ -33,51 +35,62 @@ class _MeditationTransitionWrapperState extends State<MeditationTransitionWrappe
   @override
   void initState() {
     super.initState();
-    
+
     // Controller para el zoom del HomeScreen
     _homeZoomController = AnimationController(
-      duration: widget.transitionDuration ?? MeditationTransitionConfig.homeZoomDuration,
+      duration:
+          widget.transitionDuration ??
+          MeditationTransitionConfig.homeZoomDuration,
       vsync: this,
     );
-    
+
     // Controller para efectos de profundidad
     _depthController = AnimationController(
       duration: MeditationTransitionConfig.depthAnimationDuration,
       vsync: this,
     );
-    
+
     // Animación de zoom del HomeScreen
-    _homeZoomAnimation = Tween<double>(
-      begin: MeditationTransitionConfig.homeZoomStart,
-      end: MeditationTransitionConfig.homeZoomEnd,
-    ).animate(CurvedAnimation(
-      parent: _homeZoomController,
-      curve: MeditationTransitionConfig.homeZoomCurve,
-    ));
-    
+    _homeZoomAnimation =
+        Tween<double>(
+          begin: MeditationTransitionConfig.homeZoomStart,
+          end: MeditationTransitionConfig.homeZoomEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _homeZoomController,
+            curve: MeditationTransitionConfig.homeZoomCurve,
+          ),
+        );
+
     // Animación de escala para profundidad
-    _depthScaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: MeditationTransitionConfig.maxDepthScale,
-    ).animate(CurvedAnimation(
-      parent: _depthController,
-      curve: MeditationTransitionConfig.depthScaleCurve,
-    ));
-    
+    _depthScaleAnimation =
+        Tween<double>(
+          begin: 1.0,
+          end: MeditationTransitionConfig.maxDepthScale,
+        ).animate(
+          CurvedAnimation(
+            parent: _depthController,
+            curve: MeditationTransitionConfig.depthScaleCurve,
+          ),
+        );
+
     // Animación de offset para profundidad
-    _depthOffsetAnimation = Tween<double>(
-      begin: 0.0,
-      end: MeditationTransitionConfig.maxDepthOffset,
-    ).animate(CurvedAnimation(
-      parent: _depthController,
-      curve: MeditationTransitionConfig.depthScaleCurve,
-    ));
+    _depthOffsetAnimation =
+        Tween<double>(
+          begin: 0.0,
+          end: MeditationTransitionConfig.maxDepthOffset,
+        ).animate(
+          CurvedAnimation(
+            parent: _depthController,
+            curve: MeditationTransitionConfig.depthScaleCurve,
+          ),
+        );
   }
 
   @override
   void didUpdateWidget(MeditationTransitionWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isTransitioning && !oldWidget.isTransitioning) {
       _startMeditationTransition();
     } else if (!widget.isTransitioning && oldWidget.isTransitioning) {
@@ -98,7 +111,7 @@ class _MeditationTransitionWrapperState extends State<MeditationTransitionWrappe
       _homeZoomController.forward();
       _depthController.forward();
     });
-    
+
     // Notificar cuando la transición esté completa
     Future.delayed(MeditationTransitionConfig.totalTransitionDuration, () {
       widget.onTransitionComplete?.call();
@@ -114,10 +127,7 @@ class _MeditationTransitionWrapperState extends State<MeditationTransitionWrappe
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: Listenable.merge([
-        _homeZoomController,
-        _depthController,
-      ]),
+      animation: Listenable.merge([_homeZoomController, _depthController]),
       builder: (context, child) {
         return Transform.scale(
           scale: _homeZoomAnimation.value,
@@ -128,8 +138,8 @@ class _MeditationTransitionWrapperState extends State<MeditationTransitionWrappe
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(
-                      MeditationTransitionConfig.transitionShadowOpacity * 
-                      _depthController.value,
+                      MeditationTransitionConfig.transitionShadowOpacity *
+                          _depthController.value,
                     ),
                     blurRadius: MeditationTransitionConfig.transitionShadowBlur,
                     offset: MeditationTransitionConfig.transitionShadowOffset,
@@ -161,10 +171,12 @@ class MeditationCardsSequentialWrapper extends StatefulWidget {
   });
 
   @override
-  State<MeditationCardsSequentialWrapper> createState() => _MeditationCardsSequentialWrapperState();
+  State<MeditationCardsSequentialWrapper> createState() =>
+      _MeditationCardsSequentialWrapperState();
 }
 
-class _MeditationCardsSequentialWrapperState extends State<MeditationCardsSequentialWrapper>
+class _MeditationCardsSequentialWrapperState
+    extends State<MeditationCardsSequentialWrapper>
     with TickerProviderStateMixin {
   late List<AnimationController> _cardControllers;
   late List<Animation<double>> _cardSlideAnimations;
@@ -174,7 +186,7 @@ class _MeditationCardsSequentialWrapperState extends State<MeditationCardsSequen
   @override
   void initState() {
     super.initState();
-    
+
     _cardControllers = List.generate(
       widget.children.length,
       (index) => AnimationController(
@@ -182,37 +194,43 @@ class _MeditationCardsSequentialWrapperState extends State<MeditationCardsSequen
         vsync: this,
       ),
     );
-    
+
     _cardSlideAnimations = _cardControllers.map((controller) {
       return Tween<double>(
         begin: MeditationTransitionConfig.cardSlideOffset.dy,
         end: MeditationTransitionConfig.cardSlideEnd,
-      ).animate(CurvedAnimation(
-        parent: controller,
-        curve: MeditationTransitionConfig.cardIndividualCurve,
-      ));
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: MeditationTransitionConfig.cardIndividualCurve,
+        ),
+      );
     }).toList();
-    
+
     _cardFadeAnimations = _cardControllers.map((controller) {
       return Tween<double>(
         begin: MeditationTransitionConfig.cardOpacityStart,
         end: MeditationTransitionConfig.cardOpacityEnd,
-      ).animate(CurvedAnimation(
-        parent: controller,
-        curve: MeditationTransitionConfig.cardFadeCurve,
-      ));
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: MeditationTransitionConfig.cardFadeCurve,
+        ),
+      );
     }).toList();
-    
+
     _cardScaleAnimations = _cardControllers.map((controller) {
       return Tween<double>(
         begin: MeditationTransitionConfig.cardScaleStart,
         end: MeditationTransitionConfig.cardScaleEnd,
-      ).animate(CurvedAnimation(
-        parent: controller,
-        curve: MeditationTransitionConfig.cardIndividualCurve,
-      ));
+      ).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: MeditationTransitionConfig.cardIndividualCurve,
+        ),
+      );
     }).toList();
-    
+
     if (widget.isTransitioning) {
       _startSequentialAnimations();
     }
@@ -221,7 +239,7 @@ class _MeditationCardsSequentialWrapperState extends State<MeditationCardsSequen
   @override
   void didUpdateWidget(MeditationCardsSequentialWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.isTransitioning && !oldWidget.isTransitioning) {
       _startSequentialAnimations();
     } else if (!widget.isTransitioning && oldWidget.isTransitioning) {
@@ -241,8 +259,12 @@ class _MeditationCardsSequentialWrapperState extends State<MeditationCardsSequen
     // Iniciar animaciones secuenciales con delays escalonados
     for (int i = 0; i < _cardControllers.length; i++) {
       Future.delayed(
-        MeditationTransitionConfig.cardsStartDelay + 
-        (Duration(milliseconds: i * MeditationTransitionConfig.cardStaggerDelay.inMilliseconds)),
+        MeditationTransitionConfig.cardsStartDelay +
+            (Duration(
+              milliseconds:
+                  i *
+                  MeditationTransitionConfig.cardStaggerDelay.inMilliseconds,
+            )),
         () {
           if (mounted) {
             _cardControllers[i].forward();
@@ -256,8 +278,11 @@ class _MeditationCardsSequentialWrapperState extends State<MeditationCardsSequen
     // Revertir animaciones en orden inverso
     for (int i = _cardControllers.length - 1; i >= 0; i--) {
       Future.delayed(
-        Duration(milliseconds: (_cardControllers.length - 1 - i) * 
-        MeditationTransitionConfig.cardStaggerDelay.inMilliseconds),
+        Duration(
+          milliseconds:
+              (_cardControllers.length - 1 - i) *
+              MeditationTransitionConfig.cardStaggerDelay.inMilliseconds,
+        ),
         () {
           if (mounted) {
             _cardControllers[i].reverse();
@@ -287,8 +312,8 @@ class _MeditationCardsSequentialWrapperState extends State<MeditationCardsSequen
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(
-                            MeditationTransitionConfig.cardShadowOpacity * 
-                            _cardControllers[index].value,
+                            MeditationTransitionConfig.cardShadowOpacity *
+                                _cardControllers[index].value,
                           ),
                           blurRadius: MeditationTransitionConfig.cardShadowBlur,
                           offset: MeditationTransitionConfig.cardShadowOffset,
@@ -327,30 +352,34 @@ class MeditationTransitionCoordinator extends StatefulWidget {
   });
 
   @override
-  State<MeditationTransitionCoordinator> createState() => _MeditationTransitionCoordinatorState();
+  State<MeditationTransitionCoordinator> createState() =>
+      _MeditationTransitionCoordinatorState();
 }
 
-class _MeditationTransitionCoordinatorState extends State<MeditationTransitionCoordinator>
+class _MeditationTransitionCoordinatorState
+    extends State<MeditationTransitionCoordinator>
     with TickerProviderStateMixin {
   late AnimationController _overallController;
   late Animation<double> _overallAnimation;
-  
+
   bool _isTransitioning = false;
 
   @override
   void initState() {
     super.initState();
-    
+
     _overallController = AnimationController(
-      duration: widget.transitionDuration ?? MeditationTransitionConfig.totalTransitionDuration,
+      duration:
+          widget.transitionDuration ??
+          MeditationTransitionConfig.totalTransitionDuration,
       vsync: this,
     );
-    
+
     _overallAnimation = CurvedAnimation(
       parent: _overallController,
       curve: MeditationTransitionConfig.meditationCurve,
     );
-    
+
     if (widget.showMeditation) {
       _startTransition();
     }
@@ -359,7 +388,7 @@ class _MeditationTransitionCoordinatorState extends State<MeditationTransitionCo
   @override
   void didUpdateWidget(MeditationTransitionCoordinator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     if (widget.showMeditation && !oldWidget.showMeditation) {
       _startTransition();
     } else if (!widget.showMeditation && oldWidget.showMeditation) {
@@ -377,7 +406,7 @@ class _MeditationTransitionCoordinatorState extends State<MeditationTransitionCo
     setState(() {
       _isTransitioning = true;
     });
-    
+
     _overallController.forward().then((_) {
       widget.onTransitionComplete?.call();
     });
@@ -402,7 +431,7 @@ class _MeditationTransitionCoordinatorState extends State<MeditationTransitionCo
           onTransitionComplete: widget.onTransitionComplete,
           child: widget.homeScreen,
         ),
-        
+
         // MeditationScreen que aparece durante la transición
         if (_isTransitioning)
           AnimatedBuilder(
@@ -452,23 +481,27 @@ class ZoomTransitionEffect extends StatelessWidget {
     return AnimatedContainer(
       duration: duration ?? MeditationTransitionConfig.zoomAnimationDuration,
       curve: MeditationTransitionConfig.zoomAnimationCurve,
-      transform: isActive 
+      transform: isActive
           ? (Matrix4.identity()
-            ..setEntry(3, 2, 0.001) // Perspectiva
-            ..scale(zoomLevel))
+              ..setEntry(3, 2, 0.001) // Perspectiva
+              ..scale(zoomLevel))
           : Matrix4.identity(),
       child: AnimatedContainer(
         duration: duration ?? MeditationTransitionConfig.zoomAnimationDuration,
         curve: MeditationTransitionConfig.zoomAnimationCurve,
         decoration: BoxDecoration(
-          boxShadow: isActive ? [
-            BoxShadow(
-              color: Colors.black.withOpacity(MeditationTransitionConfig.zoomShadowOpacity),
-              blurRadius: MeditationTransitionConfig.zoomShadowBlur,
-              offset: MeditationTransitionConfig.zoomShadowOffset,
-              spreadRadius: 0,
-            ),
-          ] : null,
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(
+                      MeditationZoomEffectsConfig.zoomShadowOpacity,
+                    ),
+                    blurRadius: MeditationZoomEffectsConfig.zoomShadowBlur,
+                    offset: MeditationZoomEffectsConfig.zoomShadowOffset,
+                    spreadRadius: 0,
+                  ),
+                ]
+              : null,
         ),
         child: child,
       ),
@@ -498,24 +531,28 @@ class DepthZoomEffect extends StatelessWidget {
     return AnimatedContainer(
       duration: duration ?? MeditationTransitionConfig.zoomAnimationDuration,
       curve: MeditationTransitionConfig.zoomAnimationCurve,
-      transform: isActive 
+      transform: isActive
           ? (Matrix4.identity()
-            ..setEntry(3, 2, 0.001) // Perspectiva
-            ..translate(0.0, depthOffset)
-            ..scale(zoomLevel))
+              ..setEntry(3, 2, 0.001) // Perspectiva
+              ..translate(0.0, depthOffset)
+              ..scale(zoomLevel))
           : Matrix4.identity(),
       child: AnimatedContainer(
         duration: duration ?? MeditationTransitionConfig.zoomAnimationDuration,
         curve: MeditationTransitionConfig.zoomAnimationCurve,
         decoration: BoxDecoration(
-          boxShadow: isActive ? [
-            BoxShadow(
-              color: Colors.black.withOpacity(MeditationTransitionConfig.zoomShadowOpacity),
-              blurRadius: MeditationTransitionConfig.zoomShadowBlur,
-              offset: MeditationTransitionConfig.zoomShadowOffset,
-              spreadRadius: 0,
-            ),
-          ] : null,
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(
+                      MeditationZoomEffectsConfig.zoomShadowOpacity,
+                    ),
+                    blurRadius: MeditationZoomEffectsConfig.zoomShadowBlur,
+                    offset: MeditationZoomEffectsConfig.zoomShadowOffset,
+                    spreadRadius: 0,
+                  ),
+                ]
+              : null,
         ),
         child: child,
       ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'emotional_history_screen.dart';
-import 'settings_screen.dart';
-import 'meditation_screen.dart'; // Added for navigation
+// Added for navigation
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,12 +8,11 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController _cardsController;
   late AnimationController _iconBounceController;
   late AnimationController _navController;
-  
+
   late Animation<double> _cardsFade;
   late Animation<Offset> _cardsSlide;
   late Animation<double> _iconBounce;
@@ -26,60 +23,46 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    
+
     // Controller para las cards
     _cardsController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     // Controller para el bounce de iconos
     _iconBounceController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
+
     // Controller para la navegación
     _navController = AnimationController(
       duration: const Duration(milliseconds: 400),
       vsync: this,
     );
-    
+
     // Animación de fade-in y slide para las cards
-    _cardsFade = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _cardsController,
-      curve: Curves.easeOutCubic,
-    ));
-    
-    _cardsSlide = Tween<Offset>(
-      begin: const Offset(0, 0.4),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _cardsController,
-      curve: Curves.easeOutCubic,
-    ));
-    
+    _cardsFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _cardsController, curve: Curves.easeOutCubic),
+    );
+
+    _cardsSlide = Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _cardsController, curve: Curves.easeOutCubic),
+        );
+
     // Animación de bounce para iconos
-    _iconBounce = Tween<double>(
-      begin: 1.0,
-      end: 1.2,
-    ).animate(CurvedAnimation(
-      parent: _iconBounceController,
-      curve: Curves.elasticOut,
-    ));
-    
+    _iconBounce = Tween<double>(begin: 1.0, end: 1.2).animate(
+      CurvedAnimation(parent: _iconBounceController, curve: Curves.elasticOut),
+    );
+
     // Animación de color para navegación
     _navColor = ColorTween(
       begin: const Color(0xFFCBD5E0),
       end: const Color(0xFF87CEEB),
-    ).animate(CurvedAnimation(
-      parent: _navController,
-      curve: Curves.easeInOut,
-    ));
-    
+    ).animate(CurvedAnimation(parent: _navController, curve: Curves.easeInOut));
+
     // Iniciar animación de las cards
     _cardsController.forward();
   }
@@ -102,12 +85,12 @@ class _HomeScreenState extends State<HomeScreen>
     setState(() {
       _currentIndex = index;
     });
-    
+
     // Animar el cambio de color
     _navController.forward().then((_) {
       _navController.reverse();
     });
-    
+
     switch (index) {
       case 0:
         // Already on home
@@ -126,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen>
     final screenSize = MediaQuery.of(context).size;
     final isSmallScreen = screenSize.width < 400;
     final isMediumScreen = screenSize.width < 600;
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -162,18 +145,69 @@ class _HomeScreenState extends State<HomeScreen>
                   child: FadeTransition(
                     opacity: _cardsFade,
                     child: GridView.count(
-                      crossAxisCount: isSmallScreen ? 2 : (isMediumScreen ? 2 : 3),
+                      crossAxisCount: isSmallScreen
+                          ? 2
+                          : (isMediumScreen ? 2 : 3),
                       crossAxisSpacing: isSmallScreen ? 12 : 20,
                       mainAxisSpacing: isSmallScreen ? 12 : 20,
                       childAspectRatio: isSmallScreen ? 0.85 : 1.0,
                       children: [
-                        _buildFeatureCard(context, 'Register Emotion', Icons.sentiment_satisfied_alt, const Color(0xFFFFB6C1), () => Navigator.pushNamed(context, '/ai-diary')),
-                        _buildFeatureCard(context, 'Diary', Icons.book_rounded, const Color(0xFF98FB98), () => Navigator.pushNamed(context, '/personal-diary')),
-                        _buildFeatureCard(context, 'Meditations', Icons.self_improvement, const Color(0xFF87CEEB), () => Navigator.pushNamed(context, '/meditations')),
-                        _buildFeatureCard(context, 'Crisis Mode', Icons.emergency, const Color(0xFFE6E6FA), () => Navigator.pushNamed(context, '/crisis')),
-                        _buildFeatureCard(context, 'Transitions', Icons.animation_rounded, const Color(0xFFDDA0DD), () => Navigator.pushNamed(context, '/transition-demo')),
-                        _buildFeatureCard(context, 'Crisis Transitions', Icons.warning_rounded, const Color(0xFFF56565), () => Navigator.pushNamed(context, '/crisis-transition-demo')),
-                        _buildFeatureCard(context, 'Settings Transitions', Icons.settings_rounded, const Color(0xFF48BB78), () => Navigator.pushNamed(context, '/settings-transition-demo')),
+                        _buildFeatureCard(
+                          context,
+                          'Register Emotion',
+                          Icons.sentiment_satisfied_alt,
+                          const Color(0xFFFFB6C1),
+                          () => Navigator.pushNamed(context, '/ai-diary'),
+                        ),
+                        _buildFeatureCard(
+                          context,
+                          'Diary',
+                          Icons.book_rounded,
+                          const Color(0xFF98FB98),
+                          () => Navigator.pushNamed(context, '/personal-diary'),
+                        ),
+                        _buildFeatureCard(
+                          context,
+                          'Meditations',
+                          Icons.self_improvement,
+                          const Color(0xFF87CEEB),
+                          () => Navigator.pushNamed(context, '/meditations'),
+                        ),
+                        _buildFeatureCard(
+                          context,
+                          'Crisis Mode',
+                          Icons.emergency,
+                          const Color(0xFFE6E6FA),
+                          () => Navigator.pushNamed(context, '/crisis'),
+                        ),
+                        _buildFeatureCard(
+                          context,
+                          'Transitions',
+                          Icons.animation_rounded,
+                          const Color(0xFFDDA0DD),
+                          () =>
+                              Navigator.pushNamed(context, '/transition-demo'),
+                        ),
+                        _buildFeatureCard(
+                          context,
+                          'Crisis Transitions',
+                          Icons.warning_rounded,
+                          const Color(0xFFF56565),
+                          () => Navigator.pushNamed(
+                            context,
+                            '/crisis-transition-demo',
+                          ),
+                        ),
+                        _buildFeatureCard(
+                          context,
+                          'Settings Transitions',
+                          Icons.settings_rounded,
+                          const Color(0xFF48BB78),
+                          () => Navigator.pushNamed(
+                            context,
+                            '/settings-transition-demo',
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -187,7 +221,11 @@ class _HomeScreenState extends State<HomeScreen>
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 20, offset: const Offset(0, -5)),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 20,
+              offset: const Offset(0, -5),
+            ),
           ],
         ),
         child: BottomNavigationBar(
@@ -208,7 +246,9 @@ class _HomeScreenState extends State<HomeScreen>
                   return Icon(
                     Icons.home_rounded,
                     size: isSmallScreen ? 20 : 24,
-                    color: _currentIndex == 0 ? _navColor.value ?? const Color(0xFF87CEEB) : const Color(0xFFCBD5E0),
+                    color: _currentIndex == 0
+                        ? _navColor.value ?? const Color(0xFF87CEEB)
+                        : const Color(0xFFCBD5E0),
                   );
                 },
               ),
@@ -221,7 +261,9 @@ class _HomeScreenState extends State<HomeScreen>
                   return Icon(
                     Icons.history_rounded,
                     size: isSmallScreen ? 20 : 24,
-                    color: _currentIndex == 1 ? _navColor.value ?? const Color(0xFF87CEEB) : const Color(0xFFCBD5E0),
+                    color: _currentIndex == 1
+                        ? _navColor.value ?? const Color(0xFF87CEEB)
+                        : const Color(0xFFCBD5E0),
                   );
                 },
               ),
@@ -234,7 +276,9 @@ class _HomeScreenState extends State<HomeScreen>
                   return Icon(
                     Icons.settings_rounded,
                     size: isSmallScreen ? 20 : 24,
-                    color: _currentIndex == 2 ? _navColor.value ?? const Color(0xFF87CEEB) : const Color(0xFFCBD5E0),
+                    color: _currentIndex == 2
+                        ? _navColor.value ?? const Color(0xFF87CEEB)
+                        : const Color(0xFFCBD5E0),
                   );
                 },
               ),
@@ -246,10 +290,16 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildFeatureCard(BuildContext context, String title, IconData icon, Color color, VoidCallback onTap) {
+  Widget _buildFeatureCard(
+    BuildContext context,
+    String title,
+    IconData icon,
+    Color color,
+    VoidCallback onTap,
+  ) {
     final screenSize = MediaQuery.of(context).size;
     final isSmallScreen = screenSize.width < 400;
-    
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -258,8 +308,18 @@ class _HomeScreenState extends State<HomeScreen>
           borderRadius: BorderRadius.circular(isSmallScreen ? 20 : 24),
           border: Border.all(color: color.withOpacity(0.3), width: 2),
           boxShadow: [
-            BoxShadow(color: color.withOpacity(0.15), blurRadius: 20, offset: const Offset(0, 8), spreadRadius: 0),
-            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4), spreadRadius: 0),
+            BoxShadow(
+              color: color.withOpacity(0.15),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+              spreadRadius: 0,
+            ),
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+              spreadRadius: 0,
+            ),
           ],
         ),
         child: Column(
@@ -277,8 +337,13 @@ class _HomeScreenState extends State<HomeScreen>
                       height: isSmallScreen ? 60 : 70,
                       decoration: BoxDecoration(
                         color: color.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
-                        border: Border.all(color: color.withOpacity(0.2), width: 1),
+                        borderRadius: BorderRadius.circular(
+                          isSmallScreen ? 16 : 20,
+                        ),
+                        border: Border.all(
+                          color: color.withOpacity(0.2),
+                          width: 1,
+                        ),
                       ),
                       child: Icon(
                         icon,

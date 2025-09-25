@@ -20,60 +20,60 @@ void main() {
 
     setUp(() {
       mockSharedPreferences = MockSharedPreferences();
-      
-      // Set up default mock responses
-      when(mockSharedPreferences.getString('diary_entries'))
-          .thenReturn('[]');
-      when(mockSharedPreferences.setString('diary_entries', any))
-          .thenAnswer((_) async => true);
-    });
-    
 
+      // Set up default mock responses
+      when(mockSharedPreferences.getString('diary_entries')).thenReturn('[]');
+      when(
+        mockSharedPreferences.setString('diary_entries', any),
+      ).thenAnswer((_) async => true);
+    });
 
     tearDown(() {
       // Clean up after each test
     });
 
     group('AI Diary Screen Tests', () {
-      testWidgets('AI Diary screen displays correctly', (WidgetTester tester) async {
+      testWidgets('AI Diary screen displays correctly', (
+        WidgetTester tester,
+      ) async {
         // Set test surface size to prevent overflow
         await tester.binding.setSurfaceSize(const Size(800, 1200));
-        
-        // Build the AI Diary screen
-        await tester.pumpWidget(
-          MaterialApp(
-            home: const AIDiaryScreen(),
-          ),
-        );
 
-                // Wait for initial animations and ensure UI is fully rendered
+        // Build the AI Diary screen
+        await tester.pumpWidget(MaterialApp(home: const AIDiaryScreen()));
+
+        // Wait for initial animations and ensure UI is fully rendered
         await tester.pumpAndSettle();
-        
+
         // Wait for delayed card animations to complete
         await tester.pump(const Duration(milliseconds: 1000));
-        
+
         // Verify the main elements are displayed
         expect(find.text('AI Emotion Diary'), findsOneWidget);
-        expect(find.text('Describe how you\'re feeling today...'), findsOneWidget);
+        expect(
+          find.text('Describe how you\'re feeling today...'),
+          findsOneWidget,
+        );
         expect(find.text('Save Entry'), findsOneWidget);
       });
 
-      testWidgets('AI Diary can save entry with text and emotion', (WidgetTester tester) async {
+      testWidgets('AI Diary can save entry with text and emotion', (
+        WidgetTester tester,
+      ) async {
         // Build the AI Diary screen
-        await tester.pumpWidget(
-          MaterialApp(
-            home: const AIDiaryScreen(),
-          ),
-        );
+        await tester.pumpWidget(MaterialApp(home: const AIDiaryScreen()));
 
-                // Wait for initial animations and ensure UI is fully rendered
+        // Wait for initial animations and ensure UI is fully rendered
         await tester.pumpAndSettle();
-        
+
         // Wait for delayed card animations to complete
         await tester.pump(const Duration(milliseconds: 1000));
-        
+
         // Enter text
-        await tester.enterText(find.byType(TextField), 'I had a great day today!');
+        await tester.enterText(
+          find.byType(TextField),
+          'I had a great day today!',
+        );
         await tester.pump();
 
         // Verify text is entered
@@ -87,20 +87,23 @@ void main() {
         await tester.pump();
 
         // Verify success message
-        expect(find.text('Entry saved for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'), findsOneWidget);
+        expect(
+          find.text(
+            'Entry saved for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+          ),
+          findsOneWidget,
+        );
       });
 
-      testWidgets('AI Diary shows validation error for empty text', (WidgetTester tester) async {
+      testWidgets('AI Diary shows validation error for empty text', (
+        WidgetTester tester,
+      ) async {
         // Build the AI Diary screen
-        await tester.pumpWidget(
-          MaterialApp(
-            home: const AIDiaryScreen(),
-          ),
-        );
+        await tester.pumpWidget(MaterialApp(home: const AIDiaryScreen()));
 
         // Wait for initial animations and ensure UI is fully rendered
         await tester.pumpAndSettle();
-        
+
         // Wait for delayed card animations to complete
         await tester.pump(const Duration(milliseconds: 1000));
 
@@ -109,26 +112,30 @@ void main() {
         await tester.pump();
 
         // Verify validation error
-        expect(find.text('Please write something before saving'), findsOneWidget);
+        expect(
+          find.text('Please write something before saving'),
+          findsOneWidget,
+        );
       });
 
-      testWidgets('AI Diary shows emotion selection', (WidgetTester tester) async {
+      testWidgets('AI Diary shows emotion selection', (
+        WidgetTester tester,
+      ) async {
         // Build the AI Diary screen
-        await tester.pumpWidget(
-          MaterialApp(
-            home: const AIDiaryScreen(),
-          ),
-        );
+        await tester.pumpWidget(MaterialApp(home: const AIDiaryScreen()));
 
         // Wait for initial animations and ensure UI is fully rendered
         await tester.pumpAndSettle();
-        
+
         // Wait for delayed card animations to complete
         await tester.pump(const Duration(milliseconds: 1000));
 
         // Verify emotion selection is displayed
         expect(find.text('Select Your Emotion'), findsOneWidget);
-        expect(find.text('Happy'), findsAtLeastNWidgets(1)); // Multiple Happy widgets (display and button)
+        expect(
+          find.text('Happy'),
+          findsAtLeastNWidgets(1),
+        ); // Multiple Happy widgets (display and button)
         expect(find.text('Sad'), findsOneWidget);
         expect(find.text('Angry'), findsOneWidget);
         expect(find.text('Anxious'), findsOneWidget);
@@ -138,22 +145,23 @@ void main() {
         expect(find.text('Grateful'), findsOneWidget);
       });
 
-      testWidgets('AI Diary shows validation error for missing emotion', (WidgetTester tester) async {
+      testWidgets('AI Diary shows validation error for missing emotion', (
+        WidgetTester tester,
+      ) async {
         // Build the AI Diary screen
-        await tester.pumpWidget(
-          MaterialApp(
-            home: const AIDiaryScreen(),
-          ),
-        );
+        await tester.pumpWidget(MaterialApp(home: const AIDiaryScreen()));
 
         // Wait for initial animations and ensure UI is fully rendered
         await tester.pumpAndSettle();
-        
+
         // Wait for delayed card animations to complete
         await tester.pump(const Duration(milliseconds: 1000));
 
         // Enter text
-        await tester.enterText(find.byType(TextField), 'Today I reflected on my goals and felt motivated.');
+        await tester.enterText(
+          find.byType(TextField),
+          'Today I reflected on my goals and felt motivated.',
+        );
         await tester.pump();
 
         // Save entry
@@ -161,64 +169,79 @@ void main() {
         await tester.pump();
 
         // Verify success message (emotion is selected by default)
-        expect(find.text('Entry saved for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'), findsOneWidget);
+        expect(
+          find.text(
+            'Entry saved for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+          ),
+          findsOneWidget,
+        );
       });
     });
 
     group('Personal Diary Screen Tests', () {
-      testWidgets('Personal Diary screen displays correctly', (WidgetTester tester) async {
+      testWidgets('Personal Diary screen displays correctly', (
+        WidgetTester tester,
+      ) async {
         // Build the Personal Diary screen
-        await tester.pumpWidget(
-          MaterialApp(
-            home: const PersonalDiaryScreen(),
-          ),
-        );
+        await tester.pumpWidget(MaterialApp(home: const PersonalDiaryScreen()));
 
         // Wait for initial animations and ensure UI is fully rendered
         await tester.pumpAndSettle();
 
         // Verify the main elements are displayed
         expect(find.text('Personal Diary'), findsOneWidget);
-        expect(find.text('Write your thoughts, feelings, and experiences for today...'), findsOneWidget);
+        expect(
+          find.text(
+            'Write your thoughts, feelings, and experiences for today...',
+          ),
+          findsOneWidget,
+        );
         expect(find.text('Save Entry'), findsOneWidget);
       });
 
-      testWidgets('Personal Diary can save entry with text', (WidgetTester tester) async {
+      testWidgets('Personal Diary can save entry with text', (
+        WidgetTester tester,
+      ) async {
         // Build the Personal Diary screen
-        await tester.pumpWidget(
-          MaterialApp(
-            home: const PersonalDiaryScreen(),
-          ),
-        );
+        await tester.pumpWidget(MaterialApp(home: const PersonalDiaryScreen()));
 
         // Wait for initial animations and ensure UI is fully rendered
         await tester.pumpAndSettle();
-        
+
         // Wait for delayed card animations to complete
         await tester.pump(const Duration(milliseconds: 1000));
 
         // Enter text
-        await tester.enterText(find.byType(TextField), 'Today I reflected on my goals and felt motivated.');
+        await tester.enterText(
+          find.byType(TextField),
+          'Today I reflected on my goals and felt motivated.',
+        );
         await tester.pump();
 
         // Verify text is entered
-        expect(find.text('Today I reflected on my goals and felt motivated.'), findsOneWidget);
+        expect(
+          find.text('Today I reflected on my goals and felt motivated.'),
+          findsOneWidget,
+        );
 
         // Save entry
         await tester.tap(find.text('Save Entry'));
         await tester.pump();
 
         // Verify success message
-        expect(find.text('Personal diary entry saved for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'), findsOneWidget);
+        expect(
+          find.text(
+            'Personal diary entry saved for ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
+          ),
+          findsOneWidget,
+        );
       });
 
-      testWidgets('Personal Diary shows validation error for empty text', (WidgetTester tester) async {
+      testWidgets('Personal Diary shows validation error for empty text', (
+        WidgetTester tester,
+      ) async {
         // Build the Personal Diary screen
-        await tester.pumpWidget(
-          MaterialApp(
-            home: const PersonalDiaryScreen(),
-          ),
-        );
+        await tester.pumpWidget(MaterialApp(home: const PersonalDiaryScreen()));
 
         // Wait for initial animations and ensure UI is fully rendered
         await tester.pumpAndSettle();
@@ -228,12 +251,17 @@ void main() {
         await tester.pump();
 
         // Verify validation error
-        expect(find.text('Please write something before saving'), findsOneWidget);
+        expect(
+          find.text('Please write something before saving'),
+          findsOneWidget,
+        );
       });
     });
 
     group('Diary Storage Integration Tests', () {
-      testWidgets('Diary entries are saved and retrieved correctly', (WidgetTester tester) async {
+      testWidgets('Diary entries are saved and retrieved correctly', (
+        WidgetTester tester,
+      ) async {
         // Set up mock data
         final testEntries = [
           DiaryEntry.createAIEntry(
@@ -248,8 +276,9 @@ void main() {
         ];
 
         final entriesJson = testEntries.map((e) => e.toJson()).toList();
-        when(mockSharedPreferences.getString('diary_entries'))
-            .thenReturn(jsonEncode(entriesJson));
+        when(
+          mockSharedPreferences.getString('diary_entries'),
+        ).thenReturn(jsonEncode(entriesJson));
 
         // Test saving entries
         for (final entry in testEntries) {
@@ -264,7 +293,9 @@ void main() {
         expect(retrievedEntries[1].text, equals('Test Personal entry'));
       });
 
-      testWidgets('Diary entries persist across app sessions', (WidgetTester tester) async {
+      testWidgets('Diary entries persist across app sessions', (
+        WidgetTester tester,
+      ) async {
         // Set up mock data with existing entries
         final existingEntries = [
           DiaryEntry.createAIEntry(
@@ -279,8 +310,9 @@ void main() {
         ];
 
         final entriesJson = existingEntries.map((e) => e.toJson()).toList();
-        when(mockSharedPreferences.getString('diary_entries'))
-            .thenReturn(jsonEncode(entriesJson));
+        when(
+          mockSharedPreferences.getString('diary_entries'),
+        ).thenReturn(jsonEncode(entriesJson));
 
         // Verify entries are loaded
         final loadedEntries = await DiaryStorageService.getEntries();
@@ -289,7 +321,9 @@ void main() {
         expect(loadedEntries[1].text, equals('Persistent Personal entry'));
       });
 
-      testWidgets('Diary entries maintain correct metadata', (WidgetTester tester) async {
+      testWidgets('Diary entries maintain correct metadata', (
+        WidgetTester tester,
+      ) async {
         // Create test entry
         final testEntry = DiaryEntry.createAIEntry(
           text: 'Happy day at work',
@@ -336,7 +370,9 @@ void main() {
     });
 
     group('Cross-Screen Integration Tests', () {
-      testWidgets('AI and Personal diary entries are stored separately', (WidgetTester tester) async {
+      testWidgets('AI and Personal diary entries are stored separately', (
+        WidgetTester tester,
+      ) async {
         // Create entries of different types
         final aiEntry = DiaryEntry.createAIEntry(
           text: 'Integration test AI entry',
@@ -363,8 +399,13 @@ void main() {
         expect(savedAiEntry.emotion, equals('Happy'));
 
         // Verify Personal entry properties
-        final savedPersonalEntry = allEntries.firstWhere((e) => e.type == 'personal');
-        expect(savedPersonalEntry.text, equals('Integration test Personal entry'));
+        final savedPersonalEntry = allEntries.firstWhere(
+          (e) => e.type == 'personal',
+        );
+        expect(
+          savedPersonalEntry.text,
+          equals('Integration test Personal entry'),
+        );
         expect(savedPersonalEntry.emotion, isNull);
       });
     });

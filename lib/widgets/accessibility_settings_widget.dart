@@ -13,7 +13,7 @@ class ThemeSelectionWidget extends StatelessWidget {
     return Consumer<AccessibilityProvider>(
       builder: (context, accessibilityProvider, child) {
         final themeProvider = accessibilityProvider.themeProvider;
-        
+
         return Card(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -48,7 +48,7 @@ class ThemeSelectionWidget extends StatelessWidget {
                       }
                     },
                   );
-                }).toList(),
+                }),
               ],
             ),
           ),
@@ -67,7 +67,7 @@ class TextScaleSettingsWidget extends StatelessWidget {
     return Consumer<AccessibilityProvider>(
       builder: (context, accessibilityProvider, child) {
         final textScaleProvider = accessibilityProvider.textScaleProvider;
-        
+
         return Card(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -103,7 +103,11 @@ class TextScaleSettingsWidget extends StatelessWidget {
                         value: textScaleProvider.textScaleFactor,
                         min: textScaleProvider.minScale,
                         max: textScaleProvider.maxScale,
-                        divisions: ((textScaleProvider.maxScale - textScaleProvider.minScale) / textScaleProvider.step).round(),
+                        divisions:
+                            ((textScaleProvider.maxScale -
+                                        textScaleProvider.minScale) /
+                                    textScaleProvider.step)
+                                .round(),
                         onChanged: (value) {
                           textScaleProvider.setTextScaleFactor(value);
                         },
@@ -122,7 +126,9 @@ class TextScaleSettingsWidget extends StatelessWidget {
                   child: Text(
                     textScaleProvider.textScaleDescription,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withOpacity(0.7),
                     ),
                   ),
                 ),
@@ -148,12 +154,7 @@ class TextScaleSettingsWidget extends StatelessWidget {
                       1.2,
                       textScaleProvider,
                     ),
-                    _buildPresetButton(
-                      context,
-                      'Huge',
-                      1.5,
-                      textScaleProvider,
-                    ),
+                    _buildPresetButton(context, 'Huge', 1.5, textScaleProvider),
                   ],
                 ),
               ],
@@ -171,7 +172,7 @@ class TextScaleSettingsWidget extends StatelessWidget {
     TextScaleProvider textScaleProvider,
   ) {
     final isSelected = (textScaleProvider.textScaleFactor - value).abs() < 0.1;
-    
+
     return OutlinedButton(
       onPressed: () => textScaleProvider.setTextScaleFactor(value),
       style: OutlinedButton.styleFrom(
@@ -206,7 +207,7 @@ class TTSSettingsWidget extends StatelessWidget {
     return Consumer<AccessibilityProvider>(
       builder: (context, accessibilityProvider, child) {
         final ttsService = accessibilityProvider.ttsService;
-        
+
         return Card(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -276,10 +277,7 @@ class TTSSettingsWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    'Volume',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
+                  Text('Volume', style: Theme.of(context).textTheme.titleSmall),
                   Slider(
                     value: ttsService.volume,
                     min: 0.0,
@@ -294,10 +292,7 @@ class TTSSettingsWidget extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    'Pitch',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
+                  Text('Pitch', style: Theme.of(context).textTheme.titleSmall),
                   Slider(
                     value: ttsService.pitch,
                     min: 0.5,

@@ -115,18 +115,12 @@ class _SmoothColorTransitionState extends State<SmoothColorTransition>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: widget.duration,
-      vsync: this,
-    );
+    _controller = AnimationController(duration: widget.duration, vsync: this);
 
     _colorAnimation = ColorTween(
       begin: widget.startColor,
       end: widget.endColor,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: widget.curve));
 
     _controller.forward();
   }
@@ -143,9 +137,7 @@ class _SmoothColorTransitionState extends State<SmoothColorTransition>
       animation: _colorAnimation,
       builder: (context, child) {
         return Container(
-          decoration: BoxDecoration(
-            color: _colorAnimation.value,
-          ),
+          decoration: BoxDecoration(color: _colorAnimation.value),
           child: widget.child,
         );
       },

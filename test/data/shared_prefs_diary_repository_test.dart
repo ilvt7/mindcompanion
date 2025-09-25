@@ -20,7 +20,7 @@ void main() {
     setUp(() {
       mockPrefs = MockSharedPreferences();
       repository = SharedPrefsDiaryRepository(mockPrefs);
-      
+
       testEmotion = const Emotion(
         id: 'happy',
         name: 'Happy',
@@ -47,7 +47,7 @@ void main() {
         when(mockPrefs.setString(any, any)).thenAnswer((_) async => true);
 
         await repository.upsertEntry(testEntry);
-        
+
         // Wait for debounced write
         await Future.delayed(const Duration(milliseconds: 600));
 
@@ -67,7 +67,7 @@ void main() {
               'emoji': '😄',
               'valence': 2,
             },
-          }
+          },
         ]);
 
         when(mockPrefs.getString('diary_entries_v2')).thenReturn(jsonString);
@@ -93,7 +93,7 @@ void main() {
               'emoji': '😄',
               'valence': 2,
             },
-          }
+          },
         ]);
 
         when(mockPrefs.getString('diary_entries_v2')).thenReturn(jsonString);
@@ -125,14 +125,14 @@ void main() {
               'emoji': '😄',
               'valence': 2,
             },
-          }
+          },
         ]);
 
         when(mockPrefs.getString('diary_entries_v2')).thenReturn(jsonString);
         when(mockPrefs.setString(any, any)).thenAnswer((_) async => true);
 
         await repository.deleteEntry('test-id');
-        
+
         // Wait for debounced write
         await Future.delayed(const Duration(milliseconds: 600));
 
@@ -140,7 +140,9 @@ void main() {
       });
 
       test('should clear all entries', () async {
-        when(mockPrefs.remove('diary_entries_v2')).thenAnswer((_) async => true);
+        when(
+          mockPrefs.remove('diary_entries_v2'),
+        ).thenAnswer((_) async => true);
 
         await repository.clearAllEntries();
 
@@ -177,7 +179,9 @@ void main() {
 
       test('should filter by source', () async {
         final aiEntries = await repository.getEntriesBySource(DiarySource.ai);
-        final personalEntries = await repository.getEntriesBySource(DiarySource.personal);
+        final personalEntries = await repository.getEntriesBySource(
+          DiarySource.personal,
+        );
 
         expect(aiEntries.length, 1);
         expect(aiEntries.first.source, DiarySource.ai);
@@ -208,7 +212,10 @@ void main() {
         final recentEntries = await repository.getRecentEntries(1);
 
         expect(recentEntries.length, 1);
-        expect(recentEntries.first.id, 'ai-entry'); // Most recent (sorted by date)
+        expect(
+          recentEntries.first.id,
+          'ai-entry',
+        ); // Most recent (sorted by date)
       });
     });
 
@@ -235,14 +242,16 @@ void main() {
 
       test('should migrate old AI entries', () async {
         when(mockPrefs.getString('diary_entries_v2')).thenReturn(null);
-        when(mockPrefs.getString('ai_diary_entries')).thenReturn(jsonEncode([
-          {
-            'id': 'old-ai-entry',
-            'text': 'Old AI entry',
-            'date': '2024-01-01T00:00:00.000',
-            'emotion': 'happy',
-          }
-        ]));
+        when(mockPrefs.getString('ai_diary_entries')).thenReturn(
+          jsonEncode([
+            {
+              'id': 'old-ai-entry',
+              'text': 'Old AI entry',
+              'date': '2024-01-01T00:00:00.000',
+              'emotion': 'happy',
+            },
+          ]),
+        );
         when(mockPrefs.getString('personal_diary_entries')).thenReturn(null);
         when(mockPrefs.getString('diary_entries')).thenReturn(null);
         when(mockPrefs.setString(any, any)).thenAnswer((_) async => true);
@@ -257,13 +266,15 @@ void main() {
       test('should migrate old personal entries', () async {
         when(mockPrefs.getString('diary_entries_v2')).thenReturn(null);
         when(mockPrefs.getString('ai_diary_entries')).thenReturn(null);
-        when(mockPrefs.getString('personal_diary_entries')).thenReturn(jsonEncode([
-          {
-            'id': 'old-personal-entry',
-            'text': 'Old personal entry',
-            'date': '2024-01-01T00:00:00.000',
-          }
-        ]));
+        when(mockPrefs.getString('personal_diary_entries')).thenReturn(
+          jsonEncode([
+            {
+              'id': 'old-personal-entry',
+              'text': 'Old personal entry',
+              'date': '2024-01-01T00:00:00.000',
+            },
+          ]),
+        );
         when(mockPrefs.getString('diary_entries')).thenReturn(null);
         when(mockPrefs.setString(any, any)).thenAnswer((_) async => true);
         when(mockPrefs.remove(any)).thenAnswer((_) async => true);
@@ -278,14 +289,16 @@ void main() {
         when(mockPrefs.getString('diary_entries_v2')).thenReturn(null);
         when(mockPrefs.getString('ai_diary_entries')).thenReturn(null);
         when(mockPrefs.getString('personal_diary_entries')).thenReturn(null);
-        when(mockPrefs.getString('diary_entries')).thenReturn(jsonEncode([
-          {
-            'id': 'old-unified-entry',
-            'text': 'Old unified entry',
-            'date': '2024-01-01T00:00:00.000',
-            'type': 'ai',
-          }
-        ]));
+        when(mockPrefs.getString('diary_entries')).thenReturn(
+          jsonEncode([
+            {
+              'id': 'old-unified-entry',
+              'text': 'Old unified entry',
+              'date': '2024-01-01T00:00:00.000',
+              'type': 'ai',
+            },
+          ]),
+        );
         when(mockPrefs.setString(any, any)).thenAnswer((_) async => true);
         when(mockPrefs.remove(any)).thenAnswer((_) async => true);
 
@@ -302,7 +315,7 @@ void main() {
 
         final entriesStream = repository.watchAll();
         final entriesList = <List<DiaryEntry>>[];
-        
+
         final subscription = entriesStream.listen(entriesList.add);
 
         await repository.upsertEntry(testEntry);
@@ -318,7 +331,9 @@ void main() {
 
     group('Error Handling', () {
       test('should handle JSON parsing errors gracefully', () async {
-        when(mockPrefs.getString('diary_entries_v2')).thenReturn('invalid-json');
+        when(
+          mockPrefs.getString('diary_entries_v2'),
+        ).thenReturn('invalid-json');
 
         final entries = await repository.getEntries();
 
@@ -327,10 +342,12 @@ void main() {
 
       test('should handle storage write errors', () async {
         when(mockPrefs.getString('diary_entries_v2')).thenReturn('[]');
-        when(mockPrefs.setString(any, any)).thenThrow(Exception('Storage error'));
+        when(
+          mockPrefs.setString(any, any),
+        ).thenThrow(Exception('Storage error'));
 
         await repository.upsertEntry(testEntry);
-        
+
         // Wait for debounced write to trigger error
         await Future.delayed(const Duration(milliseconds: 600));
 

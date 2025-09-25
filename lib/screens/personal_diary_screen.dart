@@ -15,7 +15,7 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
   late AnimationController _textAreaController;
   late AnimationController _saveButtonController;
   late AnimationController _datePickerController;
-  
+
   late Animation<double> _textAreaFade;
   late Animation<double> _saveButtonScale;
   late Animation<double> _datePickerHeight;
@@ -29,61 +29,45 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
   @override
   void initState() {
     super.initState();
-    
+
     // Controller para el área de texto
     _textAreaController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     // Controller para el botón de guardar
     _saveButtonController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    
+
     // Controller para el selector de fecha
     _datePickerController = AnimationController(
       duration: const Duration(milliseconds: 400),
       vsync: this,
     );
-    
+
     // Animación de fade-in para el área de texto
-    _textAreaFade = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _textAreaController,
-      curve: Curves.easeOutCubic,
-    ));
-    
+    _textAreaFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _textAreaController, curve: Curves.easeOutCubic),
+    );
+
     // Animación de escala para el botón de guardar
-    _saveButtonScale = Tween<double>(
-      begin: 1.0,
-      end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: _saveButtonController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _saveButtonScale = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _saveButtonController, curve: Curves.easeInOut),
+    );
+
     // Animación de altura para el selector de fecha
-    _datePickerHeight = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _datePickerController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _datePickerHeight = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _datePickerController, curve: Curves.easeInOut),
+    );
+
     // Animación de opacidad para el selector de fecha
-    _datePickerOpacity = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _datePickerController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _datePickerOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _datePickerController, curve: Curves.easeInOut),
+    );
+
     // Iniciar animación del área de texto
     _textAreaController.forward();
   }
@@ -146,19 +130,21 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
         text: _textController.text.trim(),
         date: _selectedDate,
       );
-      
+
       // Save the entry using the storage service
       final success = await DiaryStorageService.saveEntry(entry);
-      
+
       if (!success) {
         throw Exception('Failed to save entry');
       }
-      
+
       // Show success message
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Personal diary entry saved for ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}'),
+            content: Text(
+              'Personal diary entry saved for ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
+            ),
             backgroundColor: const Color(0xFF48BB78),
             duration: Duration(seconds: 3),
             action: SnackBarAction(
@@ -170,10 +156,10 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
             ),
           ),
         );
-        
+
         // Clear the text controller
         _textController.clear();
-        
+
         // Navigate back
         Navigator.pop(context);
       }
@@ -204,7 +190,7 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
     setState(() {
       _isDatePickerExpanded = !_isDatePickerExpanded;
     });
-    
+
     if (_isDatePickerExpanded) {
       _datePickerController.forward();
     } else {
@@ -217,7 +203,7 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
     final screenSize = MediaQuery.of(context).size;
     final isSmallScreen = screenSize.width < 400;
     final isMediumScreen = screenSize.width < 600;
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -276,7 +262,9 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
                           padding: EdgeInsets.all(isSmallScreen ? 10 : 12),
                           decoration: BoxDecoration(
                             color: const Color(0xFF87CEEB).withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(isSmallScreen ? 14 : 16),
+                            borderRadius: BorderRadius.circular(
+                              isSmallScreen ? 14 : 16,
+                            ),
                             border: Border.all(
                               color: const Color(0xFF87CEEB).withOpacity(0.3),
                               width: 1.5,
@@ -332,9 +320,9 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
                   ],
                 ),
               ),
-              
+
               SizedBox(height: isSmallScreen ? 24 : 32),
-              
+
               // Text Area with Animation
               Expanded(
                 child: FadeTransition(
@@ -342,7 +330,9 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
+                      borderRadius: BorderRadius.circular(
+                        isSmallScreen ? 16 : 20,
+                      ),
                       border: Border.all(
                         color: const Color(0xFF87CEEB).withOpacity(0.3),
                         width: 2,
@@ -361,7 +351,8 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
                       maxLines: null,
                       expands: true,
                       decoration: InputDecoration(
-                        hintText: 'Write your thoughts, feelings, and experiences for today...',
+                        hintText:
+                            'Write your thoughts, feelings, and experiences for today...',
                         hintStyle: TextStyle(
                           color: const Color(0xFFA0AEC0),
                           fontSize: isSmallScreen ? 14 : 16,
@@ -380,7 +371,7 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
                   ),
                 ),
               ),
-              
+
               // TTS Button for reading the text
               if (_textController.text.isNotEmpty) ...[
                 const SizedBox(height: 16),
@@ -392,9 +383,9 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
                   ),
                 ),
               ],
-              
+
               SizedBox(height: isSmallScreen ? 24 : 32),
-              
+
               // Save Button with Animation
               AnimatedBuilder(
                 animation: _saveButtonScale,
@@ -405,7 +396,9 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
                       width: double.infinity,
                       height: isSmallScreen ? 56 : 60,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
+                        borderRadius: BorderRadius.circular(
+                          isSmallScreen ? 16 : 20,
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFF48BB78).withOpacity(0.4),
@@ -421,7 +414,9 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
                           backgroundColor: const Color(0xFF48BB78),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
+                            borderRadius: BorderRadius.circular(
+                              isSmallScreen ? 16 : 20,
+                            ),
                           ),
                           elevation: 0,
                         ),
@@ -430,7 +425,9 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
                                 height: isSmallScreen ? 20 : 24,
                                 width: isSmallScreen ? 20 : 24,
                                 child: const CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
                                   strokeWidth: 2,
                                 ),
                               )
@@ -456,10 +453,11 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
   }
 
   Widget _buildQuickDateButton(String label, DateTime date) {
-    final isSelected = date.day == _selectedDate.day && 
-                      date.month == _selectedDate.month && 
-                      date.year == _selectedDate.year;
-    
+    final isSelected =
+        date.day == _selectedDate.day &&
+        date.month == _selectedDate.month &&
+        date.year == _selectedDate.year;
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -469,13 +467,13 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected 
-              ? const Color(0xFF87CEEB) 
+          color: isSelected
+              ? const Color(0xFF87CEEB)
               : const Color(0xFFE6E6FA).withOpacity(0.3),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected 
-                ? const Color(0xFF87CEEB) 
+            color: isSelected
+                ? const Color(0xFF87CEEB)
                 : const Color(0xFFE6E6FA).withOpacity(0.5),
             width: 1.5,
           ),
@@ -495,8 +493,18 @@ class _PersonalDiaryScreenState extends State<PersonalDiaryScreen>
 
   String _getMonthName(int month) {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     return months[month - 1];
   }
