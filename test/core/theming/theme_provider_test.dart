@@ -23,12 +23,16 @@ void main() {
     });
 
     test('should create light theme', () {
+      // Initialize the provider to create themes
+      themeProvider.init();
       final lightTheme = themeProvider.lightTheme;
       expect(lightTheme, isNotNull);
       expect(lightTheme?.brightness, Brightness.light);
     });
 
     test('should create dark theme', () {
+      // Initialize the provider to create themes
+      themeProvider.init();
       final darkTheme = themeProvider.darkTheme;
       expect(darkTheme, isNotNull);
       expect(darkTheme?.brightness, Brightness.dark);
