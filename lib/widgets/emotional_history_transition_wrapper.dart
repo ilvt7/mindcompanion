@@ -554,7 +554,7 @@ class LateralSlideEffect extends StatelessWidget {
       duration: duration ?? EmotionalHistoryTransitionConfig.homeSlideDuration,
       curve: slideCurve,
       transform: isActive 
-          ? Matrix4.identity()..translate(slideOffset.dx, slideOffset.dy)
+          ? (Matrix4.identity()..translate(slideOffset.dx, slideOffset.dy))
           : Matrix4.identity(),
       child: child,
     );

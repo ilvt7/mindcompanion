@@ -453,9 +453,9 @@ class ZoomTransitionEffect extends StatelessWidget {
       duration: duration ?? MeditationTransitionConfig.zoomAnimationDuration,
       curve: MeditationTransitionConfig.zoomAnimationCurve,
       transform: isActive 
-          ? Matrix4.identity()
+          ? (Matrix4.identity()
             ..setEntry(3, 2, 0.001) // Perspectiva
-            ..scale(zoomLevel)
+            ..scale(zoomLevel))
           : Matrix4.identity(),
       child: AnimatedContainer(
         duration: duration ?? MeditationTransitionConfig.zoomAnimationDuration,
@@ -499,10 +499,10 @@ class DepthZoomEffect extends StatelessWidget {
       duration: duration ?? MeditationTransitionConfig.zoomAnimationDuration,
       curve: MeditationTransitionConfig.zoomAnimationCurve,
       transform: isActive 
-          ? Matrix4.identity()
+          ? (Matrix4.identity()
             ..setEntry(3, 2, 0.001) // Perspectiva
             ..translate(0.0, depthOffset)
-            ..scale(zoomLevel)
+            ..scale(zoomLevel))
           : Matrix4.identity(),
       child: AnimatedContainer(
         duration: duration ?? MeditationTransitionConfig.zoomAnimationDuration,

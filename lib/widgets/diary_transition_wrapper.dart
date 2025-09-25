@@ -344,10 +344,10 @@ class DepthTransitionEffect extends StatelessWidget {
       duration: duration ?? DiaryTransitionConfig.depthAnimationDuration,
       curve: DiaryTransitionConfig.depthScaleCurve,
       transform: isActive 
-          ? Matrix4.identity()
+          ? (Matrix4.identity()
             ..setEntry(3, 2, 0.001) // Perspectiva
             ..translate(0.0, DiaryTransitionConfig.maxDepthOffset)
-            ..scale(DiaryTransitionConfig.maxDepthScale)
+            ..scale(DiaryTransitionConfig.maxDepthScale))
           : Matrix4.identity(),
       child: AnimatedContainer(
         duration: duration ?? DiaryTransitionConfig.depthAnimationDuration,
