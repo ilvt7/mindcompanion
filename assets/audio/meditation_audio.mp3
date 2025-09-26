@@ -1,0 +1,11 @@
+# Placeholder for meditation_audio.mp3
+
+This is a placeholder file. Please replace this with an actual MP3 audio file for meditation.
+
+Recommended specifications:
+- Format: MP3
+- Duration: 5-10 minutes
+- Quality: 128kbps or higher
+- Content: Calming meditation with gentle guidance
+
+The app will look for this file to play during the Quick Meditation feature in Crisis Mode.
